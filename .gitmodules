@@ -1,0 +1,33 @@
+[submodule "system"]
+	path = system
+	url = git://github.com/kohana/core.git
+[submodule "modules/assets"]
+	path = modules/assets
+	url = git://github.com/synapsestudios/kohana-assets.git
+[submodule "modules/auth"]
+	path = modules/auth
+	url = git://github.com/kohana/auth.git
+[submodule "modules/cache"]
+	path = modules/cache
+	url = git://github.com/kohana/cache.git
+[submodule "modules/database"]
+	path = modules/database
+	url = git://github.com/kohana/database.git
+[submodule "modules/email"]
+	path = modules/email
+	url = git://github.com/shadowhand/email.git
+[submodule "modules/kostache"]
+	path = modules/kostache
+	url = git://github.com/zombor/KOstache.git
+[submodule "modules/notices"]
+	path = modules/notices
+	url = git://github.com/synapsestudios/kohana-notices.git
+[submodule "modules/orm"]
+	path = modules/orm
+	url = git://github.com/kohana/orm.git
+[submodule "modules/profilertoolbar"]
+	path = modules/profilertoolbar
+	url = git://github.com/Alert/profilertoolbar.git
+[submodule "modules/acl"]
+	path = modules/acl
+	url = git://github.com/vendo/acl.git
