@@ -44,4 +44,14 @@ class Model_Profile extends ORM {
 		// Create the profile record
 		return $this->values($values, $expected)->create();
 	}
+	
+	public function edit_profile($data)
+	{
+		// Add the user id to the profile and list of expected values
+		$values['user_id'] = $user->id;
+		$expected[] = 'user_id';
+		
+		// Create the profile record
+		return $this->values($values, $expected)->save();
+	}
 }

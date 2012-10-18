@@ -9,10 +9,10 @@ class Model_Character extends ORM {
 	);
 	
 	protected $_has_many = array(
-		'signups'    => array('model' => 'signup'),
+		'enrollment' => array('model' => 'enrollment'),
 		'events'     => array(
-			'through' => 'signups',
-			'model'   => 'signup',
+			'through' => 'enrollment',
+			'model'   => 'event',
 		),
 	);
 		
@@ -22,7 +22,7 @@ class Model_Character extends ORM {
 		return array(
 			'name' => array(
 				array('not_empty'),
-				array('min_length', array(':value', 3)),
+				array('min_length', array(':value', 2)),
 				array('max_length', array(':value', 19)),
 				// To be valid names in game, must start with a letter, contain no numbers, and no more than one consecutive space
 				array('regex', array(':value', '/^[a-zA-Z]+( [a-zA-Z]+)*$/')),
@@ -61,10 +61,17 @@ class Model_Character extends ORM {
 		unset($values['profession']);
 		unset($values['race']);
 		
+		// Sanitize user input
+		$values['name'] = HTML::chars($values['name']);
+		
 		// Create the record
 		return $this->values($values, $expected)->create();
 	}
 	
+	/**
+	 * Edit existing character
+	 *
+	 */
 	public function edit_character($data)
 	{
 		// Change string values to ID
@@ -78,6 +85,26 @@ class Model_Character extends ORM {
 		$this->values($data)->save();
 		
 		return $this;
+		
+	/**
+	 * Remove existing character
+	 * 
+	 * For reasons of maintaining historical data, character records are not deleted, 
+	 * but merely made invisible in current / new listings
+	 */
+	public function remove_character()
+	{
+		if ($this->visibility == 1)
+		{
+			$this->visibility = 0;
+			
+			return $this->save();
+		}
+		else
+		{
+			throw new Kohana_Exception('Character has already been removed.');
+		}
+	}
 	
 	/**
 	 * Check if profession provided is present in the game
