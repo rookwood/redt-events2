@@ -290,7 +290,7 @@ class Model_User extends Model_Auth_User implements Model_ACL_User {
 		if ( ! $key)
 		{
 			// Create and save the new key
-			$key = Text::random('alnum', 30);
+			$key = Text::random('alnum', 64);
 			$record->key = $key;
 			$record->action = $action;
 			$record->user_id = $this->id;

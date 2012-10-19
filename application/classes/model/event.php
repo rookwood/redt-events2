@@ -18,6 +18,9 @@ class Model_Event extends ORM {
 		),
 	);
 	
+	/**
+	 * @var   array  Validation rules
+	 */
 	public function rules()
 	{
 		return array(
@@ -49,6 +52,13 @@ class Model_Event extends ORM {
 		);
 	}
 	
+	/**
+	 * Used to create new events
+	 *
+	 * @param   array    Event data
+	 * @param   array    Names of expected fields
+	 * @return  ORM      Newly created event object
+	 */
 	public function create_event(Model_ACL_User $user, $values, $expected)
 	{
 		// Get location id
@@ -73,6 +83,13 @@ class Model_Event extends ORM {
 		return $this->values($values, $expected)->create();
 	}
 	
+	/**
+	 * Used to change event details
+	 *
+	 * @param   array    Event data
+	 * @param   array    Names of expected fields
+	 * @return  ORM      Edited event object
+	 */
 	public function edit_event($values, $expected)
 	{
 		// Get location id
@@ -96,6 +113,11 @@ class Model_Event extends ORM {
 		return $this->values($values, $expected)->save();
 	}
 	
+	/**
+	 * Helper method to cancel event
+	 *
+	 * @return  ORM  Event object
+	 */
 	public function cancel_event()
 	{
 		// Change event status to cancelled
@@ -103,6 +125,12 @@ class Model_Event extends ORM {
 		return $this->save();
 	}
 	
+	/**
+	 * Administrative function used to change event ownership
+	 *
+	 * @param   string    New leader's character
+	 * @return  void
+	 */
 	public function reassign_owner($character)
 	{
 		$character = ORM::factory('character', array('name' => $character));
@@ -114,6 +142,14 @@ class Model_Event extends ORM {
 		$this->save();
 	}
 	
+	/**
+	 * Returns a collection of event objects matching pre-defined filters
+	 *
+	 * @param    string    Filter to be used
+	 * @param    object    User to test against
+	 * @param    int       ID of location used for specific filter
+	 * @return   ORM       Collection of matching events
+	 */
 	public function filtered_list($filter, Model_ACL_User $user = NULL, $id = NULL)
 	{
 		switch ($filter)
@@ -173,7 +209,7 @@ class Model_Event extends ORM {
 				$events = ORM::factory('event')
 					->where('time', '>', Date::from_local_time(time(), date_default_timezone_get()) - Date::HOUR)
 					->and_where('status_id', '!=', Model_Status::CANCELLED)
-					->and_where('dungeon_id', '=', $id)
+					->and_where('location_id', '=', $id)
 					->order_by('status_id', 'ASC')
 					->order_by('time', 'ASC')
 					->find_all();
@@ -226,14 +262,25 @@ class Model_Event extends ORM {
 		return $this;
 	}
 	
+	/**
+	 * Used to withdraw from an event
+	 *
+	 * @param   string   The character withdrawing
+	 * @return  ORM      Event object
+	 */
 	public function withdraw($character)
 	{
 		if ( ! $character instanceOf ORM)
 			$character = ORM::factory('character', array('name' => $character));
 		
+		// Load enrollment record
 		$enrollment = ORM::factory('enrollment', array('event_id' => $this->id, 'character_id' => $character->id));
 		
+		// Change status to cancelled
 		$enrollment->cancel();
+		
+		// Check to see if we can move someone from standby to active
+		Model_Enrollment::check_bump_list($this->id);
 		
 		return $this;
 	}
