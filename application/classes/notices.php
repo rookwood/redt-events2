@@ -3,28 +3,90 @@
 /**
  * Extension of Kohana Notices by Synapse Studios
  * Adds extra static shortcut methods for php installations on < 5.3
- *
  */
 class Notices extends Kohana_Notices {
 
-	public static function error($message)
+	/**
+	 * @var   string  Filename containing messages
+	 */
+	public static $message_file = 'events2';
+
+	/**
+	 * Error message shortcut
+	 *
+	 * @param   string  Message or message key to be displayed
+	 * @param   bool    Expand key to message
+	 * @return  void
+	 */
+	public static function error($message, $expand = TRUE)
 	{
-		return Notices::add('error', 'msg_error', array('message' => $message, 'is_persistent' => FALSE, 'hash' => Text::random($length = 16)));
+		if ($expand)
+		{
+			$message = self::expand($message);
+		}
+		
+		return Notices::add('error', 'msg_error', array('message' => __($message), 'is_persistent' => FALSE, 'hash' => Text::random($length = 16)));
 	}
 	
-	public static function success($message)
+	/**
+	 * Success message shortcut
+	 *
+	 * @param   string  Message or message key to be displayed
+	 * @param   bool    Expand key to message
+	 * @return  void
+	 */
+	public static function success($message, $expand = TRUE)
 	{
-		return Notices::add('success', 'msg_success', array('message' => $message, 'is_persistent' => FALSE, 'hash' => Text::random($length = 16)));
+		if ($expand)
+		{
+			$message = self::expand($message);
+		}
+		
+		return Notices::add('success', 'msg_success', array('message' => __($message), 'is_persistent' => FALSE, 'hash' => Text::random($length = 16)));
 	}
 
-	public static function warning($message)
+	/**
+	 * Warning message shortcut
+	 *
+	 * @param   string  Message or message key to be displayed
+	 * @param   bool    Expand key to message
+	 * @return  void
+	 */
+	public static function warning($message, $expand = TRUE)
 	{
-		return Notices::add('warning', 'msg_warning', array('message' => $message, 'is_persistent' => FALSE, 'hash' => Text::random($length = 16)));
+		if ($expand)
+		{
+			$message = self::expand($message);
+		}
+		
+		return Notices::add('warning', 'msg_warning', array('message' => __($message), 'is_persistent' => FALSE, 'hash' => Text::random($length = 16)));
 	}
 
-	public static function info($message)
+	/**
+	 * Informational message shortcut
+	 *
+	 * @param   string  Message or message key to be displayed
+	 * @param   bool    Expand key to message
+	 * @return  void
+	 */
+	public static function info($message, $expand = TRUE)
 	{
-		return Notices::add('info', 'msg_info', array('message' => $message, 'is_persistent' => FALSE, 'hash' => Text::random($length = 16)));
+		if ($expand)
+		{
+			$message = self::expand($message);
+		}
+		
+		return Notices::add('info', 'msg_info', array('message' => __($message), 'is_persistent' => FALSE, 'hash' => Text::random($length = 16)));
 	}
 
+	/**
+	 * Shortcut method for Kohana::message
+	 *
+	 * @param  string  Message key
+	 */
+	public static function expand($message)
+	{
+		return Kohana::message(self::message_file, $message);
+	}
+	
 }
