@@ -68,13 +68,13 @@ class Model_Enrollment extends ORM {
 	}
 
 	/**
-	 * Tests if a user is signed up for a given event on any of their characters
+	 * Tests if a user is enrolled for a given event on any of their characters
 	 *
 	 * @param   object  Model_ACL_User - the user to test against
 	 * @param   objecvt Model_Event    - the event to test against
 	 * @return  bool
 	 */
-	public static function is_signed_up(Model_ACL_User $user, Model_Event $event)
+	public static function is_enrolled(Model_ACL_User $user, Model_Event $event)
 	{
 		// Get all characters
 		$characters = $user->characters->find_all();
