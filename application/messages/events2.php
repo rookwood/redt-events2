@@ -18,7 +18,7 @@ return array(
 		),
 		'edit' => array(
 			'not_logged_in'     => 'Please log in to edit your profile.',
-			'not_allowed'       => 'You are not permitted to make changes to your profile at this time.',
+			'not_allowed'       => 'You are not permitted to make changes to this profile at this time.',
 			'success'           => 'Profile updated.',
 			'fail'              => 'There was an error saving your information.  Please ensure that you completed the form correctly.',
 		),

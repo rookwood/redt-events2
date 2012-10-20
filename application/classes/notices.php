@@ -29,6 +29,23 @@ class Notices extends Kohana_Notices {
 	}
 	
 	/**
+	 * Unauthorized message shortcut
+	 *
+	 * @param   string  Message or message key to be displayed
+	 * @param   bool    Expand key to message
+	 * @return  void
+	 */
+	public static function denied($message, $expand = TRUE)
+	{
+		if ($expand)
+		{
+			$message = self::expand($message);
+		}
+		
+		return Notices::add('denied', 'msg_error', array('message' => __($message), 'is_persistent' => FALSE, 'hash' => Text::random($length = 16)));
+	}
+	
+	/**
 	 * Success message shortcut
 	 *
 	 * @param   string  Message or message key to be displayed
