@@ -363,14 +363,6 @@ class Controller_User extends Abstract_Controller_Website {
 
 					break;
 				
-				case 'reset_password':
-					// Reset password to random string
-					$new_pw = $user->reset_password();
-					
-					Notices::success('user.password_email.reset');
-
-					break;
-				
 				// Add more cases here as needed
 				
 				default:

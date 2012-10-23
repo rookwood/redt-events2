@@ -313,4 +313,10 @@ class Model_User extends Model_Auth_User implements Model_ACL_User {
 		return $new_pw;
 			
 	}
+	
+	public function change_password($password)
+	{
+		$this->password = $password;
+		return $this->save();
+	}
 }
