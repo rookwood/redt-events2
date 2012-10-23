@@ -285,8 +285,59 @@ class Controller_User extends Abstract_Controller_Website {
 		}
 	}
 	
+	public function action_resetpw()
+	{
+		// If submitted via form
+		if ($this->valid_post())
+		{
+			$check_key = Arr::get($this->request->post(), 'key', FALSE);
+			
+			$key = ORM::factory('key', array('key' => $check_key));
+			
+			if ( ! $key->loaded())
+			{
+				Notices::error('user.registration.bad_key');
+				$this->request->redirect(Route::url('default');
+			}
+			
+			$password   = Arr::get($this->request->post(), 'password', FALSE);
+			$pw_confirm = Arr::get($this->request->post(), 'password_confirm', FALSE);
+			
+			if ($password === $pw_confirm AND $password !== FALSE)
+			{
+				$user = $key->user;
+				$user->change_password($password);
+				
+				Notices::success('user.registration.password_changed');
+				$this->request->redirect(Route::url('default'));
+			}
+			else
+			{
+				Notices::error('user.registration.password');
+				$this->view->key = $key->key;
+			}
+		}
+		// If not submitted via form, user arrived via email link
+		else
+		{
+			$check_key = Arr::get($this->request->query(), 'key', FALSE);
+			
+			$key = ORM::factory('key', array('key' => $check_key));
+			
+			// Does the key match?
+			if ( ! $key->loaded())
+			{
+				throw new HTTP_Exception_404;
+			}
+			
+			$this->view->key = $key->key;
+		}
+	}
+	
 	/**
 	 * Checks that registration key submitted matches the one we created for our user
+	 *
+	 * @deprecated
 	 */
 	public function action_check()
 	{
