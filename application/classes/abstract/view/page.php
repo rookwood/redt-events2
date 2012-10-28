@@ -7,12 +7,22 @@ class Abstract_View_Page extends Abstract_View_Layout {
 	/**
 	 * @var Page title
 	 */
-	public $title = '[redt]Events 2';
+	public $page_title = '[redt]Events 2';
 	
 	/**
 	 * @var  object  Current user
 	 */
 	public $user;
+	
+	/**
+	 * Displayed page title
+	 *
+	 * @return  string  Page title
+	 */
+	public function title()
+	{
+		return __($this->page_title);
+	}
 	
 	/**
 	 * Display notifications to the user, most commonly errors
@@ -40,7 +50,7 @@ class Abstract_View_Page extends Abstract_View_Layout {
 		
 		foreach ($notices as $notice)
 		{
-			// Display notice view
+			// Build notice html
 			$output .= View::factory('notices/notice')->set('notice', $notice);
 		}
 		
@@ -70,7 +80,7 @@ class Abstract_View_Page extends Abstract_View_Layout {
 		$links = array();
 		
 		// Admin links
-		if ($this->user->can('use_admin'))
+		if ($this->user->can('admin_dashboard_view'))
 		{
 			$links[] = array(
 				'text'		=> 'Administrator',
@@ -101,6 +111,11 @@ class Abstract_View_Page extends Abstract_View_Layout {
 			);
 		}
 		
+		$links[] = array(
+			'location' => Route::url('event'),
+			'text'     => 'Events',
+		);			
+
 		// Link to resend verification email
 		if ( ! $this->user->is_a('verified_user') AND $this->user->can('get_registration_email'))
 		{
@@ -128,13 +143,7 @@ class Abstract_View_Page extends Abstract_View_Layout {
 			);
 		}
 		
-		/* User account links:
-		my account
-		my profile
-		my characters
-		my events
-		logout 	*/
-		// And other links..
+		// User account links
 		if (Auth::instance()->logged_in())
 		{
 			if ($this->user->can('edit_own_profile'))
@@ -167,28 +176,6 @@ class Abstract_View_Page extends Abstract_View_Layout {
 					),
 				);
 			}
-
-		
-			$links[] = array(
-				'location' => Route::url('event'),
-				'text'     => 'Events',
-			);
-			
-			$links[] = array(
-				'location' => Route::url('build'),
-				'text'     => 'Builds',
-			);
-			
-			$links[] = array(
-				'location' => Route::url('slot'),
-				'text'     => 'Slots',
-			);
-			
-			$links[] = array(
-				'location' => Route::url('dungeon'),
-				'text'     => 'Dungeons',
-			);
-			
 		}
 		
 		return $links;
