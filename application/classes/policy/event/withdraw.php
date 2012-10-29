@@ -13,7 +13,7 @@ class Policy_Event_Withdraw extends Policy {
 			return self::START_TIME_PASSED;
 		}		
 		
-		if (Model_Enrollment::is_enrolled($user, $extras['event']))
+		if (Model_Enrollment::is_enrolled($extras['event'], $extras['characters']))
 		{
 			return TRUE;
 		}

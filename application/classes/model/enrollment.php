@@ -74,17 +74,14 @@ class Model_Enrollment extends ORM {
 	 * @param   objecvt Model_Event    - the event to test against
 	 * @return  bool
 	 */
-	public static function is_enrolled(Model_ACL_User $user, Model_Event $event)
+	public static function is_enrolled(Model_Event $event, $characters)
 	{
-		// Get all characters
-		$characters = $user->characters->find_all();
-
 		foreach ($characters as $character)
 		{
 			// If the character has 
 			if ($character->has('events', $event->id))
 			{
-				return TRUE;
+				return $character;
 			}
 		}
 

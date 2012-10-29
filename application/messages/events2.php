@@ -114,6 +114,7 @@ return array(
 	'event' => array(
 		'view'   => array(
 			'not_allowed'       => 'You are not authorized to view details for this event.',
+			'not_found'         => 'Event not found.',
 		),
 		'add'    => array(
 			'not_allowed'       => 'You are not authorized to create new events.',
@@ -130,18 +131,20 @@ return array(
 			'start_time_passed' => 'You may not cancel events once their start time has passed.',
 			'success'           => 'This event has ben cancelled.',
 		),
-		'signup' => array(
-			'not_allowed'       => 'You do not currently have permission to sign-up for this event.',
-			'success'           => 'You are now signed-up for this event.',
+		'enroll' => array(
+			'not_allowed'       => 'You do not currently have permission to enroll in this event.',
+			'success'           => 'You are now enrolled for this event.',
 			'failed'            => 'There was an error in your information.  Please check the highlighted fields.',
-			'already_enrolled'  => 'You are already signed-up for this event.  If you with to change to another character, cancel your current spot first.',
-			'standby_forced'    => 'The role you selected has already been filled, so you were placed on stand-by.  If someone withdraws, you will be bumped up automatically.',
+			'on_create_failed'  => 'There was an error enrolling you in the event.  Please do so manually.',
+			'already_enrolled'  => 'You are already enrolled in this event.  If you with to change to another character, cancel your current spot first.',
+			'standby_forced'    => 'This event is already full, so you were placed on stand-by.  If someone withdraws, you will be bumped up automatically.',
 			'need_character'    => 'You must add at least one character before you may sign-up for events.',
+			'character_failed'  => 'The selected character was not found.',
 		),
 		'withdraw' => array(
-			'success'           => 'You are no longer signed-up for this event.',
+			'success'           => 'You are no longer enrolled in this event.',
 			'failed'            => 'There was an error cancelling your spot.  Please try again.',
-			'not_signed_up'     => 'You cannot withdraw from an event for which you did not sign-up.',
+			'not_signed_up'     => 'You cannot withdraw from an event for which you did not enroll.',
 			'start_time_passed' => 'You cannot withdraw from events once their start time has passed.',
 		),
 	),

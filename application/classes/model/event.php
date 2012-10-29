@@ -36,6 +36,10 @@ class Model_Event extends ORM {
 				array('not_empty'),
 				array('date'),
 			),
+			'player_limit' => array(
+				array('digit'),
+				array('range', array(':value', array(1, 255))),
+			),
 		);
 	}
 	
@@ -59,7 +63,7 @@ class Model_Event extends ORM {
 	 * @param   array    Names of expected fields
 	 * @return  ORM      Newly created event object
 	 */
-	public function create_event(Model_ACL_User $user, $values, $expected)
+	public function create_event(Model_ACL_User $user, $values)
 	{
 		// Get location id
 		$location_id = Model_Location::to_id($values['location']);
@@ -80,6 +84,18 @@ class Model_Event extends ORM {
 		$values['description'] = HTML::chars($values['description']);
 		$values['title']       = HTML::chars($values['title']);
 		
+		// Fields expected for validation
+		$expected = array(
+			'time',
+			'location_id',
+			'description',
+			'status_id',
+			'user_id',
+			'title',
+			'character_id',
+			'user_id'
+		);
+		
 		return $this->values($values, $expected)->create();
 	}
 	
@@ -90,7 +106,7 @@ class Model_Event extends ORM {
 	 * @param   array    Names of expected fields
 	 * @return  ORM      Edited event object
 	 */
-	public function edit_event($values, $expected)
+	public function edit_event($values)
 	{
 		// Get location id
 		$location_id = Model_Location::to_id($values['location']);
@@ -109,6 +125,13 @@ class Model_Event extends ORM {
 		// Sanitize user text
 		$values['description'] = HTML::chars($values['description']);
 		$values['title']       = HTML::chars($values['title']);
+		
+		$expected = array(
+			'time',
+			'location_id',
+			'description',
+			'title',
+		);
 		
 		return $this->values($values, $expected)->save();
 	}
@@ -142,6 +165,79 @@ class Model_Event extends ORM {
 		$this->save();
 	}
 	
+	public function enroll(Model_ACL_User $user, $character, $status, $comment)
+	{
+		// Make sure we have a character object
+		if ( ! $character instanceOf ORM)
+			$character = ORM::factory('character', array('name' => $character));
+			
+		try
+		{
+			// Create relation between this event and player's character record
+			$this->add('characters', $character);
+		}
+		catch(Database_Exception $e)
+		{
+			// This exception indicates that the user has already enrolled but cancelled.
+			// We can continue safely without intervention.
+		}
+		
+		// Load enrollment record to add details
+		$enrollment = ORM::factory('enrollment', array('event_id' => $this->id, 'character_id' => $character->id));
+		
+		// If no record found, an error has occured
+		if ( ! $enrollment->loaded())
+			throw new Kohana_Exception('No enrollment record was created.');
+		
+		// Add details to enrollment record
+		$enrollment->details($status, $comment)->save();
+		
+		return $this;
+	}
+	
+	/**
+	 * Used to withdraw from an event
+	 *
+	 * @param   string   The character withdrawing
+	 * @return  ORM      Event object
+	 */
+	public function withdraw($character)
+	{
+		if ( ! $character instanceOf ORM)
+			$character = ORM::factory('character', array('name' => $character));
+		
+		// Load enrollment record
+		$enrollment = ORM::factory('enrollment', array('event_id' => $this->id, 'character_id' => $character->id));
+		
+		// Change status to cancelled
+		$enrollment->cancel();
+		
+		// Check to see if we can move someone from standby to active
+		Model_Enrollment::check_bump_list($this->id);
+		
+		return $this;
+	}
+	
+	/**
+	 * Returns a list of players (who are not on stand-by) attending this event
+	 *
+	 * @return  Array
+	 */
+	public function active_attendee_list()
+	{
+		return $this->enrollment->where('status_id', '=', Model_Status::READY)->find_all()->as_array();
+	}
+	
+	/**
+	 * Returns count of attending players who are not on stand-by
+	 *
+	 * @return  int
+	 */
+	public function active_attendee_count()
+	{
+		return count($this->attendee_list());
+	}
+	
 	/**
 	 * Returns a collection of event objects matching pre-defined filters
 	 *
@@ -150,7 +246,7 @@ class Model_Event extends ORM {
 	 * @param    int       ID of location used for specific filter
 	 * @return   ORM       Collection of matching events
 	 */
-	public function filtered_list($filter, Model_ACL_User $user = NULL, $id = NULL)
+	public static function filtered_list($filter, Model_ACL_User $user = NULL, $id = NULL)
 	{
 		switch ($filter)
 		{
@@ -230,78 +326,5 @@ class Model_Event extends ORM {
 		}
 
 		return $events;
-	}
-	
-	public function enroll(Model_ACL_User $user, $character, $status, $comment)
-	{
-		// Make sure we have a character object
-		if ( ! $character instanceOf ORM)
-			$character = ORM::factory('character', array('name' => $character));
-			
-		try
-		{
-			// Create relation between this event and player's character record
-			$this->add('characters', $character);
-		}
-		catch(Database_Exception $e)
-		{
-			// This exception indicates that the user has already enrolled but cancelled.
-			// We can continue safely without intervention.
-		}
-		
-		// Load enrollment record to add details
-		$enrollment = ORM::factory('enrollment', array('event_id' => $this->id, 'character_id' => $character->id));
-		
-		// If no record found, an error has occured
-		if ( ! $enrollment->loaded())
-			throw new Kohana_Exception('No enrollment record was created.');
-		
-		// Add details to enrollment record
-		$enrollment->details($status, $comment)->save();
-		
-		return $this;
-	}
-	
-	/**
-	 * Used to withdraw from an event
-	 *
-	 * @param   string   The character withdrawing
-	 * @return  ORM      Event object
-	 */
-	public function withdraw($character)
-	{
-		if ( ! $character instanceOf ORM)
-			$character = ORM::factory('character', array('name' => $character));
-		
-		// Load enrollment record
-		$enrollment = ORM::factory('enrollment', array('event_id' => $this->id, 'character_id' => $character->id));
-		
-		// Change status to cancelled
-		$enrollment->cancel();
-		
-		// Check to see if we can move someone from standby to active
-		Model_Enrollment::check_bump_list($this->id);
-		
-		return $this;
-	}
-	
-	/**
-	 * Returns a list of players (who are not on stand-by) attending this event
-	 *
-	 * @return  Array
-	 */
-	public function active_attendee_list()
-	{
-		return $this->enrollment->where('status_id', '=', Model_Status::READY)->find_all()->as_array();
-	}
-	
-	/**
-	 * Returns count of attending players who are not on stand-by
-	 *
-	 * @return  int
-	 */
-	public function active_attendee_count()
-	{
-		return count($this->attendee_list());
 	}
 }
