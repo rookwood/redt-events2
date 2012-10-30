@@ -426,46 +426,4 @@ class Controller_User extends Abstract_Controller_Website {
 		// Pass user object to the view
 		$this->view->user = $this->user;
 	}
-	
-	/**
-	 * Sends email with lost username
-	 */
-	public function action_lostname()
-	{
-		if ( ! $this->user->can('get_lost_username'))
-		{
-			throw new HTTP_Exception_404;
-		}
-		
-		if ($this->valid_post())
-		{
-			$this->user = ORM::factory('user')->where('email', '=', $this->request->post('email'))->find();
-			
-			// If no user found for provided email address
-			if ( ! $this->user->loaded())
-			{
-				Notices::error('user.username_email.not_found');
-			}
-			else
-			{
-				// Build the email
-				$email = Email::factory(Kohana::message('events2', 'user.username_email.subject'), NULL)
-					->message
-					(
-						// Using Kostache view for our message body
-						Kostache::factory('email/username')
-							->set('user', $this->user),
-						// MIME type
-						'text/html'
-					)
-					->to($this->user->email)
-					->from(Kohana::message('events2', 'user.username_email.sender'))
-					->send();
-				
-				Notices::success('user.username_email.success');
-			}
-		}
-		
-		$this->view->user = $this->user;
-	}
 }
