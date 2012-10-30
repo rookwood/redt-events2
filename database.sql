@@ -1,24 +1,5 @@
--- phpMyAdmin SQL Dump
--- version 3.4.10.1deb1
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: Oct 14, 2012 at 08:41 PM
--- Server version: 5.5.24
--- PHP Version: 5.3.10-1ubuntu3.4
-
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
---
--- Database: `gw2`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `characters`
---
 
 CREATE TABLE IF NOT EXISTS `characters` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -31,33 +12,17 @@ CREATE TABLE IF NOT EXISTS `characters` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `config`
---
-
 CREATE TABLE IF NOT EXISTS `config` (
   `group_name` varchar(30) CHARACTER SET latin1 NOT NULL,
   `config_key` varchar(30) CHARACTER SET latin1 NOT NULL,
   `config_value` varchar(30) CHARACTER SET latin1 NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `config`
---
-
 INSERT INTO `config` (`group_name`, `config_key`, `config_value`) VALUES
 ('registration', 'open_registration', 'b:1;'),
 ('registration', 'require_email_verification', 'b:0;'),
 ('lost_data', 'email_lost_password', 'b:1;'),
 ('lost_data', 'email_lost_username', 'b:1;');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `enrollment`
---
 
 CREATE TABLE IF NOT EXISTS `enrollment` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -70,12 +35,6 @@ CREATE TABLE IF NOT EXISTS `enrollment` (
   UNIQUE KEY `unique` (`event_id`,`character_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `events`
---
-
 CREATE TABLE IF NOT EXISTS `events` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) unsigned NOT NULL,
@@ -83,27 +42,27 @@ CREATE TABLE IF NOT EXISTS `events` (
   `time` int(11) DEFAULT NULL,
   `location_id` int(11) unsigned NOT NULL,
   `description` text CHARACTER SET latin1,
+  `player_limit` tinyint(3) unsigned NOT NULL,
   `status_id` int(11) unsigned NOT NULL,
   `character_id` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `locations`
---
+CREATE TABLE IF NOT EXISTS `keys` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `key` varchar(128) CHARACTER SET latin1 NOT NULL,
+  `action` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
+  `sent_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `locations` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `visibility` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
-
---
--- Dumping data for table `locations`
---
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
 
 INSERT INTO `locations` (`id`, `name`, `visibility`) VALUES
 (1, 'Ascalonian Catacombs (story)', 1),
@@ -127,23 +86,14 @@ INSERT INTO `locations` (`id`, `name`, `visibility`) VALUES
 (19, 'Green Borderlands', 1),
 (20, 'Blue Borderlands', 1),
 (21, 'Heart of the Mists', 1),
-(22, 'Misc World PvE Zone', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `professions`
---
+(22, 'Misc World PvE Zone', 1),
+(23, 'Shenanigans Night', 1);
 
 CREATE TABLE IF NOT EXISTS `professions` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(19) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
-
---
--- Dumping data for table `professions`
---
 
 INSERT INTO `professions` (`id`, `name`) VALUES
 (1, 'warrior'),
@@ -154,12 +104,6 @@ INSERT INTO `professions` (`id`, `name`) VALUES
 (6, 'necromancer'),
 (7, 'mesmer'),
 (8, 'elementalist');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `profiles`
---
 
 CREATE TABLE IF NOT EXISTS `profiles` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -172,21 +116,11 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   KEY `profiles_ibfk_1` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `races`
---
-
 CREATE TABLE IF NOT EXISTS `races` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
-
---
--- Dumping data for table `races`
---
 
 INSERT INTO `races` (`id`, `name`) VALUES
 (1, 'human'),
@@ -194,12 +128,6 @@ INSERT INTO `races` (`id`, `name`) VALUES
 (3, 'char'),
 (4, 'asura'),
 (5, 'norn');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `roles`
---
 
 CREATE TABLE IF NOT EXISTS `roles` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -209,19 +137,9 @@ CREATE TABLE IF NOT EXISTS `roles` (
   UNIQUE KEY `uniq_name` (`name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
---
--- Dumping data for table `roles`
---
-
 INSERT INTO `roles` (`id`, `name`, `description`) VALUES
 (1, 'login', 'Login privileges, granted after account confirmation'),
 (2, 'admin', 'Administrative user, has access to everything.');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `roles_users`
---
 
 CREATE TABLE IF NOT EXISTS `roles_users` (
   `user_id` int(10) unsigned NOT NULL,
@@ -229,12 +147,6 @@ CREATE TABLE IF NOT EXISTS `roles_users` (
   PRIMARY KEY (`user_id`,`role_id`),
   KEY `fk_role_id` (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sessions`
---
 
 CREATE TABLE IF NOT EXISTS `sessions` (
   `session_id` varchar(24) CHARACTER SET latin1 NOT NULL,
@@ -244,21 +156,11 @@ CREATE TABLE IF NOT EXISTS `sessions` (
   KEY `last_active` (`last_active`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `statuses`
---
-
 CREATE TABLE IF NOT EXISTS `statuses` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
-
---
--- Dumping data for table `statuses`
---
 
 INSERT INTO `statuses` (`id`, `name`) VALUES
 (1, 'scheduled'),
@@ -266,12 +168,6 @@ INSERT INTO `statuses` (`id`, `name`) VALUES
 (3, 'ready'),
 (4, 'stand-by (forced)'),
 (5, 'stand-by (voluntary)');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -283,12 +179,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `last_login` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_tokens`
---
 
 CREATE TABLE IF NOT EXISTS `user_tokens` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -304,25 +194,13 @@ CREATE TABLE IF NOT EXISTS `user_tokens` (
   KEY `expires` (`expires`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- Constraints for dumped tables
---
 
---
--- Constraints for table `profiles`
---
 ALTER TABLE `profiles`
   ADD CONSTRAINT `profiles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
---
--- Constraints for table `roles_users`
---
 ALTER TABLE `roles_users`
   ADD CONSTRAINT `roles_users_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `roles_users_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
 
---
--- Constraints for table `user_tokens`
---
 ALTER TABLE `user_tokens`
   ADD CONSTRAINT `user_tokens_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;

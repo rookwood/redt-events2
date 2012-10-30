@@ -25,7 +25,8 @@ class Model_Location extends ORM {
 		'Green Borderlands'                    => 19,
 		'Blue Borderlands'                     => 20,
 		'Heart of the Mists'                   => 21,
-		'Misc World PvE Zone'                  => 22)	
+		'Misc World PvE Zone'                  => 22,
+		'Shenanigans Night'                    => 23,
 	);
 	
 	// Relationships
