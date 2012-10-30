@@ -35,11 +35,18 @@ class Model_Profile extends ORM {
 	 * @param array  Values to be inserted
 	 * @param array  List of expected values
 	 */
-	public function create_profile(Model_ACL_User $user, $values, $expected)
+	public function create_profile(Model_ACL_User $user, $values)
 	{
 		// Add the user id to the profile and list of expected values
 		$values['user_id'] = $user->id;
-		$expected[] = 'user_id';
+		
+		// Expected values for profile creation
+		$expected = array(
+			'user_id',
+			'first_name',
+			'last_name',
+			'birthdate',
+		);
 		
 		// Create the profile record
 		return $this->values($values, $expected)->create();

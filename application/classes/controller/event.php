@@ -255,6 +255,8 @@ class Controller_Event extends Abstract_Controller_Website {
 			
 			// Withdraw enrollment
 			$event->withdraw($character);
+			
+			Notices::success('event.withdraw.success');
 		}
 
 		$this->request->redirect(Route::url('event'));

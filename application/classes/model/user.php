@@ -319,4 +319,17 @@ class Model_User extends Model_Auth_User implements Model_ACL_User {
 		$this->password = $password;
 		return $this->save();
 	}
+	
+	public function create_user($values)
+	{
+		// Values expected for user creation
+		$expected = array(
+			'username',
+			'email',
+			'password',
+			'timezone',
+		);
+		
+		return parent::create_user($values, $expected);
+	}
 }

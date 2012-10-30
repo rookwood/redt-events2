@@ -62,8 +62,24 @@ class Controller_User extends Abstract_Controller_Website {
 		}
 		
 		// Pass our user object to the view for display
-		$this->view->user    = $this->user;
-		$this->view->profile = $this->user->profile;
+		$this->view->user       = $this->user;
+		$this->view->profile    = $this->user->profile;
+		$this->view->characters = $this->user->characters->find_all();
+	}
+	
+	public function action_profile()
+	{
+		$name = $this->request->param('name', $this->user->username);
+		
+		$user = ORM::factory('user', array('username' => $name));
+		
+		if ( ! $user->loaded())
+		{
+			throw new HTTP_Exception_404('User :value not found', array(':value' => $name));
+		}
+		
+		$this->view->profile    = $user;
+		$this->view->characters = $user->characters->find_all();
 	}
 	
 	/**
@@ -102,13 +118,13 @@ class Controller_User extends Abstract_Controller_Website {
 				try 
 				{
 					// Create our user
-					$user = ORM::factory('user')->create_user($user_post, array('username', 'email', 'password', 'timezone'));
+					$user = ORM::factory('user')->create_user($user_post);
 					
 					// Add the 'login' role; without this new users will be unable to log in.
 					$user->add('roles', ORM::factory('role')->where('name', '=', 'login')->find());
 					
 					// Create the user's profile
-					$profile = ORM::factory('profile')->create_profile($user, $profile_post, array('first_name', 'last_name', 'birthdate'));
+					$profile = ORM::factory('profile')->create_profile($user, $profile_post);
 					
 					// Creation complete, log in the user
 					$login = Auth::instance()->login($user_post['username'], $user_post['password'], FALSE);
@@ -339,7 +355,7 @@ class Controller_User extends Abstract_Controller_Website {
 	 *
 	 * @deprecated
 	 */
-	public function action_check()
+	public function action_verify()
 	{
 		// Relevant info from query string
 		$check_key  = Arr::get($this->request->query(), 'key',      FALSE);
@@ -352,23 +368,12 @@ class Controller_User extends Abstract_Controller_Website {
 		// Compare keys
 		if ($check_key === $user->get_key($action))
 		{
-			// Keys match, what did we just verify?
-			switch($action)
-			{
-				case 'registration':
-					// Set user verified flag
-					$user->add_role('verified_user');
-					
-					Notices::success('user.registration_email.success');
-
-					break;
-				
-				// Add more cases here as needed
-				
-				default:
-					throw new HTTP_Exception_404('Invalid check case.');
-			}
-
+			// Set user verified flag
+			$user->add_role('verified_user');
+			
+			Notices::success('user.registration_email.success');
+		}
+		
 			$this->request->redirect(Route::url('default'));
 		}
 		else
@@ -411,7 +416,7 @@ class Controller_User extends Abstract_Controller_Website {
 						'text/html'
 					)
 					->to($this->user->email)
-					->from(Kohana::message('koreg', 'user.username_email.sender'))
+					->from(Kohana::message('events2', 'user.username_email.sender'))
 					->send();
 				
 				Notices::success('user.password_email.success');
