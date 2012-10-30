@@ -45,15 +45,12 @@ class Model_Character extends ORM {
 		$values['user_id'] = $user->id;
 		
 		// Change profession name to appropriate id
-		$profession = ORM::factory('profession', array('name' => $values['profession']));
-		$values['profession_id'] = $profession->id;
+		$professions = Model_Profession::profession_list();
+		$values['profession_id'] = $professions[$values['profession']];
 		
 		// Change race name to appropriate id
-		$race = ORM::factory('race', array('name' => $values['race']));
-		$values['profession_id'] = $profession->id;
-		
-		unset($values['profession']);
-		unset($values['race']);
+		$races = Model_Race::race_list();
+		$values['race_id'] = $races[$values['race']];
 		
 		// Sanitize user input
 		$values['name'] = HTML::chars($values['name']);
@@ -73,14 +70,18 @@ class Model_Character extends ORM {
 	 * Edit existing character
 	 *
 	 */
-	public function edit_character($data)
+	public function edit_character($values)
 	{
-		// Change string values to ID
-		$profession = ORM::factory('profession', array('name' => $data['profession']));
-		$race       = ORM::factory('race',       array('name' => $data['race']));
-
-		$data['profession_id'] = $profession->id;
-		$data['race_id']       = $race->id;
+		// Change profession name to appropriate id
+		$professions = Model_Profession::profession_list();
+		$values['profession_id'] = $professions[$values['profession']];
+		
+		// Change race name to appropriate id
+		$races = Model_Race::race_list();
+		$values['race_id'] = $races[$values['race']];
+		
+		// Sanitize user input
+		$values['name'] = HTML::chars($values['name']);
 				
 		$expected = array(
 			'name',
@@ -89,7 +90,7 @@ class Model_Character extends ORM {
 		);
 		
 		// Save values to model
-		$this->values($data, $expected)->save();
+		$this->values($values, $expected)->save();
 		
 		return $this;
 		
