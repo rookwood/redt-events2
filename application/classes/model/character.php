@@ -28,9 +28,6 @@ class Model_Character extends ORM {
 				array('regex', array(':value', '/^[a-zA-Z]+( [a-zA-Z]+)*$/')),
 				array(array($this, 'unique'), array('name', ':value')),
 			),
-			'profession' => array(
-				array(array($this, 'valid_profession')),
-			),
 		);
 	}
 
@@ -42,27 +39,31 @@ class Model_Character extends ORM {
 	 * @param  array   Fields expected for creation
 	 * @return object  ORM Character model
 	 */
-	public function create_character(Model_ACL_User $user, $values, $expected)
+	public function create_character(Model_ACL_User $user, $values)
 	{
 		// Add user id for character relationship
 		$values['user_id'] = $user->id;
-		$expected[] = 'user_id';
 		
 		// Change profession name to appropriate id
 		$profession = ORM::factory('profession', array('name' => $values['profession']));
 		$values['profession_id'] = $profession->id;
-		$expected[] = 'profession_id';
 		
 		// Change race name to appropriate id
 		$race = ORM::factory('race', array('name' => $values['race']));
 		$values['profession_id'] = $profession->id;
-		$expected[] = 'race_id'];
 		
 		unset($values['profession']);
 		unset($values['race']);
 		
 		// Sanitize user input
 		$values['name'] = HTML::chars($values['name']);
+		
+		$expected = array(
+			'name',
+			'profession_id',
+			'race_id',
+			'user_id',
+		);
 		
 		// Create the record
 		return $this->values($values, $expected)->create();
@@ -80,9 +81,15 @@ class Model_Character extends ORM {
 
 		$data['profession_id'] = $profession->id;
 		$data['race_id']       = $race->id;
+				
+		$expected = array(
+			'name',
+			'profession_id',
+			'race_id',
+		);
 		
 		// Save values to model
-		$this->values($data)->save();
+		$this->values($data, $expected)->save();
 		
 		return $this;
 		

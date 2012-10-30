@@ -9,7 +9,7 @@ class Controller_Event extends Abstract_Controller_Website {
 			
 		if ($filter == 'mine' AND ! Auth::instance()->logged_in())
 		{
-			Session::instance()->set('follow_login', Route::url('event').URL::query(array('filter' => $filter)));
+			Session::instance()->set('follow_login', $this->request->url());
 			$this->request->redirect(Route::url('user', array('action' => 'login')));
 		}
 		
