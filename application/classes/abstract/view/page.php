@@ -5,9 +5,14 @@
 class Abstract_View_Page extends Abstract_View_Layout {
 	
 	/**
-	 * @var Page title
+	 * @var    string  Site title to be appended to all page titles
 	 */
-	public $page_title = '[redt]Events 2';
+	public $site_title = '[redt]Events 2';
+	
+	/**
+	 * @var    string  Default page title
+	 */
+	public $page_title = '';
 	
 	/**
 	 * @var  object  Current user
@@ -21,7 +26,7 @@ class Abstract_View_Page extends Abstract_View_Layout {
 	 */
 	public function title()
 	{
-		return __($this->page_title);
+		return __($this->page_title).' &bull; '.__($this->site_title);
 	}
 	
 	/**
@@ -212,5 +217,28 @@ class Abstract_View_Page extends Abstract_View_Layout {
 		$assets->group('default');
 		return parent::assets($assets);
 	}
+	
+	/**
+	 * @return  array   Formatted list of timezones for use in <select>
+	 */
+	public function timezone_list()
+	{
+		$current_timezone = $this->user->timezone;
+		
+		foreach (Date::$timezone_list as $value => $name)
+		{
+		
+			if ($value == $current_timezone)
+			{
+				$out[] = array('value' => $value, 'name' => $name, 'selected' => TRUE);
+			}
+			else
+			{
+				$out[] = array('value' => $value, 'name' => $name);
+			}
+		}
+		
+		return $out;		
+	}	
 
 }
