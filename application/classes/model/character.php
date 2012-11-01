@@ -123,5 +123,26 @@ class Model_Character extends ORM {
 	public function valid_profession($profession)
 	{
 		return in_array($profession, Model_Profession::profession_list());
-	}	
+	}
+	
+	/**
+	 * List all characters owned by user
+	 *
+	 * @param  object  Model_User
+	 * @return array   List of characters and their profession
+	 */
+	public static function list_all_by_user(Model_ACL_User $user)
+	{
+		static $characters;
+		
+		if ( ! empty($characters))
+			return $characters;
+		
+		foreach ($user->characters->find_all() as $character)
+		{
+			$characters[] = array('name' => $character->name, 'profession' = > array_search($character->profession_id, Model_Profession::$profession_list);
+		}
+		
+		return $characters;
+	}
 }

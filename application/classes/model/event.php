@@ -225,7 +225,15 @@ class Model_Event extends ORM {
 	 */
 	public function active_attendee_list()
 	{
-		return $this->enrollment->where('status_id', '=', Model_Status::READY)->find_all()->as_array();
+		static $list;
+		
+		if ( ! empty($list))
+			return $list;
+			
+		return $list = $this->enrollment
+			->where('status_id', '=', Model_Status::READY)
+			->find_all()
+			->as_array();
 	}
 	
 	/**
@@ -235,7 +243,36 @@ class Model_Event extends ORM {
 	 */
 	public function active_attendee_count()
 	{
-		return count($this->attendee_list());
+		return count($this->active_attendee_list());
+	}
+	
+	/**
+	 * Returns a list of players (who are stand-by) attending this event
+	 *
+	 * @return  Array
+	 */
+	public function standby_attendee_list()
+	{
+		static $list;
+		
+		if ( ! empty($list))
+			return $list;
+		
+		return $list = $this->enrollment
+			->where('status_id', '=', Model_Status::STANDBY_VOLUNTARY)
+			->or_where('status_id', '=', Model_Status::STANDBY_FORCED)
+			->find_all()
+			->as_array();
+	}
+	
+	/**
+	 * Returns count of attending players who are not on stand-by
+	 *
+	 * @return  int
+	 */
+	public function standby_attendee_count()
+	{
+		return count($this->standby_attendee_list());
 	}
 	
 	/**
