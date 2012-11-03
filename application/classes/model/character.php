@@ -140,7 +140,7 @@ class Model_Character extends ORM {
 		
 		foreach ($user->characters->find_all() as $character)
 		{
-			$characters[] = array('name' => $character->name, 'profession' = > array_search($character->profession_id, Model_Profession::$profession_list);
+			$characters[] = array('name' => $character->name, 'profession' = > array_search($character->profession_id, Model_Profession::$profession_list));
 		}
 		
 		return $characters;
