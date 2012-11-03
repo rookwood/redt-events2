@@ -28,8 +28,6 @@ class Auth_ORM extends Kohana_Auth_ORM {
 			$this->user = $user;
 		}
 	
-		ProfilerToolbar::addData('pw: '.$password, 'password');
-		
 		// If the passwords match, perform a login
 		if ($user->has('roles', ORM::factory('role', array('name' => 'login'))) AND $this->check_password($password))
 		{
@@ -69,25 +67,15 @@ class Auth_ORM extends Kohana_Auth_ORM {
 	 */
 	public function check_password($password)
 	{		
-		if (Kohana::$environment > Kohana::TESTING)
-			ProfilerToolbar::addData('checking hash', 'password');
-
 		$user = $this->user;
 
-		ProfilerToolbar::addData($user, 'user');
-		
 		if ($user === FALSE)
 		{
 			// nothing to compare
 			return FALSE;
 		}
 		
-		ProfilerToolbar::addData('stored hash: '.$user->password, 'password');
-		
 		$status = Bcrypt::check($password, $user->password);
-		
-		if (Kohana::$environment > Kohana::TESTING)
-			ProfilerToolbar::addData($status, 'password');
 		
 		return $status;
 	}
