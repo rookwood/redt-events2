@@ -502,6 +502,10 @@ Options -Indexes
 	php_value session.cookie_httponly true
 </IfModule>
 
+# ----------------------------------------------------------------------
+# Kohana-related rewriting
+# ----------------------------------------------------------------------
+
 # Turn on URL rewriting
 RewriteEngine On
 
