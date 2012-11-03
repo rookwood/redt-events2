@@ -1,0 +1,23 @@
+	<form id="login" action="{{form_action_login}}" method="post">
+		<fieldset>
+			<legend>{{form_title}}</legend>
+			{{#errors}}<div id="errors">{{errors}}</div>{{/errors}}
+			<ul>
+				<li>
+					<label for="user_name">Email:</label>
+					<input type="email" name="user[username]" id="user_name" autofocus="autofocus" />
+				</li>
+				<li>
+					<label for="user_password">Password:</label>
+					<input type="password" name="user[password]" id="user_password" />
+				</li>
+				<li>
+					<label for="remember">Remember login?</label>
+					<input type="checkbox" name="remember" value="TRUE" id="remember" checked="checked" />
+				</li>
+				{{{csrf}}}
+			</ul>
+		</fieldset>
+		<input type="submit" value="Submit" />
+	</form>
+	<p><a href="{{url_password_reset}}">Forgot password?</a></p>

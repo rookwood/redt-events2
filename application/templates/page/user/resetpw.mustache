@@ -1,0 +1,14 @@
+<form id="lostpw" action="{{action}}" method="post" class="panel">
+	<fieldset>
+		<legend>{{form_title}}</legend>
+		
+		<ul>
+			<li>
+				<label for="email">Email address</label>
+				<input type="email" name="email" id="email" autofocus="autofocus" />
+			</li>
+		</ul>
+		{{{csrf}}}
+	</fieldset>
+	<input type="submit" value="Submit" />
+</form>	
