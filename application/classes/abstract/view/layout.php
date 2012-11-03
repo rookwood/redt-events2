@@ -7,7 +7,7 @@ abstract class Abstract_View_Layout extends Kostache_Layout {
 	/**
 	 * @var Default layout used as page base
 	 */
-	protected $_layout = 'layout/boilerplate';
+	protected $_layout = 'layout/h5bp';
 	
 	/**
 	 * @var Assets object containing css/js groups

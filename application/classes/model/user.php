@@ -320,7 +320,7 @@ class Model_User extends Model_Auth_User implements Model_ACL_User {
 		return $this->save();
 	}
 	
-	public function create_user($values)
+	public function register($values)
 	{
 		// Values expected for user creation
 		$expected = array(
@@ -330,6 +330,6 @@ class Model_User extends Model_Auth_User implements Model_ACL_User {
 			'timezone',
 		);
 		
-		return parent::create_user($values, $expected);
+		return $this->create_user($values, $expected);
 	}
 }

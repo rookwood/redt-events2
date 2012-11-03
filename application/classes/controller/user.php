@@ -118,7 +118,7 @@ class Controller_User extends Abstract_Controller_Website {
 				try 
 				{
 					// Create our user
-					$user = ORM::factory('user')->create_user($user_post);
+					$user = ORM::factory('user')->register($user_post);
 					
 					// Add the 'login' role; without this new users will be unable to log in.
 					$user->add('roles', ORM::factory('role')->where('name', '=', 'login')->find());

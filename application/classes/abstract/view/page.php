@@ -26,7 +26,7 @@ class Abstract_View_Page extends Abstract_View_Layout {
 	 */
 	public function title()
 	{
-		return __($this->page_title).' &bull; '.__($this->site_title);
+		return __($this->page_title).' &#8226; '.__($this->site_title);
 	}
 	
 	/**
