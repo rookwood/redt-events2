@@ -19,6 +19,11 @@ class Abstract_View_Page extends Abstract_View_Layout {
 	 */
 	public $user;
 	
+	protected $_partials = array(
+		'header'          => 'partials/header',
+		'main_navigation' => 'partials/main_navigation',
+	);
+	
 	/**
 	 * Displayed page title
 	 *
@@ -82,59 +87,35 @@ class Abstract_View_Page extends Abstract_View_Layout {
 			$this->user = Auth::instance()->get_user();
 		}
 		
-		$links = array();
-		
-		// Admin links
-		if ($this->user->can('admin_dashboard_view'))
+		$links[] = array(
+			'location' => Route::url('event'),
+			'text'     => 'Events',
+		);
+
+		// Link to resend verification email
+		if (Auth::instance()->logged_in())
 		{
 			$links[] = array(
-				'text'		=> 'Administrator',
-				'icon'		=> array('src' => '/media/img/dropdown_arrow.png'),
-				'dropdown'	=> array(
-					'dropdown_links' => array(
-						array(
-							'location' => Route::url('admin'),
-							'text'     => 'Dashboard',
-						),
-						
-						array(
-							'location' => Route::url('admin', array('controller' => 'role')),
-							'text'     => 'Roles',
-						),
-						
-						array(
-							'location' => Route::url('admin', array('controller' => 'user')),
-							'text'     => 'Users',
-						),
-						
-						array(
-							'location' => Route::url('admin', array('controller' => 'dashboard', 'action' => 'settings')),
-							'text'     => 'Settings',
-						),
-					),
-				),
+				'location' => Route::url('profile edit'),
+				'text'     => 'My Profile'
 			);
 		}
 		
 		$links[] = array(
-			'location' => Route::url('event'),
-			'text'     => 'Events',
-		);			
-
-		// Link to resend verification email
-		if ( ! $this->user->is_a('verified_user') AND $this->user->can('get_registration_email'))
-		{
-			$links[] = array(
-				'location' => Route::url('email registration', array('action' => 'send')),
-				'text'     => 'Resend verification email'
-			);
-		}
+			'location' => Route::url('static', array('action' => 'shenanigans')),
+			'text'     => 'Shenanigans Night',
+		);
+		
+		$links[] = array(
+			'location' => Route::url('static', array('action' => 'faq')),
+			'text'     => 'FAQs',
+		);
 		
 		// New account registration link
 		if ($this->user->can('register'))
 		{
 			$links[] = array(
-				'location' => Route::url('user', array('controller' => 'user', 'action' => 'register')),
+				'location' => Route::url('user', array('action' => 'register')),
 				'text'     => 'Create an account',
 			);
 		}
@@ -143,46 +124,17 @@ class Abstract_View_Page extends Abstract_View_Layout {
 		if ($this->user->can('login'))
 		{
 			$links[] = array(
-				'location' => Route::url('user', array('controller' => 'user', 'action' => 'login')),
+				'location' => Route::url('user', array('action' => 'login')),
 				'text'     => 'Log in'
 			);
 		}
-		
-		// User account links
-		if (Auth::instance()->logged_in())
+		else
 		{
-			if ($this->user->can('edit_own_profile'))
-			{
-				$links[] = array(
-					'text'		=> 'My Account',
-					'icon'		=> array('src' => '/media/img/dropdown_arrow.png'),
-					'dropdown'	=> array(
-						'dropdown_links' => array(
-							array(
-								'location' => Route::url('user', array('controller' => 'user', 'action' => 'manage')),
-								'text'     => 'My Profile'
-							),
-							
-							array(
-								'location' => Route::url('character'),
-								'text'     => 'My Characters',
-							),
-							
-							array(
-								'location' => Route::url('event'),
-								'text'     => 'My Events',
-							),
-							
-							array(
-								'location' => Route::url('user', array('controller' => 'user', 'action' => 'logout')),
-								'text'     => 'Log out'
-							),
-						),
-					),
-				);
-			}
+			$links[] = array(
+				'location' => Route::url('user', array('action' => 'logout')),
+				'text'     => 'Log out'
+			);
 		}
-		
 		return $links;
 	}
 	
@@ -199,14 +151,15 @@ class Abstract_View_Page extends Abstract_View_Layout {
 	}
 	
 	/**
-	 * Displays debug / profiling information
+	 * Displays debug / profiling information in development environments
 	 *
-	 * @see     APPPATH./classes/abstract/controller/website.php line 47
+	 * @see     APPPATH./classes/abstract/controller/website.php line 80
 	 * @return  string  HTML data for toolbar
 	 */
 	public function stats()
 	{
-		return ProfilerToolbar::render(FALSE);
+		if ($this->profiler)
+			return ProfilerToolbar::render(FALSE);
 	}
 	
 	/**

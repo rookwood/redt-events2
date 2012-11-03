@@ -77,7 +77,7 @@ abstract class Abstract_Controller_Website extends Controller {
 			throw new Kohana_Exception('There was no View created for this request.');
 
 		// Display debug information in debug and testing environments
-		$this->view->profiler = Kohana::$environment >= Kohana::TESTING;
+		$this->view->profiler = Kohana::$environment > Kohana::TESTING;
 		
 		// Don't render layout on ajax requests
 		if ($this->request->is_ajax())
