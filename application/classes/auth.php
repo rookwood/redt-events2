@@ -52,33 +52,4 @@ abstract class Auth extends Kohana_Auth
 	{
 		return Bcrypt::hash($password);
 	}
-
-	/**
-	 * Compare password with original (hashed). Works for current (logged in) user
-	 *
-	 * @param   string  $password
-	 * @return  boolean
-	 */
-	public function check_password($password)
-	{
-		die('hash check');
-		
-		if (Kohana::$environment > Kohana::TESTING)
-			ProfilerToolbar::addData('checking hash', 'password');
-
-		$user = $this->get_user();
-
-		if ($user === FALSE)
-		{
-			// nothing to compare
-			return FALSE;
-		}
-		
-		$status = Bcrypt::check($password, $user->password);
-		
-		if (Kohana::$environment > Kohana::TESTING)
-			ProfilerToolbar::addData($status, 'password');
-		
-		return $status;
-	}
 }
