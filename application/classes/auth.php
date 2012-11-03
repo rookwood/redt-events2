@@ -15,7 +15,7 @@ abstract class Auth extends Kohana_Auth
 	 * Gets the currently logged in user from the session.
 	 * Creates a non-saved user object no user is currently logged in.
 	 *
-	 * @return Model_Vendo_User
+	 * @return Model_User
 	 */
 	public function get_user($default = NULL)
 	{
@@ -44,54 +44,13 @@ abstract class Auth extends Kohana_Auth
 	}
 
 	/**
-	 * Overload auth's hashing with PBKDF2
+	 * Overload auth's hashing with Bcrypt
 	 *
 	 * @return string
 	 */
 	public function hash($password, $salt = NULL)
 	{
-		if ( ! $salt)
-		{
-			$salt = Auth::$salt;
-		}
-
-		if (NULL == $salt)
-		{
-			throw new Kohana_Exception('Please set a salt value for auth.');
-		}
-
-		$config['iterations'] = '10000';
-		$config['hash_type'] = 'sha512';
-		$config['hash_size'] = strlen(hash($config['hash_type'], null, true));
-		$config['output_length'] = $config['hash_size'] * 1.5;
-
-		$block_count = ceil($config['output_length'] / $config['hash_size']);
-		$output = '';
-
-		// Create key
-		for ( $block = 1; $block <= $block_count; $block++ )
-		{
-			// Initial hash for this block
-			$ib = $b = hash_hmac(
-				$config['hash_type'],
-				$salt.pack('N', $block),
-				$password,
-				true
-			);
-
-			// Perform block iterations
-			for ( $i = 1; $i < $config['iterations']; $i ++ )
-			{
-				// XOR each iterate
-				$ib ^= ($b = hash_hmac(
-					$config['hash_type'], $b, $password, true
-				));
-			}
-			$output .= $ib; // Append iterated block
-		}
-
-		// Return derived key of correct length
-		return substr($output, 0, $config['output_length']);
+		return Bcrypt::hash($password);
 	}
 
 	/**
@@ -102,6 +61,11 @@ abstract class Auth extends Kohana_Auth
 	 */
 	public function check_password($password)
 	{
+		die('hash check');
+		
+		if (Kohana::$environment > Kohana::TESTING)
+			ProfilerToolbar::addData('checking hash', 'password');
+
 		$user = $this->get_user();
 
 		if ($user === FALSE)
@@ -109,9 +73,12 @@ abstract class Auth extends Kohana_Auth
 			// nothing to compare
 			return FALSE;
 		}
-
-		$hash = $this->hash($password, Auth::$salt);
-
-		return $hash == $user->password;
+		
+		$status = Bcrypt::check($password, $user->password);
+		
+		if (Kohana::$environment > Kohana::TESTING)
+			ProfilerToolbar::addData($status, 'password');
+		
+		return $status;
 	}
 }
