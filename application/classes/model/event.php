@@ -78,7 +78,7 @@ class Model_Event extends ORM {
 		$values['character_id'] = $character_id;
 		$values['user_id']      = $user->id;
 		$values['status_id']    = $status_id;
-		$values['time']         = Date::from_local_time($values['time'] ." ". $values['date'], $values['timezone'])
+		$values['time']         = Date::from_local_time($values['time'] ." ". $values['date'], $values['timezone']);
 		
 		// Sanitize user text
 		$values['description'] = HTML::chars($values['description']);
@@ -120,7 +120,7 @@ class Model_Event extends ORM {
 		$values['location_id']  = $location_id;
 		$values['character_id'] = $character_id;
 		$values['user_id']      = $user->id;
-		$values['time']         = Date::from_local_time($values['time'] ." ". $values['date'], $values['timezone'])
+		$values['time']         = Date::from_local_time($values['time'] ." ". $values['date'], $values['timezone']);
 		
 		// Sanitize user text
 		$values['description'] = HTML::chars($values['description']);

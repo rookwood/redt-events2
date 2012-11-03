@@ -2,7 +2,9 @@
 
 class Policy_User_Register extends Policy {
 
-	const LOGGED_IN = 1;
+	const LOGGED_IN              = 1;
+	const REGISTRATION_COMPLETED = 2;
+	const REGISTRATION_CLOSED    = 3;
 	
 	public function execute(Model_ACL_User $user, array $array = NULL)
 {

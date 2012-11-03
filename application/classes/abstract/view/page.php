@@ -111,8 +111,13 @@ class Abstract_View_Page extends Abstract_View_Layout {
 			'text'     => 'FAQs',
 		);
 		
+		return $links;
+	}
+	
+	public function account_links()
+	{
 		// New account registration link
-		if ($this->user->can('register'))
+		if ($this->user->can('user_register'))
 		{
 			$links[] = array(
 				'location' => Route::url('user', array('action' => 'register')),
@@ -135,6 +140,7 @@ class Abstract_View_Page extends Abstract_View_Layout {
 				'text'     => 'Log out'
 			);
 		}
+		
 		return $links;
 	}
 	

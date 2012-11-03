@@ -103,7 +103,7 @@ class Notices extends Kohana_Notices {
 	 */
 	public static function expand($message)
 	{
-		return Kohana::message(self::message_file, $message);
+		return Kohana::message(self::$message_file, $message);
 	}
 	
 }

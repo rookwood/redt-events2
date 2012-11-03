@@ -87,18 +87,21 @@ class Controller_User extends Abstract_Controller_Website {
 	 */
 	public function action_register()
 	{		
-		if ( ! $this->user->can('register'))
+		if ( ! $this->user->can('user_register'))
 		{
+			if (Kohana::$environment > Kohana::TESTING) 
+				ProfilerToolbar::addData('Registration policy failure: '.Policy::$last_code, 'policy');
+			
 			// Not allowed, get the reason why
 			$status = Policy::$last_code;
 
-			if ($status === Policy_Register::REGISTRATION_COMPLETED)
+			if ($status === Policy_User_Register::REGISTRATION_COMPLETED)
 			{
 				Notices::info('user.registration.completed');
 
 				$this->request->redirect(Route::url('default'));
 			}
-			else if ($status === Policy_Register::REGISTRATION_CLOSED)
+			else if ($status === Policy_User_Register::REGISTRATION_CLOSED)
 			{
 				Notices::denied('user.registration.not_allowed');
 
@@ -106,6 +109,9 @@ class Controller_User extends Abstract_Controller_Website {
 			}
 		}
 		
+		if (Kohana::$environment > Kohana::TESTING) 
+			ProfilerToolbar::addData('Registration policy passed', 'policy');
+			
 		// If the form is submitted via POST and the CSRF token is valid
 		if ($this->valid_post())
 		{
@@ -142,7 +148,7 @@ class Controller_User extends Abstract_Controller_Website {
 						$user->add_role('verified_user');
 						
 						// Redirect to the main page
-						$this->request->redirect(Route::url('default'));
+						$this->request->redirect(Route::url('profile edit'));
 					}
 					
 				}
@@ -313,7 +319,7 @@ class Controller_User extends Abstract_Controller_Website {
 			if ( ! $key->loaded())
 			{
 				Notices::error('user.registration.bad_key');
-				$this->request->redirect(Route::url('default');
+				$this->request->redirect(Route::url('default'));
 			}
 			
 			$password   = Arr::get($this->request->post(), 'password', FALSE);
@@ -372,14 +378,11 @@ class Controller_User extends Abstract_Controller_Website {
 			$user->add_role('verified_user');
 			
 			Notices::success('user.registration_email.success');
-		}
-		
 			$this->request->redirect(Route::url('default'));
 		}
 		else
 		{
 			Notices::error('user.registration_email.bad_key');
-
 			$this->request->redirect(Route::url('default'));
 		}
 	}
