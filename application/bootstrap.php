@@ -141,14 +141,20 @@ Route::set('profile edit', 'profile/edit')
 		'action'     => 'edit',
 	));
 	
+Route::set('event', 'event(/<action>(/<id>))', array('action' => 'add|edit|remove|withdraw|enroll'))
+	->defaults(array(
+		'controller' => 'event',
+		'action'     => 'index',
+	));
+	
 Route::set('static', '<action>', array('action' => 'news|faq|shenanigans'))
 	->defaults(array(
 		'controller' => 'static',
 		'action'     => 'news',
 	));
  
-Route::set('default', '(<controller>(/<action>(/<id>)))')
+Route::set('default', '')
 	->defaults(array(
-		'controller' => 'welcome',
-		'action'     => 'index',
+		'controller' => 'static',
+		'action'     => 'news',
 	));
