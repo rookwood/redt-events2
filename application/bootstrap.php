@@ -129,18 +129,18 @@ Route::set('user', '<action>(/<name>)', array('action' => 'register|lostpw|email
 		'action'     => 'profile',
 	));
 	
-Route::set('profile', 'profile(/<name>)')
-	->defaults(array(
-		'controller' => 'user',
-		'action'     => 'profile',
-	));
-
 Route::set('profile edit', 'profile/edit')
 	->defaults(array(
 		'controller' => 'user',
 		'action'     => 'edit',
 	));
 	
+Route::set('profile', 'profile(/<name>)')
+	->defaults(array(
+		'controller' => 'user',
+		'action'     => 'profile',
+	));
+
 Route::set('event', 'event(/<action>(/<id>))', array('action' => 'add|edit|remove|withdraw|enroll'))
 	->defaults(array(
 		'controller' => 'event',
@@ -153,6 +153,11 @@ Route::set('static', '<action>', array('action' => 'news|faq|shenanigans'))
 		'action'     => 'news',
 	));
  
+ Route::set('character', 'character(/<action>(/<name>))', array('action' => 'add|edit|remove'))
+	->defaults(array(
+		'controller' => 'character',
+		'action'     => 'add',
+	));
 Route::set('default', '')
 	->defaults(array(
 		'controller' => 'static',
