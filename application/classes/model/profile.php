@@ -22,9 +22,6 @@ class Model_Profile extends ORM {
 			'birthdate' => array(
 				array('date'),
 			),
-			'from_gw1' => array(
-				array('not_empty'),
-			),
 		);
 	}
 	
@@ -49,6 +46,9 @@ class Model_Profile extends ORM {
 		);
 		
 		// Create the profile record
+		print "creating profile...";
+		ob_flush();
+		
 		return $this->values($values, $expected)->create();
 	}
 	

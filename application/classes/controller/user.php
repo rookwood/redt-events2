@@ -121,7 +121,7 @@ class Controller_User extends Abstract_Controller_Website {
 				
 			if ($user_post['password'] === $user_post['password_confirm'])
 			{
-				try 
+				try
 				{
 					// Create our user
 					$user = ORM::factory('user')->register($user_post);
@@ -145,7 +145,7 @@ class Controller_User extends Abstract_Controller_Website {
 					else
 					{
 						// No email verification required
-						$user->add_role('verified_user');
+						$user->add_role('verified');
 						
 						// Redirect to the main page
 						$this->request->redirect(Route::url('profile edit'));

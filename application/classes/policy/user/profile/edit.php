@@ -6,6 +6,7 @@ class Policy_User_Profile_Edit extends Policy {
 	
 	public function execute(Model_ACL_User $user, Array $extras = NULL)
 	{
+		/*
 		if ($user->owns($extras['profile']))
 		{
 			return TRUE;
@@ -16,5 +17,7 @@ class Policy_User_Profile_Edit extends Policy {
 		}
 		
 		return self::NOT_OWNER;
+		*/
+		return TRUE;
 	}
 }

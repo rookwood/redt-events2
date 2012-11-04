@@ -11,6 +11,8 @@ class View_Page_User_Edit extends Abstract_View_Page {
 		
 	public function form_action_profile_edit()
 	{
+		ProfilerToolbar::addData($this->profile, 'profile');
+		
 		return Route::url('user', array('action' => 'edit'));
 	}
 	
@@ -43,6 +45,5 @@ class View_Page_User_Edit extends Abstract_View_Page {
 		}
 		
 		return $list;
-	}
 	}
 }
