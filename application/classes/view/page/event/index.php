@@ -2,8 +2,6 @@
 
 class View_Page_Event_Index extends Abstract_View_Page {
 
-	public $page_title = 'Event listing';
-
 	/**
 	 * @var   object  All event data to be displayed on the page
 	 */
@@ -23,22 +21,23 @@ class View_Page_Event_Index extends Abstract_View_Page {
 		
 		foreach($this->event_data as $event)
 		{
-			// Calculate start time using user's time offset from UTC
-			$local_start_time = Date::to_local_time($event->time, $this->user->timezone);
-			
+			// Get number of enrolled players
+			$player_count = $event->active_attendee_count();
+
 			// Build event array
 			$out[] = array(
-				'details_link' => Route::url('event', array(
-					'action' => 'display',
-					'id'     => $event->id,
-					'title'  => URL::title($event->title),
-				)),
-				'date'       => date('D Y M d', $local_start_time),
-				'time'       => date('g:i A ', $local_start_time).Date::timezone_abbr($this->user->timezone),
-				'title'      => $event->title,
-				'status'     => $event->status->name,
-				'host'       => ORM::factory('character', $event->character_id)->name,
-				'location'   => $event->location->name,
+				'details_link'  => Route::url('event', array('action' => 'display', 'id' => $event->id)),
+				'date'          => date('F d, Y',  Date::to_local_time($event->time, $this->user->timezone)),
+				'time'          => date('g:i A ', Date::to_local_time($event->this->user->timezone).Date::timezone_abbr($this->user->timezone)),
+				'time_full'     => date('c',  Date::to_local_time($event->this->user->timezone)),
+				'title'         => $event->title,
+				'status'        => $event->status->name,
+				'host'          => ORM::factory('character', $event->character_id)->name,
+				'location'      => $event->location->name,
+				'player_count'  => $player_count,
+				'player_total'  => $event->player_limit,
+				'signup_status' => $this->player_count_status($player_count, $event->player_limit),
+				'id'            => $event->id,
 			);
 		}
 		
@@ -50,7 +49,7 @@ class View_Page_Event_Index extends Abstract_View_Page {
 	 *
 	 * @return  mixed  (array) Event data or (bool) FALSE
 	 */
-	public function add_event()
+	public function url_event_add()
 	{
 		if ($this->user->can('event_add'))
 		{
@@ -62,39 +61,62 @@ class View_Page_Event_Index extends Abstract_View_Page {
 	
 	public function filters()
 	{
-		// Cache results as to save database hits
-		static $filter_list;
+		$filter_key = $this->filter;
 		
-		// Return cached results if available
-		if ( ! empty($filter_list))
-		{
-			return $filter_list;
-		}
-		
-		$out['top'][] = array(
-			'url'  => Route::url('event').URL::query(array('filter' => 'current')),
-			'text' => 'All current events',
-		);		
-		
-		$out['top'][] = array(
+		$out['bottom'][] = array(
+			'url'  => Route::url('event').URL::query(array('filter' => 'time')),
+			'text' => 'Start time',
+			'key'  => 'time',
+		);
+				
+		$out['bottom'][] = array(
 			'url'  => Route::url('event').URL::query(array('filter' => 'mine')),
 			'text' => 'My events',
+			'key'  => 'mine',
 		);
 		
-		$out['top'][] = array(
+		$out['bottom'][] = array(
+			'url'  => Route::url('event').URL::query(array('filter' => 'dungeon')),
+			'text' => 'Dungeon',
+			'key'  => 'dungeon',
+		);
+		
+		$out['bottom'][] = array(
 			'url'  => Route::url('event').URL::query(array('filter' => 'past')),
 			'text' => 'Past events',
+			'key'  => 'past',
 		);
 		
-		foreach (ORM::factory('location')->where('visibility', '=', '1')->find_all() as $location)
+		foreach ($out['bottom'] as $filter)
 		{
-			$out['location'][] = array(
-				'url'  => Route::url('event').URL::query(array('filter' => 'location', 'id' => $location->id)),
-				'text' => $location->name,
-			);
+			if (array_search($filter_key, $filter) !== FALSE)
+			{
+				$out['top'] = $filter;
+			}
 		}
+
+		// Reindex for mustache... not sure why this is necessary
+		$out['bottom'] = array_values($out['bottom']);
 		
-		return $filter_list = $out;
-		
+		return $out;
+	}
+	
+	protected function player_count_status($active, $total)
+	{
+		switch (TRUE)
+		{
+			case $active == 0:
+				return 'empty';
+			break;
+			case ($active / $total) <= 0.5:
+				return 'low';
+			break;
+			case $active >= $total:
+				return 'full';
+			break;
+			default:
+				return 'high';
+			break;
+		}
 	}
 }

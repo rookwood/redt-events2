@@ -7,7 +7,7 @@ class Policy_Event_Add extends Policy {
 	public function execute(Model_ACL_User $user, array $extras = NULL)
 	{
 		// Admins, guild leadership, and event coordinators can all create events
-		if ($user->is_a('verified_user'))
+		if ($user->is_a('verified'))
 		{
 			return TRUE;
 		}

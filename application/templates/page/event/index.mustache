@@ -1,0 +1,55 @@
+			<section id="events">
+				{{#url_event_add}}<a class="button" href="{{url_event_add}}">Create new event</a>{{/url_event_add}}
+				<select name="filter">
+					{{#filters.top}}<option value="{{text}}">{{text}}</option>{{/filters.top}}
+					{{#filters.bottom}}<option value="{{text}}">{{text}}</option>{{/filters.bottom}}
+				</select>
+				<p>Please be online 15 minutes prior to start time to allow for easy group formation and preparation.</p>
+				
+				<ul id="event_list">
+{{#events}}
+					<li class="event_collapsed clickable" data-url="{{details_link}}" id="{{id}}">
+						<a name="{{id}}"></a>
+						<ul class="header">
+							<li class="event_title">
+								<div>
+									<h5>{{location}}</h4>
+									<h6>Manager: {{host}}</h5>
+								</div>
+							</li>
+							<li class="event_numbers">
+								<div>
+									<p><span class="player_count_{{signup_status}}">{{player_count}}/{{player_total}}</span></p>
+									<p>Players</p>
+								</div>
+							</li>
+							<li class="event_time">
+								<div>
+									<time class="date" datetime="{{time_full}}">{{date}}</time>
+									<time class="time" datetime="{{time_full}}">{{time}}</time>
+								</div>
+							</li>
+						</ul>
+						<section class="event_data"></section>
+					</li><!-- end of this event -->
+					
+					<div class="event_footer"></div>
+					
+				<!-- {{status}} -->
+{{/events}}
+{{^events}}
+					<li class="no_events">
+						<ul class="header">
+							<li class="event_title">
+								<div>
+									<h4>No events scheduled at this time</h4>
+								</div>
+							</li>
+						</ul>
+					</li>
+{{/events}}
+				</ul>
+			</section><!-- end event list -->
+
+			<div class="events_footer"></div>
+	

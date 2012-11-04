@@ -4,7 +4,7 @@ class Controller_Event extends Abstract_Controller_Website {
 
 	public function action_index()
 	{
-		$filter = Arr::get($this->request->query(), 'filter', 'default');
+		$filter = Arr::get($this->request->query(), 'filter', 'current');
 		$id     = Arr::get($this->request->query(), 'id',     FALSE);
 			
 		if ($filter == 'mine' AND ! Auth::instance()->logged_in())
@@ -16,6 +16,7 @@ class Controller_Event extends Abstract_Controller_Website {
 		// Pass events to the view class
 		$this->view->event_data = Model_Event::filtered_list($filter, $this->user, $id);
 		$this->view->filter_message = Kohana::message('gw', 'filter.'.$filter);
+		$this->view->filter = $filter;
 	}
 	
 	public function action_display()
