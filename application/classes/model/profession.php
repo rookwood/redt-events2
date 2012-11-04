@@ -20,18 +20,14 @@ class Model_Profession extends ORM {
 	 *
 	 * return  Array
 	 */
-	public static function profession_list()
-	{
-		return array
-		(
-			'warrior'      => 1,
-			'guardian'     => 2,
-			'thief'        => 3,
-			'engineer'     => 4,
-			'ranger'       => 5,
-			'necromancer'  => 6,
-			'mesmer'       => 7,
-			'elementalist' => 8,
-		);
-	}
+	public static $profession_list = array(
+		'warrior'      => 1,
+		'guardian'     => 2,
+		'thief'        => 3,
+		'engineer'     => 4,
+		'ranger'       => 5,
+		'necromancer'  => 6,
+		'mesmer'       => 7,
+		'elementalist' => 8,
+	);	
 }

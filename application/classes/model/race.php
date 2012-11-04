@@ -17,15 +17,11 @@ class Model_Race extends ORM {
 	 *
 	 * return  Array
 	 */
-	public static function race_list()
-	{
-		return array
-		(
-			'human'   => 1,
-			'sylvari' => 2,
-			'char'    => 3,
-			'asura'   => 4,
-			'norn'    => 5,
-		);
-	}
+	public static $race_list = array(
+		'human'   => 1,
+		'sylvari' => 2,
+		'char'    => 3,
+		'asura'   => 4,
+		'norn'    => 5,
+	);
 }
