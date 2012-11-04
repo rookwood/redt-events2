@@ -10,10 +10,8 @@ class View_Page_User_Edit extends Abstract_View_Page {
 	public $characters;
 		
 	public function form_action_profile_edit()
-	{
-		ProfilerToolbar::addData($this->profile, 'profile');
-		
-		return Route::url('user', array('action' => 'edit'));
+	{		
+		return Route::url('profile edit');
 	}
 	
 	public function form_action_character_add()

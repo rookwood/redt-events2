@@ -45,11 +45,11 @@ class Model_Character extends ORM {
 		$values['user_id'] = $user->id;
 		
 		// Change profession name to appropriate id
-		$professions = Model_Profession::profession_list();
+		$professions = Model_Profession::$profession_list;
 		$values['profession_id'] = $professions[$values['profession']];
 		
 		// Change race name to appropriate id
-		$races = Model_Race::race_list();
+		$races = Model_Race::$race_list;
 		$values['race_id'] = $races[$values['race']];
 		
 		// Sanitize user input
@@ -73,11 +73,11 @@ class Model_Character extends ORM {
 	public function edit_character($values)
 	{
 		// Change profession name to appropriate id
-		$professions = Model_Profession::profession_list();
+		$professions = Model_Profession::$profession_list;
 		$values['profession_id'] = $professions[$values['profession']];
 		
 		// Change race name to appropriate id
-		$races = Model_Race::race_list();
+		$races = Model_Race::$race_list;
 		$values['race_id'] = $races[$values['race']];
 		
 		// Sanitize user input

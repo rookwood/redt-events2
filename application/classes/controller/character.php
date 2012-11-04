@@ -30,7 +30,6 @@ class Controller_Character extends Abstract_Controller_Website {
 		
 		// Alias for user and profile
 		$user = $this->user;
-		$profile = $user->profile;
 		
 		// Is the form submitted correctly w/ CSRF token?
 		if ($this->valid_post())
@@ -45,7 +44,7 @@ class Controller_Character extends Abstract_Controller_Website {
 				
 				Notices::success('character.add.success');
 				
-				$this->request->redirect(Route::url('profile'));
+				$this->request->redirect(Route::url('profile edit'));
 			}
 			catch(ORM_Validation_Exception $e)
 			{			
