@@ -123,11 +123,17 @@ class Controller_User extends Abstract_Controller_Website {
 			{
 				try
 				{
+					// For testing completion in case of validation failure
+					$user_account_created = FALSE;
+					
 					// Create our user
 					$user = ORM::factory('user')->register($user_post);
 					
 					// Add the 'login' role; without this new users will be unable to log in.
 					$user->add('roles', ORM::factory('role')->where('name', '=', 'login')->find());
+					
+					// Mark account creation complete
+					$user_account_created = TRUE;
 					
 					// Create the user's profile
 					$profile = ORM::factory('profile')->create_profile($user, $profile_post);
@@ -157,6 +163,10 @@ class Controller_User extends Abstract_Controller_Website {
 					// User notification
 					Notices::error('generic.validation');
 					
+					// Undo account creation
+					if ($user_account_created)
+						$user->delete();
+						
 					$this->view->errors = $e->errors('validation');
 					
 					// We have no valid Model_User, so we have to pass the form values back directly
