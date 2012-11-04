@@ -141,7 +141,7 @@ Route::set('profile', 'profile(/<name>)')
 		'action'     => 'profile',
 	));
 
-Route::set('event', 'event(/<action>(/<id>))', array('action' => 'add|edit|remove|withdraw|enroll'))
+Route::set('event', 'event(/<action>(/<id>))(/<title>)', array('action' => 'display|add|edit|remove|withdraw|enroll'))
 	->defaults(array(
 		'controller' => 'event',
 		'action'     => 'index',

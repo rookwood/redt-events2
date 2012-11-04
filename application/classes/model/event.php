@@ -30,15 +30,10 @@ class Model_Event extends ORM {
 			),
 			'time' => array(
 				array('not_empty'),
-				array('date'),
-			),
-			'date' => array(
-				array('not_empty'),
-				array('date'),
 			),
 			'player_limit' => array(
 				array('digit'),
-				array('range', array(':value', array(1, 255))),
+				array('range', array(':value', 1, 255)),
 			),
 		);
 	}
@@ -51,7 +46,7 @@ class Model_Event extends ORM {
 	public function labels()
 	{
 		return array(
-			'time'             => 'Time',
+			'time'             => 'Start time',
 			'title'            => 'Event title',
 		);
 	}
@@ -93,7 +88,8 @@ class Model_Event extends ORM {
 			'user_id',
 			'title',
 			'character_id',
-			'user_id'
+			'user_id',
+			'player_limit',
 		);
 		
 		return $this->values($values, $expected)->create();
@@ -131,6 +127,7 @@ class Model_Event extends ORM {
 			'location_id',
 			'description',
 			'title',
+			'player_limit',
 		);
 		
 		return $this->values($values, $expected)->save();
@@ -230,10 +227,10 @@ class Model_Event extends ORM {
 		if ( ! empty($list))
 			return $list;
 			
-		return $list = $this->enrollment
-			->where('status_id', '=', Model_Status::READY)
-			->find_all()
-			->as_array();
+		return $list = ORM::factory('enrollment')
+			->where('event_id', '=', $this->id)
+			->and_where('status_id', '=', Model_Status::READY)
+			->find_all();
 	}
 	
 	/**
@@ -261,8 +258,7 @@ class Model_Event extends ORM {
 		return $list = $this->enrollment
 			->where('status_id', '=', Model_Status::STANDBY_VOLUNTARY)
 			->or_where('status_id', '=', Model_Status::STANDBY_FORCED)
-			->find_all()
-			->as_array();
+			->find_all();
 	}
 	
 	/**

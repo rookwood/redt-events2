@@ -23,13 +23,13 @@ class View_Page_Event_Index extends Abstract_View_Page {
 		{
 			// Get number of enrolled players
 			$player_count = $event->active_attendee_count();
-
+			
 			// Build event array
 			$out[] = array(
-				'details_link'  => Route::url('event', array('action' => 'display', 'id' => $event->id)),
-				'date'          => date('F d, Y',  Date::to_local_time($event->time, $this->user->timezone)),
-				'time'          => date('g:i A ', Date::to_local_time($event->this->user->timezone).Date::timezone_abbr($this->user->timezone)),
-				'time_full'     => date('c',  Date::to_local_time($event->this->user->timezone)),
+				'details_link'  => Route::url('event', array('action' => 'display', 'id' => $event->id, 'title' => URL::title($event->title))),
+				'date'          => date('F d, Y', Date::to_local_time($event->time, $this->user->timezone)),
+				'time'          => date('g:i A ', Date::to_local_time($event->time, $this->user->timezone)).Date::timezone_abbr($this->user->timezone),
+				'time_full'     => date('c',  Date::to_local_time($event->time, $this->user->timezone)),
 				'title'         => $event->title,
 				'status'        => $event->status->name,
 				'host'          => ORM::factory('character', $event->character_id)->name,

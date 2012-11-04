@@ -5,10 +5,12 @@ class Model_Enrollment extends ORM {
 	// Relationships
 	protected $_belongs_to = array(
 		'events'     => array(),
-		'characters' => array(),
+		'character'  => array(),
 		'status'     => array(),
 	);
 
+	protected $_table_name = 'enrollment';
+	
 	/**
 	 * Bumps the first person on forced stand-by to the active list
 	 *
@@ -45,8 +47,11 @@ class Model_Enrollment extends ORM {
 	 * @param   string   Enrollment comment left by user
 	 * @return  ORM      Enrollment object
 	 */
-	public function details(int $status, $comment)
+	public function details($status, $comment)
 	{
+		if ( ! is_numeric($status))
+			$status = Model_Status::to_status_code($status);
+			
 		// Set status
 		$this->status_id = $status;
 		
@@ -74,19 +79,26 @@ class Model_Enrollment extends ORM {
 	 * @param   objecvt Model_Event    - the event to test against
 	 * @return  bool
 	 */
-	public static function is_enrolled(Model_Event $event, $characters)
+	public static function is_enrolled(Model_ACL_User $user, Model_Event $event)
 	{
+		static $enrollment;
+		
+		if (isset($enrollment))
+			return $enrollment;
+		
+		$characters = $user->characters->find_all();
+		
 		foreach ($characters as $character)
 		{
 			// If the character has 
 			if ($character->has('events', $event->id))
 			{
-				return $character;
+				return $enrollment = $character;
 			}
 		}
-
+		
 		// Nothing found; no sign-up present
-		return FALSE;
+		return $enrollment = FALSE;
 	}	
 
 }

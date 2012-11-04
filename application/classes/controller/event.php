@@ -67,7 +67,7 @@ class Controller_Event extends Abstract_Controller_Website {
 				// Notification
 				Notices::success('event.add.success');
 				
-				$event->enroll($this->user, $event_post['character'], Model_Status::SCHEDULED, 'Event leader');
+				$event->enroll($this->user, $event_post['character'], Model_Status::READY, 'Event leader');
 				Notices::success('event.enroll.success');
 				
 				// Display created event
@@ -76,18 +76,15 @@ class Controller_Event extends Abstract_Controller_Website {
 			}
 			catch(ORM_Validation_Exception $e)
 			{
-				if ( ! $event->loaded())
-				{
 					Notices::error('event.add.fail');
 					
 					$this->view->errors = $e->errors('validation');
 					$this->view->values = $event_post;
-				}
-				else
-				{
-					Notices::error('event.enroll.on_create_failed');
-					$this->request->redirect(Route::url('event').'#'.$event->id);
-				}
+				
+				
+					//Notices::error('event.enroll.on_create_failed');
+					//$this->request->redirect(Route::url('event').'#'.$event->id);
+				
 			}
 		}
 		
@@ -208,11 +205,15 @@ class Controller_Event extends Abstract_Controller_Website {
 			}
 			
 			$event->enroll($this->user, $character, $event_post['status'], $event_post['comment']);
+			
+			Notices::success('event.enroll.success');
+			
+			$this->request->redirect(Route::url('event'));
 		}
 		else
 		{
-			// Not a valid post (came to this url directly or bad data)
-			$this->request->redirect(Route::url('event'));
+			$this->view->event_data = $event;
+			$this->view->user = $this->user;
 		}
 	}
 

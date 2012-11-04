@@ -28,7 +28,7 @@ class Policy_Event_Enroll extends Policy {
 			return self::HAVE_NO_CHARACTERS;
 		}
 		// Can't signup for events in which you are already enrolled
-		if (Model_Enrollment::is_signed_up($user, $extras['event']))
+		if (Model_Enrollment::is_enrolled($user, $extras['event']))
 		{
 			return self::ALREADY_SIGNED_UP;
 		}

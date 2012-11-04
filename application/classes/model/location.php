@@ -24,7 +24,7 @@ class Model_Location extends ORM {
 		'Red Borderlands'                      => 18,
 		'Green Borderlands'                    => 19,
 		'Blue Borderlands'                     => 20,
-		'WvW Location TBD'                     => 21
+		'WvW Location TBD'                     => 21,
 		'Heart of the Mists'                   => 22,
 		'Misc World PvE Zone'                  => 23,
 		'Shenanigans Night'                    => 24,
@@ -49,7 +49,7 @@ class Model_Location extends ORM {
 		return $this->values($data, array('name'))->create();
 	}
 	
-	public static function to_id(string $location)
+	public static function to_id($location)
 	{
 		return self::$locations[$location];
 	}

@@ -106,6 +106,8 @@ class Date extends Kohana_Date {
 	
 	public static function from_local_time($time, $timezone)
 	{
+		$time = strtotime($time);
+		
 		return Date::offset('UTC', $timezone) + $time;
 	}
 	

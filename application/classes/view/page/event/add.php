@@ -4,17 +4,25 @@ class View_Page_Event_Add extends Abstract_View_Page {
 
 	public $page_title = 'Host new event';
 	
+	public function form_action_event_add()
+	{
+		return Route::url('event', array('action' => 'add'));
+	}
+	
 	public function location_list()
 	{
-		foreach (Model_Location::$locations as $location)
+		if ( ! isset($this->event_data))
+			$this->event_data = new Model_Event;
+			
+		foreach (Model_Location::$locations as $location => $id)
 		{
-			if ($location->name === $this->event_data->location->name)
+			if ($id === $this->event_data->location_id)
 			{
-				$out[] = array('value' => $location->name, 'name' => $location->name, 'selected' => TRUE);
+				$out[] = array('value' => $location, 'name' => $location, 'selected' => TRUE);
 			}
 			else
 			{
-				$out[] = array('value' => $location->name, 'name' => $location->name);
+				$out[] = array('value' => $location, 'name' => $location);
 			}
 		}
 		return $out;
@@ -22,6 +30,6 @@ class View_Page_Event_Add extends Abstract_View_Page {
 
 	public function characters()
 	{
-		return Model_Characer::list_all_by_user($this->user);
+		return Model_Character::list_all_by_user($this->user);
 	}
 }

@@ -2,21 +2,19 @@
 
 class View_Page_Event_Display extends Abstract_View_Page {
 
-	public $page_title = 'Event details';
-
 	/**
 	 * @var   object  Event that will be displayed
 	 */
 	public $event_data;
 
 	/**
-	 * Creates link to enroll in for this event
+	 * Creates link to sign up for this event
 	 *
 	 * @return  string  URL
 	 */
-	public function url_enroll()
+	public function url_event_enroll()
 	{
-		return Route::url('event', array('action' => 'enroll', 'id' => $this->event_data->id));
+		return Route::url('event', array('action' => 'enroll', 'id' => $this->event_data->id, 'title' => URL::title($this->event_data->title)));
 	}
 	
 	/**
@@ -26,22 +24,25 @@ class View_Page_Event_Display extends Abstract_View_Page {
 	 */
 	public function event()
 	{
-		// Event alias
 		$event = $this->event_data;
 		
-		// Calculate start time using user's time offset from UTC
+		// Calculate start time using user's time offset from GMT
 		$local_start_time = Date::to_local_time($event->time, $this->user->timezone);
 		
-		// Event leader alias
-		$host = $event->character;
+		// Event leader data
+		$host = ORM::factory('character', $event->character_id);
 		
 		return array(
-			'date'        => date('Y M d', $local_start_time),
-			'time'        => date('g:i A ', $local_start_time).Date::timezone_abbr($this->user->timezone),
-			'description' => $event->title,
-			'status'      => $event->status->name,
-			'host'        => $host->user->username,
-			'host_as'     => $host->name,
+			'location'     => $event->location->name,
+			'host'         => $host->user->username,
+			'hostas'       => $host->name,
+			'date'         => date('F d, Y', $local_start_time),
+			'time'         => date('g:i A ', $local_start_time).Date::timezone_abbr($this->user->timezone),
+			'time_full'    => date('c', $local_start_time),
+			'title'        => $event->title,
+			'description'  => $event->description,
+			'status'       => $event->status->name,
+			'event_url'    => Route::url('event').'#'.$event->id,
 		);
 	}
 	
@@ -57,37 +58,31 @@ class View_Page_Event_Display extends Abstract_View_Page {
 		
 		// Return cached results if available
 		if ( ! empty($attendee_list))
+		{
 			return $attendee_list;
+		}
 		
-		// Event alias
-		$event = $this->event_data;
-		
-		$active_list  = $event->active_attendee_list();
-		$standby_list = $event->standby_attendee_list();
-		
-		// Iterate through active attendees and pass their data to output
-		foreach ($active_list as $enrollment)
-		{			
-			$character = $enrollment->character->find();
-
+		ProfilerToolbar::addData($this->event_data->active_attendee_list(), 'active list');
+		foreach ($this->event_data->active_attendee_list() as $attendee)
+		{
 			$out['active'][] = array(
-				'profession' => array_search($character->profession_id, Model_Profession::$profession_list),
-				'name'       => $character->name,
-				'comment'    => $enrollment->comment,
+				'name'       => $attendee->character->name,
+				'profession' => $attendee->character->profession->name,
+				'comment'    => $attendee->comment,
 			);
 		}
 		
-		// Iterate through standby attendees and pass their data to output
-		foreach ($standby_list as $enrollment)
+		ProfilerToolbar::addData($this->event_data->standby_attendee_list(), 'standby list');
+		foreach ($this->event_data->standby_attendee_list() as $attendee)
 		{
 			$out['standby'][] = array(
-				'profession' => array_search($character->profession_id, Model_Profession::$profession_list),
-				'name'       => $character->name,
-				'comment'    => $enrollment->comment,
+				'name'       => $attendee->character->name,
+				'profession' => $attendee->character->profession->name,
+				'comment'    => $attendee->comment,
 			);
 		}
 		
-		// If no attendees yet, use 'no attendees' message, also caches attendee list
+		// If no attendees yet, use 'no signup' message, also caches attendee list
 		return isset($out) ? $attendee_list = $out : FALSE;
 	}
 	
@@ -98,7 +93,10 @@ class View_Page_Event_Display extends Abstract_View_Page {
 	 */
 	public function characters()
 	{
-		return Model_Character::list_all_by_user($this->user);
+		if (empty($this->characters))
+			$this->characters =  Model_Character::list_all_by_user($this->user);
+				
+		return $this->characters;
 	}
 	
 	/**
@@ -106,7 +104,7 @@ class View_Page_Event_Display extends Abstract_View_Page {
 	 *
 	 * @return  mixed  URL if allowed, FALSE if not
 	 */
-	public function edit_event()
+	public function url_event_edit()
 	{
 		if ($this->user->can('event_edit', array('event' => $this->event_data)))
 		{
@@ -120,7 +118,7 @@ class View_Page_Event_Display extends Abstract_View_Page {
 	 *
 	 * @return  mixed  URL if allowed, FALSE if not
 	 */	
-	public function remove_event()
+	public function url_event_remove()
 	{
 		if ($this->user->can('event_remove', array('event' =>$this->event_data)))
 		{
@@ -133,7 +131,7 @@ class View_Page_Event_Display extends Abstract_View_Page {
 	 *
 	 * @return  mixed  URL if allowed, FALSE if not
 	 */	
-	public function withdraw()
+	public function url_event_withdraw()
 	{
 		if ($this->user->can('event_withdraw', array('event' => $this->event_data)))
 		{
@@ -144,14 +142,34 @@ class View_Page_Event_Display extends Abstract_View_Page {
 			return FALSE;
 		}
 	}
-		
+	
 	/**
-	 * Tests if current user can see enrollment link
+	 * Tests if current user can see enrollment form
 	 *
 	 * @return  bool
 	 */
 	public function enroll()
 	{
-		return  TRUE === $this->user->can('event_enroll', array('event' => $this->event_data));
+		return  TRUE === $this->user->can('event_enroll', array('event' => $this->event_data, 'characters' => $this->characters()));
+	}
+	
+	/**
+	 * Player count for standby tab
+	 *
+	 * @return int
+	 */
+	public function standby_count()
+	{
+		return $this->event_data->standby_attendee_count();
+	}
+	
+	/**
+	 * Player count for active tab
+	 *
+	 * @return int
+	 */
+	public function attendee_count()
+	{
+		return $this->event_data->active_attendee_count();
 	}
 }
