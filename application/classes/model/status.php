@@ -9,7 +9,7 @@ class Model_Status extends ORM {
 	const STANDBY_FORCED    = 4;
 	const STANDBY_VOLUNTARY = 5;
 	
-	public $status_list = array(
+	public static $status_list = array(
 		'scheduled'         => 1,
 		'cancelled'         => 2,
 		'ready'             => 3,
@@ -22,6 +22,6 @@ class Model_Status extends ORM {
 	
 	public static function to_status_code($status)
 	{
-		return $this->status_list[$status];
+		return self::$status_list[$status];
 	}
 }
