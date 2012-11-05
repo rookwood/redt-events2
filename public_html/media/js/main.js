@@ -81,7 +81,7 @@ if (typeof jQuery != "undefined"){
 		});
 
 		// Modal window for event enrollment
-		$(document).on('click', 'a', (function(e) {
+		$(document).on('click', 'a.enroll', (function(e) {
 			// Prevent click on anchor from loading new page
 			e.preventDefault();
 			
