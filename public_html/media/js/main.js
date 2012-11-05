@@ -31,62 +31,70 @@ if (typeof jQuery != "undefined"){
 			return false;
 		});
 
-	/**
-	 * Event details loading via ajax
-	 */
-	
-	// Ajax loading of event details
-	// can't figure out why ul.header won't work for event binding
-	// so using pointless class for the moment but this is problematic
-	$('.clickable').click(function() {
+		/**
+		 * Event details loading via ajax
+		 */
+		
+		// Ajax loading of event details
+		// can't figure out why ul.header won't work for event binding
+		// so using pointless class for the moment but this is problematic
+		$('.event_title, .event_numbers, .event_time').click(function() {
 
-		// Find container element for our event data
-		var event_data = $(this).find('section.event_data');
+			// Find container element for our event data
+			var event_data = $(this).parent().siblings('section.event_data');
+			var parent_li = $(this).parent().parent();
 
-		// See if we've already loaded data for this event
-		if ( ! $(this).hasClass('loaded'))
-		{
-			// save reference to clicked element as a starting point for all traversal
-			var that = this;
-
-			// ajax call to fetch event data
-			$.get($(this).data('url'), function(data) {
-				event_data.html(data);
-
-				// setup for jquery ui tabs
-				event_data.find('#tabs').tabs();
-
-				// mark event has having all data loaded
-				$(that).addClass('loaded');
-
-				$(that).toggleClass('event_collapsed event_expanded');
-
-				event_data.slideDown('slow');
-			});
-		}
-		else
-		{
-			// Toggle details display
-			if ($(this).hasClass('event_collapsed'))
+			// See if we've already loaded data for this event
+			if ( ! parent_li.hasClass('loaded'))
 			{
-				$(this).toggleClass('event_collapsed event_expanded');
+				// ajax call to fetch event data
+				$.get(parent_li.data('url'), function(data) {
+					event_data.html(data);
 
-				event_data.slideDown('slow');
+					// setup for jquery ui tabs
+					event_data.find('#tabs').tabs();
+
+					// mark event has having all data loaded
+					parent_li.addClass('loaded');
+
+					parent_li.toggleClass('event_collapsed event_expanded');
+
+					event_data.slideDown('slow');
+				});
 			}
 			else
 			{
-				var that = this;
+				// Toggle details display
+				if (parent_li.hasClass('event_collapsed'))
+				{
+					parent_li.toggleClass('event_collapsed event_expanded');
 
-				event_data.slideUp('slow', function() {
-					$(that).toggleClass('event_collapsed event_expanded');
-				});
+					event_data.slideDown('slow');
+				}
+				else
+				{
+					event_data.slideUp('slow', function() {
+						$(parent_li).toggleClass('event_collapsed event_expanded');
+					});
+				}
 			}
-		}
-	});
+		});
 
-	$('.clickable > section').click(function(e) {
-		e.stopPropagation();
-	});		
-
+		// Modal window for event enrollment
+		$(document).on('click', 'a', (function(e) {
+			// Prevent click on anchor from loading new page
+			e.preventDefault();
+			
+			url = $(this).attr('href');
+			
+			// Create modal from anchor's href
+			jQuery.facebox(function($) {
+				jQuery.get(url, function(data) { 
+					jQuery.facebox(data) 
+				});
+			});
+			return false;
+		}));
+		
 	})})(jQuery); // Prevent conflicts with other js libraries
 }
