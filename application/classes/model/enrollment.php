@@ -21,7 +21,7 @@ class Model_Enrollment extends ORM {
 	{
 		// Check forced stand-by list
 		$forced_standby = ORM::factory('enrollment')
-			->where('event_id', '=', $this->id)
+			->where('event_id', '=', $event_id)
 			->and_where('status_id', '=', Model_Status::STANDBY_FORCED)
 			->order_by('timestamp', 'DESC')
 			// Get only the record for the first person to be put on stand-by
@@ -79,21 +79,23 @@ class Model_Enrollment extends ORM {
 	 * @param   objecvt Model_Event    - the event to test against
 	 * @return  bool
 	 */
-	public static function is_enrolled(Model_ACL_User $user, Model_Event $event)
+	public static function is_enrolled(Model_ACL_User $user, Model_Event $event, $characters = NULL)
 	{
 		static $enrollment;
 		
 		if (isset($enrollment))
 			return $enrollment;
 		
-		$characters = $user->characters->find_all();
+		if ( ! $characters)
+			$characters = $user->characters->find_all();
 		
 		foreach ($characters as $character)
 		{
 			// If the character has 
 			if ($character->has('events', $event->id))
 			{
-				return $enrollment = $character;
+				if ($character->enrollment->find()->status_id != Model_Status::CANCELLED)
+					return $enrollment = $character;
 			}
 		}
 		

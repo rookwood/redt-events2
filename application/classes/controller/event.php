@@ -253,7 +253,7 @@ class Controller_Event extends Abstract_Controller_Website {
 		else
 		{
 			// Get enrolled character
-			$character = Model_Enrollment::is_enrolled($event, $characters);
+			$character = Model_Enrollment::is_enrolled($this->user, $event, $characters);
 			
 			// Withdraw enrollment
 			$event->withdraw($character);
