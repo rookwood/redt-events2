@@ -1,0 +1,27 @@
+<form action="{{form_action_event_enroll}}" method="post">
+	<fieldset>
+		<legend>Enrollment details</legend>
+		<ul>
+			<li>
+				<label for="event_character">Character</label>
+				<select name="event[character]" id="event_character">
+{{#characters}}
+					<option value="{{name}}" class="{{profession.name}}">{{name}}</option>{{/characters}}
+				</selecT>
+			</li>
+			<li>
+				<label for="event_status">Status</label>
+				<select name="event[status]" id="event_status">
+					<option value="ready">Ready</option>
+					<option value="standby (voluntary)">Stand-by</option>
+				</select>
+			</li>
+			<li>
+				<label for="event_comment">Comments</label>
+				<textarea name="event[comment]" id="event_comment"></textarea>
+			</li>
+			{{{csrf}}}
+		</ul>
+	</fieldset>
+	<input type="submit" value="Submit" />
+</form>
