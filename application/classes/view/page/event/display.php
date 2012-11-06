@@ -62,7 +62,6 @@ class View_Page_Event_Display extends Abstract_View_Page {
 			return $attendee_list;
 		}
 		
-		ProfilerToolbar::addData($this->event_data->active_attendee_list(), 'active list');
 		foreach ($this->event_data->active_attendee_list() as $attendee)
 		{
 			$out['active'][] = array(
@@ -72,7 +71,6 @@ class View_Page_Event_Display extends Abstract_View_Page {
 			);
 		}
 		
-		ProfilerToolbar::addData($this->event_data->standby_attendee_list(), 'standby list');
 		foreach ($this->event_data->standby_attendee_list() as $attendee)
 		{
 			$out['standby'][] = array(
