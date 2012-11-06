@@ -80,8 +80,8 @@ if (typeof jQuery != "undefined"){
 			}
 		});
 
-		// Modal window for event enrollment
-		$(document).on('click', 'a.enroll', (function(e) {
+		// Modal window for small forms
+		$(document).on('click', 'a.modal', (function(e) {
 			// Prevent click on anchor from loading new page
 			e.preventDefault();
 			
