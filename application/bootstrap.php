@@ -153,7 +153,7 @@ Route::set('static', '<action>', array('action' => 'news|faq|shenanigans'))
 		'action'     => 'news',
 	));
  
- Route::set('character', 'character(/<action>(/<name>))', array('action' => 'add|edit|remove'))
+ Route::set('character', 'character(/<action>(/<id>(/<name>)))', array('action' => 'add|edit|remove'))
 	->defaults(array(
 		'controller' => 'character',
 		'action'     => 'add',
