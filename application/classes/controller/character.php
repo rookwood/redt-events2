@@ -40,10 +40,24 @@ class Controller_Character extends Abstract_Controller_Website {
 			// Create the character
 			try
 			{
-				$character = ORM::factory('character')->create_character($user, $character_post);
+				$character = ORM::factory('character', array('name' => $character_post['name']));
+				
+				if ($character->loaded())
+				{
+					// Character exists already
+					if ( $this->user->owns($character))
+					{
+						// Set character as visibile
+						$character->unhide();
+						$character->edit_character($character_post);
+					}
+				}
+				else
+				{
+					$character = ORM::factory('character')->create_character($user, $character_post);
+				}
 				
 				Notices::success('character.add.success');
-				
 				$this->request->redirect(Route::url('profile edit'));
 			}
 			catch(ORM_Validation_Exception $e)
@@ -59,7 +73,7 @@ class Controller_Character extends Abstract_Controller_Website {
 	public function action_remove()
 	{
 		// Load character model
-		$character = ORM::factory('character', array('name' => $this->request->param('character')));
+		$character = ORM::factory('character', array('id' => $this->request->param('id')));
 		
 		if ( ! $this->user->can('character_remove', array('character' => $character)))
 		{
@@ -67,17 +81,17 @@ class Controller_Character extends Abstract_Controller_Website {
 			$status = Policy::$last_code;
 			
 			// Unspecified reason for denial
-			if ($status === Policy_Remove_Character::NOT_ALLOWED)
+			if ($status === Policy_Character_Remove::NOT_ALLOWED)
 			{			
 				Notices::denied('character.remove.not_allowed');
 
 				$this->request->redirect(Route::url('profile'));
 			}
-			elseif ($status === Policy_Remove_Character::NOT_OWNER)
+			elseif ($status === Policy_Character_Remove::NOT_OWNER)
 			{
 				Notices::denied('character.remove.not_owner');
 				
-				$this->request->redirect(Route::url('profile'));
+				$this->request->redirect(Route::url('profile edit'));
 			}
 		}
 				
@@ -86,13 +100,13 @@ class Controller_Character extends Abstract_Controller_Website {
 		
 		Notices::success('character.remove.success');
 		
-		$this->request->redirect(Route::url('profile'));
+		$this->request->redirect(Route::url('profile edit'));
 	}
 	
 	public function action_edit()
 	{
 		// Load character model
-		$character = ORM::factory('character', array('name' => $this->request->param('character')));
+		$character = ORM::factory('character', array('id' => $this->request->param('id')));
 		
 		if ( ! $character->loaded())
 			throw new HTTP_Exception_404;
@@ -148,5 +162,5 @@ class Controller_Character extends Abstract_Controller_Website {
 		}
 		
 		// Pass character data to view class
-		$this->view->character_data = $character;
+		$this->view->character = $character;
 	}}

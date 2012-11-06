@@ -1,0 +1,57 @@
+	<form action="{{form_action_event_add}}" method="post" id="event_add">
+		<fieldset>
+			<legend>Create new event</legend>
+			<ul>
+				<li>
+					<label for="title">Event title:</label>
+					<input type="text" name="event[title]" id="title" value="{{values.title}}" {{#errors.title}}class="error" {{/errors.title}}/>
+					{{#errors.title}}<p class="error_message">{{errors.title}}</p>{{/errors.title}}
+				</li>
+				<li>
+					<label for="location">Location:</label>
+					<select name="event[location]" id="location" {{#errors.location}}class="error" {{/errors.location}}>
+{{#location_list}}
+						<option value="{{value}}"{{#selected}} selected="selected"{{/selected}}>{{name}}</option>{{/location_list}}
+					</select>
+					{{#errors.location}}<p class="error_message">{{errors.location}}</p>{{/errors.location}}
+				</li>
+				<li>
+					<label for="player_limit">Player limit:</label>
+					<input type="number" min="1" max="255" name="event[player_limit]" id="player_limit" value="{{#values.player_limit}}{{values.player_limit}}{{/values.player_limit}}{{^values.player_limit}}5{{/values.player_limit}}" {{#errors.player_limit}}class="error" {{/errors.player_limit}}/>
+					{{#errors.player_limit}}<p class="error_message">{{errors.player_limit}}</p>{{/errors.player_limit}}
+				</li>
+				<li>
+					<label for="time">Scheduled time:</label>
+					<input type="time" name="event[time]" id="time" value="{{values.time}}" {{#errors.time}}class="error" {{/errors.time}}/>
+					{{#errors.time}}<p class="error_message">{{errors.time}}</p>{{/errors.time}}
+				</li>
+				<li>
+					<label for="timezone">In timezone:</label>
+					<select name="event[timezone]" id="timezone">
+{{#timezone_list}}
+						<option value="{{value}}"{{#selected}} selected="selected"{{/selected}}>{{name}}</option>{{/timezone_list}}
+					</select>
+					{{#errors.timezone}}<p class="error_message">{{errors.timezone}}</p>{{/errors.timezone}}
+				</li>
+				<li>
+					<label for="date">Scheduled date:</label>
+					<input type="date" name="event[date]" id="date" value="{{values.date}}"{{#errors.date}}class="error" {{/errors.date}}/>
+					{{#errors.date}}<p class="errormessage">{{errors.date}}</p>{{/errors.date}}
+				</li>
+				<li>
+					<label for="description">Event details:</label>
+					<textarea name="event[description]" id="description" value="{{values.description}}" {{#errors.description}}class="error" {{/errors.description}}></textarea>
+				</li>
+				<li>
+					<label for="character">Lead as:</label>
+					<select name="event[character]" id="character">
+{{#characters}}
+						<option class="{{profession}}" value="{{name}}">{{name}}</option>{{/characters}}
+					</select>
+				</li>
+				{{{csrf}}}
+			</ul>
+		</fieldset>
+		<input type="submit" value="Create event" />
+	</form>
+		

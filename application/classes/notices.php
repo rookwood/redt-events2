@@ -25,7 +25,7 @@ class Notices extends Kohana_Notices {
 			$message = self::expand($message);
 		}
 		
-		return Notices::add('error', 'msg_error', array('message' => __($message), 'is_persistent' => FALSE, 'hash' => Text::random($length = 16)));
+		return Notices::add('error', 'msg_error', array('message' => __($message), 'is_persistent' => FALSE, 'hash' => Text::random('alnum', $length = 16)));
 	}
 	
 	/**
@@ -42,7 +42,7 @@ class Notices extends Kohana_Notices {
 			$message = self::expand($message);
 		}
 		
-		return Notices::add('denied', 'msg_error', array('message' => __($message), 'is_persistent' => FALSE, 'hash' => Text::random($length = 16)));
+		return Notices::add('denied', 'msg_error', array('message' => __($message), 'is_persistent' => FALSE, 'hash' => Text::random('alnum', $length = 16)));
 	}
 	
 	/**
@@ -59,7 +59,7 @@ class Notices extends Kohana_Notices {
 			$message = self::expand($message);
 		}
 		
-		return Notices::add('success', 'msg_success', array('message' => __($message), 'is_persistent' => FALSE, 'hash' => Text::random($length = 16)));
+		return Notices::add('success', 'msg_success', array('message' => __($message), 'is_persistent' => FALSE, 'hash' => Text::random('alnum', $length = 16)));
 	}
 
 	/**
@@ -76,7 +76,7 @@ class Notices extends Kohana_Notices {
 			$message = self::expand($message);
 		}
 		
-		return Notices::add('warning', 'msg_warning', array('message' => __($message), 'is_persistent' => FALSE, 'hash' => Text::random($length = 16)));
+		return Notices::add('warning', 'msg_warning', array('message' => __($message), 'is_persistent' => FALSE, 'hash' => Text::random('alnum', $length = 16)));
 	}
 
 	/**
@@ -93,7 +93,7 @@ class Notices extends Kohana_Notices {
 			$message = self::expand($message);
 		}
 		
-		return Notices::add('info', 'msg_info', array('message' => __($message), 'is_persistent' => FALSE, 'hash' => Text::random($length = 16)));
+		return Notices::add('info', 'msg_info', array('message' => __($message), 'is_persistent' => FALSE, 'hash' => Text::random('alnum', $length = 16)));
 	}
 
 	/**
@@ -103,7 +103,7 @@ class Notices extends Kohana_Notices {
 	 */
 	public static function expand($message)
 	{
-		return Kohana::message(self::$message_file, $message);
+		return Kohana::message(self::$message_file, $message, $message);
 	}
 	
 }

@@ -64,7 +64,7 @@ class Controller_User extends Abstract_Controller_Website {
 		// Pass our user object to the view for display
 		$this->view->user       = $this->user;
 		$this->view->profile    = $this->user->profile;
-		$this->view->characters = $this->user->characters->find_all();
+		$this->view->characters = $this->user->characters->where('visibility', '=', 1)->find_all();
 	}
 	
 	public function action_profile()
@@ -79,7 +79,7 @@ class Controller_User extends Abstract_Controller_Website {
 		}
 		
 		$this->view->profile    = $user;
-		$this->view->characters = $user->characters->find_all();
+		$this->view->characters = $user->characters->where('visibility', '=', 1)->find_all();
 	}
 	
 	/**

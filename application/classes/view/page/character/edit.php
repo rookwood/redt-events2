@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class View_Page_Character_Edit extends Abstract_View_Page {
+class View_Page_Character_Edit extends View_Page_Character_Add {
 
 	/**
 	 * @var  object  Character

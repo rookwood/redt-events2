@@ -2,8 +2,7 @@
 
 return array
 (
-
 	// Patch to the images
-	'image_path' => 'media/img/',
-
+	'image_path' => 'media/img/notices/',
+	'output'     => 'html',
 );

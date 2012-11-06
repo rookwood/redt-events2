@@ -43,28 +43,39 @@ class Abstract_View_Page extends Abstract_View_Layout {
 	{
 		$notices = array();
 		
-		// Get all current notifications
-		foreach (Notices::get(TRUE, TRUE) as $notice)
-		{			
-			// Build our data array
-			$notices[] = (object) array(
-				'type'          => $notice['type'],
-				'message'       => $notice['values']['message'],
-				'hash'          => $notice['values']['hash'],
-				'is_persistent' => $notice['values']['is_persistent'],
-				'key'           => $notice['key']
-			);
-		}
+		$config = Kohana::$config->load('notices');
 		
-		$output = '';
-		
-		foreach ($notices as $notice)
+		if ($config->get('output') == 'json')
 		{
-			// Build notice html
-			$output .= View::factory('notices/notice')->set('notice', $notice);
+			$notices = Notices::get(TRUE, TRUE);
+			
+			return (empty($notices)) ? FALSE : json_encode($notices);
 		}
+		else
+		{
+			// Get all current notifications
+			foreach (Notices::get(TRUE, TRUE) as $notice)
+			{			
+				// Build our data array
+				$notices[] = (object) array(
+					'type'          => $notice['type'],
+					'message'       => $notice['values']['message'],
+					'hash'          => $notice['values']['hash'],
+					'is_persistent' => $notice['values']['is_persistent'],
+					'key'           => $notice['key']
+				);
+			}
 		
-		return $output;
+			$output = '';
+			
+			foreach ($notices as $notice)
+			{
+				// Build notice html
+				$output .= View::factory('notices/notice')->set('notice', $notice);
+			}
+			
+			return $output;
+		}
 	}
 	
 	/**

@@ -6,6 +6,7 @@ class Model_Character extends ORM {
 	protected $_belongs_to = array(
 		'user'       => array(),
 		'profession' => array(),
+		'race'       => array(),
 	);
 	
 	protected $_has_many = array(
@@ -113,6 +114,15 @@ class Model_Character extends ORM {
 		{
 			throw new Kohana_Exception('Character has already been removed.');
 		}
+	}
+	
+	/**
+	 * Restore previously "deleted" (i.e. hidden) characters
+	 */
+	public function unhide()
+	{
+		$this->visibility = 1;
+		return $this->save();
 	}
 	
 	/**

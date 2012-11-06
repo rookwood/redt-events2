@@ -14,11 +14,11 @@ class View_Page_Event_Edit extends View_Page_Event_Add {
 
 	public function scheduled_time()
 	{
-		return date('g:i a', Date::to_local_time($this->event_data->time, $this->user->timezone);
+		return date('g:i a', Date::to_local_time($this->event_data->time, $this->user->timezone));
 	}
 
 	public function scheduled_date()
 	{
-		return date('Y-m-d', Date::to_local_time($this->event_data->time, $this->user->timezone);
+		return date('Y-m-d', Date::to_local_time($this->event_data->time, $this->user->timezone));
 	}
 }

@@ -54,37 +54,14 @@
 		</fieldset>
 		<input type="submit" value="Submit" />
 	</form>
-	
-	<form action="{{form_action_character_add}}" method="post">
-		<fieldset>
-			<legend>Add new character</legend>
-			<ul>
-				<li>
-					<label for="character_name">Character name:</label>
-					<input type="text" name="character[name]" id="character_name" value="{{character.name}}">
-				</li>
-				<li>
-					<label for="character_profession">
-					<select name="character[profession]" id="character_profession">
-{{#profession_list}}
-						<option value="{{name}}"{{#selected}} selected="selected"{{/selected}}>{{name}}</option>{{/profession_list}}
-					</select>
-				</li>
-				<li>
-					<label for="race">
-					<select name="character[race]" id="character_race">
-{{#race_list}}
-						<option value="{{name}}"{{#selected}} selected="selected"{{/selected}}>{{name}}</option>{{/race_list}}
-					</select>
-				</li>
-			</ul>
-		</fieldset>
-		{{{csrf}}}
-		<input type="submit" value="Submit" />
-	</form>
-	<ul>
-{{#characters}}
-		<li class="{{profession.name}}">{{name}}</li>{{/characters}}
+	<a href="{{form_action_character_add}}" class="modal">Add new character</a>
+	<ul id="character_list">
+{{#character_list}}
+		<li class="{{profession}} character">
+			<span class="character_name">{{name}}</span>
+			<a href="{{url_character_edit}}" class="modal">Edit</a>
+			<a href="{{url_character_remove}}">Delete</a>
+		</li>{{/character_list}}
 	</ul>
 
 </section>
