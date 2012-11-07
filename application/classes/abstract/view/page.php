@@ -127,6 +127,15 @@ class Abstract_View_Page extends Abstract_View_Layout {
 	
 	public function account_links()
 	{
+		// Check for administrative access
+		if ($this->user->can('admin_access'))
+		{
+			$links[] = array(
+				'location' => Route::url('admin'),
+				'text'     => 'Admin dashboard',
+			);
+		}
+		
 		// New account registration link
 		if ($this->user->can('user_register'))
 		{

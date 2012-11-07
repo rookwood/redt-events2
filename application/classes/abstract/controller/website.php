@@ -26,7 +26,7 @@ abstract class Abstract_Controller_Website extends Controller {
 			}
 		}
 		
-		// Get our currently logged in user (or an empty user model)
+		// Get our currently logged in user (or an empty user model for guest purposes)
 		if (! isset($this->user))
 		{
 			$this->user = Auth::instance()->get_user();

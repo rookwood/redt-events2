@@ -63,39 +63,43 @@ abstract class Abstract_View_Admin_Layout extends Abstract_View_Page {
 			$this->user = Auth::instance()->get_user();
 		}
 		
-		$links = array();
-		
 		// Administrative sections
-		if ($this->user->can('use_admin'))
+		if ($this->user->can('admin_access'))
 		{
 			$links[] = array(
 				'location' => Route::url('admin'),
 				'text'     => 'Admin dashboard',
-				'icon'     => array('src' => '/media/img/icons/application_form.png'),
 			);
-			
+		}
+
+		if ($this->user->can('admin_manage_roles'))
+		{
 			$links[] = array(
 				'location' => Route::url('admin', array('controller' => 'role')),
 				'text'     => 'Roles',
 			);
-			
+		}
+		
+		if ($this->user->can('admin_manage_users'))
+		{
 			$links[] = array(
 				'location' => Route::url('admin', array('controller' => 'user')),
 				'text'     => 'Users',
 			);
-			
+		}	
+		
+		if ($this->user->can('admin_manage_settings'))
+		{
 			$links[] = array(
 				'location' => Route::url('admin', array('controller' => 'dashboard', 'action' => 'settings')),
 				'text'     => 'Settings',
 			);
 		}
-
-		// Display log out link
-		if (Auth::instance()->logged_in())
+		
+		if ($this->user->can('admin_manage_events'))
 		{
 			$links[] = array(
-				'location' => Route::url('user', array('controller' => 'user', 'action' => 'logout')),
-				'text'     => 'Log out'
+				'location' => Route
 			);
 		}
 		
