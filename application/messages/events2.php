@@ -140,6 +140,7 @@ return array(
 			'standby_forced'    => 'This event is already full, so you were placed on stand-by.  If someone withdraws, you will be bumped up automatically.',
 			'need_character'    => 'You must add at least one character before you may sign-up for events.',
 			'character_failed'  => 'The selected character was not found.',
+			'login'             => 'You must log in to enroll in events.',
 		),
 		'withdraw' => array(
 			'success'           => 'You are no longer enrolled in this event.',

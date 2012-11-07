@@ -4,6 +4,10 @@ class Controller_Event extends Abstract_Controller_Website {
 
 	public function action_index()
 	{
+		// Notify guest users that login is required for event enrollment
+		if ( ! Auth::instance()->logged_in())
+			Notices::info('event.enroll.login');
+		
 		$filter = Arr::get($this->request->query(), 'filter', 'current');
 		$id     = Arr::get($this->request->query(), 'id',     FALSE);
 			
