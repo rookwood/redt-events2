@@ -52,7 +52,7 @@ if (typeof jQuery != "undefined"){
 					event_data.html(data);
 
 					// setup for jquery ui tabs
-					event_data.find('#tabs').tabs();
+					event_data.find('.tabs').tabs();
 
 					// mark event has having all data loaded
 					parent_li.addClass('loaded');
@@ -80,6 +80,10 @@ if (typeof jQuery != "undefined"){
 			}
 		});
 
+
+		/**
+		 * Modal windows
+		 */
 		// Modal window for small forms
 		$(document).on('click', 'a.modal', (function(e) {
 			// Prevent click on anchor from loading new page
