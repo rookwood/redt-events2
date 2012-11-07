@@ -101,6 +101,12 @@ if ( ! defined('KOHANA_START_MEMORY'))
 // Bootstrap the application
 require APPPATH.'bootstrap'.EXT;
 
+// Check maintenance mode
+if (is_file('.maintenance') AND ! Kohana::$is_cli)
+{
+	die('[redt]Events2 is down for maintenance.  We should be back in a few minutes.');
+}
+
 /**
  * Execute the main request. A source of the URI can be passed, eg: $_SERVER['PATH_INFO'].
  * If no source is specified, the URI will be automatically detected.
