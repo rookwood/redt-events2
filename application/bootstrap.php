@@ -114,10 +114,17 @@ Kohana::modules(array(
 	'database'      => MODPATH.'database',        // Database access
 	'email'         => MODPATH.'email',           // Kohana wrapper for SwiftMailer
 	'kostache'      => MODPATH.'kostache',        // Class-based views / logicless templates
+	'minion'        => MODPATH.'minion',          // Tool for creating shell-based interaction
+	'migrations'    => MODPATH.'migrations',      // Minion task for database migrations
 	'notices'       => MODPATH.'notices',         // Synapse Studios - user notification
 	'orm'           => MODPATH.'orm',             // Object Relationship Mapping
 	'vendo-acl'     => MODPATH.'acl',             // Vendo's policy-based authorization system
 ));
+
+/**
+ * Attach a database reader to config
+ */
+Kohana::$config->attach(new Config_Database);
 
 /**
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
@@ -162,4 +169,18 @@ Route::set('default', '')
 	->defaults(array(
 		'controller' => 'static',
 		'action'     => 'news',
+	));
+
+Route::set('admin dashboard', 'admin(/<action>)', array('action' => 'settings'))
+	->defaults(array(
+		'directory'  => 'admin',
+		'controller' => 'dashboard',
+		'action'     => 'index',
+	));
+		
+Route::set('admin group', 'admin/<controller>(/<action>)', array('controller' => 'user|event|role'))
+	->defaults(array(
+		'directory'  => 'admin',
+		'controller' => 'user',
+		'action'     => 'index',
 	));
