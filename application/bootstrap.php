@@ -178,7 +178,7 @@ Route::set('admin dashboard', 'admin(/<action>)', array('action' => 'settings'))
 		'action'     => 'index',
 	));
 		
-Route::set('admin group', 'admin/<controller>(/<action>)', array('controller' => 'user|event|role'))
+Route::set('admin group', 'admin/<controller>(/<action>(/<name>))', array('controller' => 'user|event|role'))
 	->defaults(array(
 		'directory'  => 'admin',
 		'controller' => 'user',
