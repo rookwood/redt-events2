@@ -131,7 +131,7 @@ class Abstract_View_Page extends Abstract_View_Layout {
 		if ($this->user->can('admin_access'))
 		{
 			$links[] = array(
-				'location' => Route::url('admin'),
+				'location' => Route::url('admin dashboard'),
 				'text'     => 'Admin dashboard',
 			);
 		}

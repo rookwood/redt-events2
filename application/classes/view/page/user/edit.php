@@ -21,7 +21,7 @@ class View_Page_User_Edit extends Abstract_View_Page {
 			);
 		}
 		
-		return $list;
+		return isset($list) ?: FALSE;
 	}
 	
 	public function form_action_profile_edit()

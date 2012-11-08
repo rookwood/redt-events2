@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-class Policy_Admin_Acess extends Policy {
+class Policy_Admin_Access extends Policy {
 
 	const NOT_ALLOWED = 1;
 	
@@ -10,7 +10,7 @@ class Policy_Admin_Acess extends Policy {
 		{
 			return TRUE;
 		}
-		
+
 		return self::NOT_ALLOWED;
 	}
 

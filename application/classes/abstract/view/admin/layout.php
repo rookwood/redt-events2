@@ -8,11 +8,13 @@ abstract class Abstract_View_Admin_Layout extends Abstract_View_Page {
 	 * @var  array List of mustache partials
 	 */
 	protected $_partials = array(
-		'user_table'  => 'partials/admin/table/user',
-		'role_table'  => 'partials/admin/table/role',
-		'role_form'   => 'partials/admin/form/role',
-		'user_form'   => 'partials/admin/form/user',
-		'user_search' => 'partials/admin/form/user/search',
+		'header'          => 'partials/header',
+		'main_navigation' => 'partials/main_navigation',
+		'user_table'      => 'partials/admin/table/user',
+		'role_table'      => 'partials/admin/table/role',
+		'role_form'       => 'partials/admin/form/role',
+		'user_form'       => 'partials/admin/form/user',
+		'user_search'     => 'partials/admin/form/user/search',
 	);
 	
 	/**
@@ -27,7 +29,7 @@ abstract class Abstract_View_Admin_Layout extends Abstract_View_Page {
 	 */
 	public function button_action_create_role()
 	{
-		return Route::url('admin', array('controller' => 'role', 'action' => 'create'));
+		return Route::url('admin group', array('controller' => 'role', 'action' => 'create'));
 	}
 	
 	/**
@@ -37,7 +39,7 @@ abstract class Abstract_View_Admin_Layout extends Abstract_View_Page {
 	 */
 	public function button_action_create_user()
 	{
-		return Route::url('admin', array('controller' => 'user', 'action' => 'create'));
+		return Route::url('admin group', array('controller' => 'user', 'action' => 'create'));
 	}
 	
 	/**
@@ -47,7 +49,7 @@ abstract class Abstract_View_Admin_Layout extends Abstract_View_Page {
 	 */
 	public function user_search_action()
 	{
-		return Route::url('admin', array('controller' => 'user', 'action' => 'search'));
+		return Route::url('admin group', array('controller' => 'user', 'action' => 'search'));
 	}
 	
 	/**
@@ -63,19 +65,10 @@ abstract class Abstract_View_Admin_Layout extends Abstract_View_Page {
 			$this->user = Auth::instance()->get_user();
 		}
 		
-		// Administrative sections
-		if ($this->user->can('admin_access'))
-		{
-			$links[] = array(
-				'location' => Route::url('admin'),
-				'text'     => 'Admin dashboard',
-			);
-		}
-
 		if ($this->user->can('admin_manage_roles'))
 		{
 			$links[] = array(
-				'location' => Route::url('admin', array('controller' => 'role')),
+				'location' => Route::url('admin group', array('controller' => 'role')),
 				'text'     => 'Roles',
 			);
 		}
@@ -83,7 +76,7 @@ abstract class Abstract_View_Admin_Layout extends Abstract_View_Page {
 		if ($this->user->can('admin_manage_users'))
 		{
 			$links[] = array(
-				'location' => Route::url('admin', array('controller' => 'user')),
+				'location' => Route::url('admin group', array('controller' => 'user')),
 				'text'     => 'Users',
 			);
 		}	
@@ -91,7 +84,7 @@ abstract class Abstract_View_Admin_Layout extends Abstract_View_Page {
 		if ($this->user->can('admin_manage_settings'))
 		{
 			$links[] = array(
-				'location' => Route::url('admin', array('controller' => 'dashboard', 'action' => 'settings')),
+				'location' => Route::url('admin dashboard', array('action' => 'settings')),
 				'text'     => 'Settings',
 			);
 		}
@@ -99,7 +92,8 @@ abstract class Abstract_View_Admin_Layout extends Abstract_View_Page {
 		if ($this->user->can('admin_manage_events'))
 		{
 			$links[] = array(
-				'location' => Route
+				'location' => Route::url('admin group', array('controller' => 'event')),
+				'text'     => 'Events',
 			);
 		}
 		

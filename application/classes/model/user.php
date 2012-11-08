@@ -127,12 +127,12 @@ class Model_User extends Model_Auth_User implements Model_ACL_User {
 			
 			if ( ! $does_have AND $should_have)
 			{
-				$this->add('roles', ORM::factory('role', array('name' => $role->name)));
+				$this->add_role($role);
 			}
 			
 			if ($does_have AND ! $should_have)
 			{
-				$this->remove('roles', ORM::factory('role', array('name' => $role->name)));
+				$this->remove_role($role);
 			}
 		}
 		return TRUE;
@@ -297,21 +297,6 @@ class Model_User extends Model_Auth_User implements Model_ACL_User {
 			$record->save();
 		}
 		return $key;
-	}
-	
-	/**
-	 * Resets a user's password to a random string
-	 *
-	 * @return string  new password
-	 */
-	public function reset_password()
-	{
-		$new_pw = Text::random('alnum', 10);
-		
-		$this->update_user(array('password' => $new_pw, 'password_confirm' => $new_pw), array('password'));
-		
-		return $new_pw;
-			
 	}
 	
 	public function change_password($password)

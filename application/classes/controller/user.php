@@ -88,10 +88,7 @@ class Controller_User extends Abstract_Controller_Website {
 	public function action_register()
 	{		
 		if ( ! $this->user->can('user_register'))
-		{
-			if (Kohana::$environment > Kohana::TESTING) 
-				ProfilerToolbar::addData('Registration policy failure: '.Policy::$last_code, 'policy');
-			
+		{			
 			// Not allowed, get the reason why
 			$status = Policy::$last_code;
 
@@ -109,9 +106,6 @@ class Controller_User extends Abstract_Controller_Website {
 			}
 		}
 		
-		if (Kohana::$environment > Kohana::TESTING) 
-			ProfilerToolbar::addData('Registration policy passed', 'policy');
-			
 		// If the form is submitted via POST and the CSRF token is valid
 		if ($this->valid_post())
 		{

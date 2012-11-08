@@ -16,9 +16,10 @@ class Notices extends Kohana_Notices {
 	 *
 	 * @param   string  Message or message key to be displayed
 	 * @param   bool    Expand key to message
+	 * @param   string  (optional) Alternate file name used in message expansion
 	 * @return  void
 	 */
-	public static function error($message, $expand = TRUE)
+	public static function error($message, $expand = TRUE, $file = FALSE)
 	{
 		if ($expand)
 		{
@@ -33,13 +34,14 @@ class Notices extends Kohana_Notices {
 	 *
 	 * @param   string  Message or message key to be displayed
 	 * @param   bool    Expand key to message
+	 * @param   string  (optional) Alternate file name used in message expansion
 	 * @return  void
 	 */
-	public static function denied($message, $expand = TRUE)
+	public static function denied($message, $expand = TRUE, $file = FALSE)
 	{
 		if ($expand)
 		{
-			$message = self::expand($message);
+			$message = self::expand($message, $file);
 		}
 		
 		return Notices::add('denied', 'msg_error', array('message' => __($message), 'is_persistent' => FALSE, 'hash' => Text::random('alnum', $length = 16)));
@@ -50,13 +52,14 @@ class Notices extends Kohana_Notices {
 	 *
 	 * @param   string  Message or message key to be displayed
 	 * @param   bool    Expand key to message
+	 * @param   string  (optional) Alternate file name used in message expansion
 	 * @return  void
 	 */
-	public static function success($message, $expand = TRUE)
+	public static function success($message, $expand = TRUE, $file = FALSE)
 	{
 		if ($expand)
 		{
-			$message = self::expand($message);
+			$message = self::expand($message, $file);
 		}
 		
 		return Notices::add('success', 'msg_success', array('message' => __($message), 'is_persistent' => FALSE, 'hash' => Text::random('alnum', $length = 16)));
@@ -67,13 +70,14 @@ class Notices extends Kohana_Notices {
 	 *
 	 * @param   string  Message or message key to be displayed
 	 * @param   bool    Expand key to message
+	 * @param   string  (optional) Alternate file name used in message expansion
 	 * @return  void
 	 */
-	public static function warning($message, $expand = TRUE)
+	public static function warning($message, $expand = TRUE, $file = FALSE)
 	{
 		if ($expand)
 		{
-			$message = self::expand($message);
+			$message = self::expand($message, $file);
 		}
 		
 		return Notices::add('warning', 'msg_warning', array('message' => __($message), 'is_persistent' => FALSE, 'hash' => Text::random('alnum', $length = 16)));
@@ -84,13 +88,14 @@ class Notices extends Kohana_Notices {
 	 *
 	 * @param   string  Message or message key to be displayed
 	 * @param   bool    Expand key to message
+	 * @param   string  (optional) Alternate file name used in message expansion
 	 * @return  void
 	 */
-	public static function info($message, $expand = TRUE)
+	public static function info($message, $expand = TRUE, $file = FALSE)
 	{
 		if ($expand)
 		{
-			$message = self::expand($message);
+			$message = self::expand($message, $file);
 		}
 		
 		return Notices::add('info', 'msg_info', array('message' => __($message), 'is_persistent' => FALSE, 'hash' => Text::random('alnum', $length = 16)));
@@ -100,10 +105,14 @@ class Notices extends Kohana_Notices {
 	 * Shortcut method for Kohana::message
 	 *
 	 * @param  string  Message key
+	 * @param  string  Alternate file name used in message expansion
 	 */
-	public static function expand($message)
+	public static function expand($message, $file)
 	{
-		return Kohana::message(self::$message_file, $message, $message);
+		if ( ! $file)
+			$file = self::$message_file;
+		
+		return Kohana::message($file, $message, $message);
 	}
 	
 }
