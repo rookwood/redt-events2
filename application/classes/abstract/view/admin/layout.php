@@ -65,14 +65,6 @@ abstract class Abstract_View_Admin_Layout extends Abstract_View_Page {
 			$this->user = Auth::instance()->get_user();
 		}
 		
-		if ($this->user->can('admin_manage_roles'))
-		{
-			$links[] = array(
-				'location' => Route::url('admin group', array('controller' => 'role')),
-				'text'     => 'Roles',
-			);
-		}
-		
 		if ($this->user->can('admin_manage_users'))
 		{
 			$links[] = array(
