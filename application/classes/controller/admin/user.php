@@ -18,12 +18,13 @@ class Controller_Admin_User extends Abstract_Controller_Admin {
 	public function action_index()
 	{
 		$this->view->user_data = ORM::factory('user')->order_by('id', 'desc')->find_all();
+		$this->view->user = $this->user;
 	}
 	
 	public function action_edit()
 	{				
 		// Grab the profile
-		$user = ORM::factory('user', array('username' => $this->request->param('name')));
+		$user = ORM::factory('user', array('id' => $this->request->param('id')));
 		$profile = $user->profile;
 		
 		if ($this->valid_post())
@@ -46,6 +47,7 @@ class Controller_Admin_User extends Abstract_Controller_Admin {
 				
 				// User notification
 				Notices::info('admin.user.edit.success');
+				$this->request->redirect(Route::url('admin group'));
 			}
 			catch (ORM_Validation_Exception $e)
 			{
@@ -56,8 +58,10 @@ class Controller_Admin_User extends Abstract_Controller_Admin {
 		}
 		
 		// Pass our user object to the view for display		
-		$this->view->user    = $user;
-		$this->view->profile = $profile;
+		$this->view->user_data = $user;
+		$this->view->profile   = $profile;
+		$this->view->role_data = ORM::factory('role')->find_all();
+		$this->view->user      = $this->user;
 	}
 	
 	public function action_create()
@@ -116,7 +120,8 @@ class Controller_Admin_User extends Abstract_Controller_Admin {
 		else 
 		{
 			// Empty user object needed for correct display
-			$this->view->user = ORM::factory('user');
+			$this->view->user = $this->user;
+			$this->view->role_data = ORM::factory('role')->find_all();
 		}
 	}
 	
@@ -126,7 +131,7 @@ class Controller_Admin_User extends Abstract_Controller_Admin {
 		$user = ORM::factory('user', array('username' => $this->request->param('name')));
 		
 		// Remove login ability
-		$user->remove('roles', ORM::factory('role', array('name' => 'login')));
+		$user->remove_role('login');
 			
 		// User notification
 		Notices::info('admin.user.disable.success');
@@ -134,8 +139,23 @@ class Controller_Admin_User extends Abstract_Controller_Admin {
 		$this->request->redirect(Route::url('admin group'));
 	}
 	
+	public function action_enable()
+	{
+		// Load user
+		$user = ORM::factory('user', array('username' => $this->request->param('name')));
+		
+		// Add login ability
+		$user->add_role('login');
+			
+		// User notification
+		Notices::info('admin.user.enable.success');
+		
+		$this->request->redirect(Route::url('admin group'));
+	}
+	
 	public function action_search()
 	{		
 		$this->view->search_result = Search::user($this->request->query('q', FALSE));
+		$this->view->user = $this->user;
 	}
 }

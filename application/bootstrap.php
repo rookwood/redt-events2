@@ -160,7 +160,7 @@ Route::set('static', '<action>', array('action' => 'news|faq|shenanigans'))
 		'action'     => 'news',
 	));
  
- Route::set('character', 'character(/<action>(/<id>(/<name>)))', array('action' => 'add|edit|remove'))
+Route::set('character', 'character(/<action>(/<id>(/<name>)))', array('action' => 'add|edit|remove'))
 	->defaults(array(
 		'controller' => 'character',
 		'action'     => 'add',
@@ -178,7 +178,7 @@ Route::set('admin dashboard', 'admin(/<action>)', array('action' => 'settings'))
 		'action'     => 'index',
 	));
 		
-Route::set('admin group', 'admin/<controller>(/<action>(/<name>))', array('controller' => 'user|event|role'))
+Route::set('admin group', 'admin/<controller>(/<action>(/<id>(/<name>)))', array('controller' => 'user|event|role'))
 	->defaults(array(
 		'directory'  => 'admin',
 		'controller' => 'user',

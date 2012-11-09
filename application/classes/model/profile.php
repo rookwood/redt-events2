@@ -52,11 +52,13 @@ class Model_Profile extends ORM {
 		return $this->values($values, $expected)->create();
 	}
 	
-	public function edit_profile($data)
+	public function edit_profile($values)
 	{
-		// Add the user id to the profile and list of expected values
-		$values['user_id'] = $user->id;
-		$expected[] = 'user_id';
+		$expected = array(
+			'first_name',
+			'last_name',
+			'birthdate',
+		);
 		
 		// Create the profile record
 		return $this->values($values, $expected)->save();

@@ -27,7 +27,7 @@ abstract class Abstract_View_Admin_Layout extends Abstract_View_Page {
 	 *
 	 * @return string  URL
 	 */
-	public function button_action_create_role()
+	public function url_action_create_role()
 	{
 		return Route::url('admin group', array('controller' => 'role', 'action' => 'create'));
 	}
@@ -37,7 +37,7 @@ abstract class Abstract_View_Admin_Layout extends Abstract_View_Page {
 	 *
 	 * @return  string  URL
 	 */
-	public function button_action_create_user()
+	public function url_action_create_user()
 	{
 		return Route::url('admin group', array('controller' => 'user', 'action' => 'create'));
 	}
