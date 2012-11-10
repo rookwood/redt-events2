@@ -349,7 +349,7 @@ class Model_Event extends ORM {
 			// Show all events scheduled to start in the future
 			default:
 				$events = ORM::factory('event')
-					->where('time', '>', Date::from_local_time(time(), date_default_timezone_get()) - Date::HOUR)
+					->where('time', '>=', Date::from_server_time(time()))
 					->and_where('status_id', '!=', Model_Status::CANCELLED)
 					->order_by('status_id', 'ASC')
 					->order_by('time', 'ASC')
