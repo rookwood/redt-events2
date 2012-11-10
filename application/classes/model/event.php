@@ -144,6 +144,12 @@ class Model_Event extends ORM {
 		return $this->save();
 	}
 	
+	public function uncancel_event()
+	{
+		$this->status_id = Model_Status::SCHEDULED;
+		return $this->save();
+	}
+	
 	/**
 	 * Administrative function used to change event ownership
 	 *

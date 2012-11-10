@@ -13,12 +13,35 @@ class Controller_Admin_Event extends Abstract_Controller_Admin {
 	
 	public function action_reassign()
 	{
-	
+		
 	}
 	
 	public function action_cancel()
 	{
+		// Load the event object
+		$event = ORM::factory('event', array('id' => $this->request->param('id')));
+		
+		// Cancel the event (will be hidden from view)
+		$event->cancel_event();
+		
+		Notices::success('event.remove.success');
+		
+		// Show event list
+		$this->request->redirect(Route::url('admin group', array('controller' => 'event')));
+	}
 	
+	public function action_uncancel()
+	{
+		// Load the event object
+		$event = ORM::factory('event', array('id' => $this->request->param('id')));
+		
+		// Cancel the event (will be hidden from view)
+		$event->uncancel_event();
+		
+		Notices::success('event.uncancel.success');
+		
+		// Show event list
+		$this->request->redirect(Route::url('admin group', array('controller' => 'event')));
 	}
 	
 	public function action_edit()
