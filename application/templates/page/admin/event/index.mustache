@@ -1,0 +1,26 @@
+<table>
+	<thead>
+		<tr>
+			<td colspan="3">Actions</td>
+			<td>Title</td>
+			<td>Location</td>
+			<td>Host</td>
+			<td>Time</td>
+			<td>Status</td>
+		</tr>
+{{#events}}
+		<tr>
+			<td><a href="{{url_reassign}}" title="Reassign"><img src="/media/img/icons/reassign.png" /></a></td>
+			<td><a href="{{url_edit}}" title="Edit"><img src="/media/img/icons/edit.png" /></a></td>
+			<td>{{#url_cancel}}<a href="{{url_cancel}}" title="Cancel"><img src="/media/img/icons/cancel.png" /></a>{{/url_cancel}}{{#url_uncancel}}<a href="{{url_uncancel}}" title="Uncancel"><img src="/media/img/icons/uncancel.png" /></a>{{/url_uncancel}}</td>
+			<td>{{event_title}}</td>
+			<td>{{location}}</td>
+			<td>{{host}} as {{character}}</td>
+			<td>{{time}}</td>
+			<td>{{status}}</td>
+		</tr>{{/events}}
+{{^events}}<tr><td colspan="7">No events scheduled</td></tr>{{/events}}
+	</thead>
+	<tbody>
+	</tbody>
+</table>
