@@ -22,7 +22,7 @@
 				</li>
 				<li>
 					<label for="time">Scheduled time:</label>
-					<input type="time" name="event[time]" id="time" value="{{scheduled_time}}" {{#errors.time}}class="error" {{/errors.time}}/>
+					<input type="text" name="event[time]" id="time" value="{{scheduled_time}}" {{#errors.time}}class="error" {{/errors.time}}/>
 					{{#errors.time}}<p class="error_message">{{errors.time}}</p>{{/errors.time}}
 				</li>
 				<li>
