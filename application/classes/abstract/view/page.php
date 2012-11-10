@@ -46,10 +46,15 @@ class Abstract_View_Page extends Abstract_View_Layout {
 		$config = Kohana::$config->load('notices');
 		
 		if ($config->get('output') == 'json')
-		{
-			$notices = Notices::get(TRUE, TRUE);
-			
-			return (empty($notices)) ? FALSE : json_encode($notices);
+		{			
+			foreach (Notices::get(TRUE, TRUE) as $notice)
+			{
+				$notices[] = array(
+					'type' => $notice['type'],
+					'message' => $notice['values']['message'],
+				);
+			}
+			return (empty($notices)) ? '{}' : json_encode($notices);
 		}
 		else
 		{

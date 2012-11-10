@@ -136,5 +136,21 @@ if (typeof jQuery != "undefined"){
 			e.preventDefault();
 		});
 
+		/**
+		 * Toastr notifications
+		 */
+		$(notice_data).each(function(index, val) {
+			var notice_types = ['success', 'error', 'warning', 'info'];
+			
+			if ($.inArray(val.type, notice_types))
+			{
+				toastr[val.type](val.message);
+			}
+			else
+			{
+				toastr.info(val.message);
+			}
+		});
+		
 	})})(jQuery); // Prevent conflicts with other js libraries
 }

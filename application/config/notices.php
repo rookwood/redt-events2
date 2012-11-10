@@ -4,5 +4,5 @@ return array
 (
 	// Patch to the images
 	'image_path' => 'media/img/notices/',
-	'output'     => 'html',
+	'output'     => 'json',
 );
