@@ -1,5 +1,6 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+USE `events`;
 
 CREATE TABLE IF NOT EXISTS `characters` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -10,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `race_id` int(11) unsigned NOT NULL,
   `user_id` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 CREATE TABLE IF NOT EXISTS `config` (
   `group_name` varchar(30) CHARACTER SET latin1 NOT NULL,
@@ -21,8 +22,7 @@ CREATE TABLE IF NOT EXISTS `config` (
 INSERT INTO `config` (`group_name`, `config_key`, `config_value`) VALUES
 ('registration', 'open_registration', 'b:1;'),
 ('registration', 'require_email_verification', 'b:0;'),
-('lost_data', 'email_lost_password', 'b:1;'),
-('lost_data', 'email_lost_username', 'b:1;');
+('lost_data', 'email_lost_password', 'b:0;');
 
 CREATE TABLE IF NOT EXISTS `enrollment` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `enrollment` (
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique` (`event_id`,`character_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 CREATE TABLE IF NOT EXISTS `events` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `events` (
   `status_id` int(11) unsigned NOT NULL,
   `character_id` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 CREATE TABLE IF NOT EXISTS `keys` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `locations` (
   `name` varchar(50) NOT NULL,
   `visibility` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
 
 INSERT INTO `locations` (`id`, `name`, `visibility`) VALUES
 (1, 'Ascalonian Catacombs (story)', 1),
@@ -85,9 +85,10 @@ INSERT INTO `locations` (`id`, `name`, `visibility`) VALUES
 (18, 'Red Borderlands', 1),
 (19, 'Green Borderlands', 1),
 (20, 'Blue Borderlands', 1),
-(21, 'Heart of the Mists', 1),
-(22, 'Misc World PvE Zone', 1),
-(23, 'Shenanigans Night', 1);
+(21, 'WvW Location TBD', 1),
+(22, 'Heart of the Mists', 1),
+(23, 'Misc World PvE Zone', 1),
+(24, 'Shenanigans Night', 1);
 
 CREATE TABLE IF NOT EXISTS `professions` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -114,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   `user_id` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `profiles_ibfk_1` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 CREATE TABLE IF NOT EXISTS `races` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -135,11 +136,14 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `description` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uniq_name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 INSERT INTO `roles` (`id`, `name`, `description`) VALUES
 (1, 'login', 'Login privileges, granted after account confirmation'),
-(2, 'admin', 'Administrative user, has access to everything.');
+(2, 'admin', 'Administrative user, has access to everything.'),
+(3, 'verified', 'Email address verification complete'),
+(4, 'officer', 'Guild officer'),
+(5, 'leadership', 'Non-officer leadership role');
 
 CREATE TABLE IF NOT EXISTS `roles_users` (
   `user_id` int(10) unsigned NOT NULL,
@@ -169,17 +173,6 @@ INSERT INTO `statuses` (`id`, `name`) VALUES
 (4, 'stand-by (forced)'),
 (5, 'stand-by (voluntary)');
 
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `password` varchar(64) CHARACTER SET utf8 NOT NULL,
-  `username` varchar(32) CHARACTER SET utf8 NOT NULL,
-  `timezone` varchar(50) CHARACTER SET utf8 NOT NULL,
-  `logins` int(10) unsigned NOT NULL,
-  `last_login` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
 CREATE TABLE IF NOT EXISTS `user_tokens` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) unsigned NOT NULL,
@@ -192,8 +185,18 @@ CREATE TABLE IF NOT EXISTS `user_tokens` (
   UNIQUE KEY `uniq_token` (`token`),
   KEY `fk_user_id` (`user_id`),
   KEY `expires` (`expires`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `password` varchar(64) CHARACTER SET utf8 NOT NULL,
+  `username` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `timezone` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `logins` int(10) unsigned NOT NULL,
+  `last_login` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 ALTER TABLE `profiles`
   ADD CONSTRAINT `profiles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
