@@ -88,7 +88,43 @@ class Controller_Admin_Event extends Abstract_Controller_Admin {
 	
 	public function action_edit()
 	{
-	
+		// Load the event object
+		$event = ORM::factory('event', array('id' => $this->request->param('id')));
+		
+		if ( ! $event->loaded())
+			throw new HTTP_Exception_404;
+		
+		// Valid csrf, etc.
+		if ($this->valid_post())
+		{
+			// Get event data from $_POST
+			$event_post = Arr::get($this->request->post(), 'event', array());
+			
+			try
+			{
+				// Save data to event object
+				$event->edit_event($event_post);
+				
+				Notices::success('event.edit.success');
+				
+				// Display edited event
+				$this->request->redirect(Route::url('admin group', array('controller' => 'event')));
+			}
+			catch(ORM_Validation_Exception $e)
+			{
+				$this->view->errors = $e->errors('event');
+				$this->view->values = $event_post;
+			}
+		}
+		else
+		{
+			$this->view->values = $event->as_array();
+		}
+		
+		// Pass event object to the view class
+		$this->view->event_data = $event;
+		$this->view->user = $this->user;
+		
 	}
 
 }
