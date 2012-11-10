@@ -116,7 +116,7 @@ if (typeof jQuery != "undefined"){
 						$.each(character_list, function(index, character) {
 							if (character)
 							{
-								output += '<li><a href="#" class="character_list_anchor '+character.profession+'" data-profession="'+character.name+'">'+character.name+'</a></li>';
+								output += '<li><a href="#" class="character_list_anchor" data-profession="'+character.name+'"><img src="/media/img/profession_icons/'+character.profession+'-small.png" />'+character.name+'</a></li>';
 							}
 						});
 						
