@@ -17,7 +17,7 @@ class View_Page_Admin_Event_Index extends Abstract_View_Admin_Layout {
 				'status'       => $event->status->name,
 				'url_reassign' => Route::url('admin group', array('controller' => 'event', 'action' => 'reassign', 'id' => $event->id, 'title' => URL::title($event->title))),
 				'url_cancel'   => ($event->status_id == Model_Status::SCHEDULED) ? Route::url('admin group', array('controller' => 'event', 'action' => 'cancel', 'id' => $event->id, 'title' => URL::title($event->title))) : FALSE,
-				'url_uncancel' => ($event->status_id == Model_Status::CANCELLD)  ? Route::url('admin group', array('controller' => 'event', 'action' => 'uncancel', 'id' => $event->id, 'title' => URL::title($event->title))) : FALSE,
+				'url_uncancel' => ($event->status_id == Model_Status::CANCELLED) ? Route::url('admin group', array('controller' => 'event', 'action' => 'uncancel', 'id' => $event->id, 'title' => URL::title($event->title))) : FALSE,
 				'url_edit'     => Route::url('admin group', array('controller' => 'event', 'action' => 'edit', 'id' => $event->id, 'title' => URL::title($event->title))),
 			);
 		}

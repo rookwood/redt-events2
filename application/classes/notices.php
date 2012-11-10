@@ -107,7 +107,7 @@ class Notices extends Kohana_Notices {
 	 * @param  string  Message key
 	 * @param  string  Alternate file name used in message expansion
 	 */
-	public static function expand($message, $file)
+	public static function expand($message, $file = FALSE)
 	{
 		if ( ! $file)
 			$file = self::$message_file;

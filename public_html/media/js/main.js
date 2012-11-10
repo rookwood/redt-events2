@@ -6,7 +6,6 @@ if (typeof jQuery != "undefined"){
 		/**
 		 * Notices
 		 */
-		
 		// Show closing "X"s
 		$("div.notice-close").show();
 		//$('div.notice').width($('div.notice').width());
@@ -34,7 +33,6 @@ if (typeof jQuery != "undefined"){
 		/**
 		 * Event details loading via ajax
 		 */
-		
 		// Ajax loading of event details
 		// can't figure out why ul.header won't work for event binding
 		// so using pointless class for the moment but this is problematic
@@ -84,7 +82,6 @@ if (typeof jQuery != "undefined"){
 		/**
 		 * Modal windows
 		 */
-		// Modal window for small forms
 		$(document).on('click', 'a.modal', (function(e) {
 			// Prevent click on anchor from loading new page
 			e.preventDefault();
@@ -100,5 +97,44 @@ if (typeof jQuery != "undefined"){
 			return false;
 		}));
 		
+		/**
+		 * Dynamic character search used in reassignment
+		 */
+		$(document).on('keyup', '.character_search', function(e) {
+			val = $(this).val();
+
+			if (val.length >= 3) {
+				$.ajax({
+					type: "GET",
+					url: "/admin/event/character",
+					data: {'q' : val},
+					dataType: "text",
+					success: function(msg){
+						var character_list = $.parseJSON(msg);
+						var output = '';
+						
+						$.each(character_list, function(index, character) {
+							if (character)
+							{
+								output += '<li><a href="#" class="character_list_anchor '+character.profession+'" data-profession="'+character.name+'">'+character.name+'</a></li>';
+							}
+						});
+						
+						$('#character_list > ul').html(output);
+					}
+				});
+			}
+		});
+	
+		/**
+		 * Character input autofill from list
+		 */
+		$(document).on('click', '.character_list_anchor', function(e) {
+			val = $(this).data('profession');
+			$('input.character_search').val(val);
+			
+			e.preventDefault();
+		});
+
 	})})(jQuery); // Prevent conflicts with other js libraries
 }

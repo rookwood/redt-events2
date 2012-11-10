@@ -184,3 +184,10 @@ Route::set('admin group', 'admin/<controller>(/<action>(/<id>(/<name>)))', array
 		'controller' => 'user',
 		'action'     => 'index',
 	));
+	
+Route::set('temp', 'welcome')
+	->defaults(array(
+		'controller' => 'welcome',
+		'action' => 'index',
+
+	));

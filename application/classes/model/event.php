@@ -160,6 +160,9 @@ class Model_Event extends ORM {
 	{
 		$character = ORM::factory('character', array('name' => $character));
 		
+		if ( ! $character->loaded())
+			throw new Kohana_Exception('Character not found.');
+		
 		$new_owner = $character->user->id;
 		
 		$this->user_id = $new_owner;

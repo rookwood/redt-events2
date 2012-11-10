@@ -1,0 +1,15 @@
+<form action="{{form_action_admin_event_reassign}}" method="post">
+	<fieldset>
+		<legend>Select new host</legend>
+		<ul>
+			<li>
+				<label for="character">Character</label>
+				<input type="text" id="character" class="character_search" name="reassign[character]" autocomplete="off" />
+				<section id="character_list"><ul></ul></section>
+			</li>
+		</ul>
+		{{{csrf}}}
+	</fieldset>
+	
+	<input type="submit" value="Reassign owner" />
+</form>
