@@ -16,7 +16,7 @@ class View_Page_Event_Add extends Abstract_View_Page {
 			
 		foreach (Model_Location::$locations as $location => $id)
 		{
-			if ($id === $this->event_data->location_id)
+			if ($id == $this->event_data->location_id)
 			{
 				$out[] = array('value' => $location, 'name' => $location, 'selected' => TRUE);
 			}

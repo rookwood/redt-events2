@@ -11,7 +11,9 @@
    ========================================================================== */
 
 * {
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
 html {
@@ -40,6 +42,40 @@ h1, h2, h3 {
 a, a:visited {
 	color: #000;
 	text-decoration: underline;
+}
+
+a.button {
+	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+	background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+	background-color:#ededed;
+	-moz-border-radius:2px;
+	-webkit-border-radius:2px;
+	border-radius:2px;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	color:#777777;
+	font-family:arial;
+	font-size:16px;
+	font-weight:normal;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:1px 1px 0px #ffffff;}
+
+a.button:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
+	background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
+	background-color:#dfdfdf;
+	color:red;
+}
+
+a.button:active {
+	position:relative;
+	top:1px;
 }
 
 a:visited
@@ -177,8 +213,12 @@ nav a {
   box-shadow:         6px 3px 5px 0px #444;}
 
 /* ==========================================================================
-   Events
+   Events list
    ========================================================================== */
+
+#event_create {
+	float: right;
+}
 
 #event_list {
 	width: 880px;
@@ -214,20 +254,21 @@ section#events ul li.event_expanded {
  }
 
 ul.event_header {
-	display: -webkit-flex;
-	display: flex;
 	width: 880px;
 }
- 
+
+ul.event_header > li {
+	display: inline-block;
+}
+
 li.event_title, li.event_numbers, li.event_time {
 	cursor: pointer;
-	width: 293px;
-	padding: 0 0.5em;
 	font-family: Philosopher, Times, serif;
 }
 
 li.event_title {
 	text-align: left;
+	width: 350px;
 }
 
 li.event_title h5, li.event_title h6, li.event_numbers p, li.event_time time {
@@ -236,25 +277,30 @@ li.event_title h5, li.event_title h6, li.event_numbers p, li.event_time time {
 }
 li.event_title h5 {
 	font-size: 130%;
+	padding-left: 12px;
 }
 
 li.event_title h6 {
 	font-size:100%;
 	font-weight:normal;
+	padding-left: 12px;
 }
 
 li.event_numbers {
 	text-align: center;
-	font-size:130%;
+	font-size:150%;
+	width: 150px;
 }
 
 li.event_numbers p {
 	margin: 0;
+	padding: 0;
 }
 
 li.event_time {
 	text-align: right;
 	font-size: 120%;
+	width:360px;
 }
 
 li.event_time time {
@@ -422,6 +468,23 @@ span.player_count_full  { color: #e91212; }
 	color: red;
 }
 
+span.name {
+	font-size: 1em;
+}
+/* ==========================================================================
+   Event Attendee Tab styles
+   ========================================================================== */
+
+#event_description h6 {
+	font-size: 140%;
+	font-weight: normal;
+	margin: 1em;
+}
+
+#event_description p {
+	padding: 0 1em 1em 1em;
+	margin: 0;
+}
 /* ==========================================================================
    Helper classes
    ========================================================================== */
