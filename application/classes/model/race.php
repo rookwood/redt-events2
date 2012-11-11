@@ -20,7 +20,7 @@ class Model_Race extends ORM {
 	public static $race_list = array(
 		'human'   => 1,
 		'sylvari' => 2,
-		'char'    => 3,
+		'charr'    => 3,
 		'asura'   => 4,
 		'norn'    => 5,
 	);

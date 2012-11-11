@@ -10,11 +10,11 @@ class Model_Status extends ORM {
 	const STANDBY_VOLUNTARY = 5;
 	
 	public static $status_list = array(
-		'scheduled'         => 1,
-		'cancelled'         => 2,
-		'ready'             => 3,
-		'standby_forced'    => 4,
-		'standby_voluntary' => 5,
+		'scheduled'           => 1,
+		'cancelled'           => 2,
+		'ready'               => 3,
+		'standby (forced)'    => 4,
+		'standby (voluntary)' => 5,
 	);
 	
 	// Relations
