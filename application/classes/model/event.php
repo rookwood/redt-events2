@@ -230,11 +230,6 @@ class Model_Event extends ORM {
 	 */
 	public function active_attendee_list()
 	{
-		static $list;
-		
-		if ( ! empty($list))
-			return $list;
-			
 		return $list = ORM::factory('enrollment')
 			->where('event_id', '=', $this->id)
 			->and_where('status_id', '=', Model_Status::READY)
@@ -258,11 +253,6 @@ class Model_Event extends ORM {
 	 */
 	public function standby_attendee_list()
 	{
-		static $list;
-		
-		if ( ! empty($list))
-			return $list;
-		
 		return $list = $this->enrollment
 			->where('status_id', '=', Model_Status::STANDBY_VOLUNTARY)
 			->or_where('status_id', '=', Model_Status::STANDBY_FORCED)
