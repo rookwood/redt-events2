@@ -52,15 +52,18 @@
 				{{/user}}
 			</ul>
 		</fieldset>
-		<input type="submit" value="Submit" />
+		<input type="submit" value="Submit" class="bttn red" />
 	</form>
-	<a href="{{form_action_character_add}}" class="modal">Add new character</a>
+	<a href="{{form_action_character_add}}" id="character_add" class="modal button">Add new character</a>
 	<ul id="character_list">
 {{#character_list}}
 		<li class="{{profession}} character">
+			<img src="/media/img/profession_icons/{{profession}}-medium.png" />
 			<span class="character_name">{{name}}</span>
-			<a href="{{url_character_edit}}" class="modal">Edit</a>
-			<a href="{{url_character_remove}}">Delete</a>
+			<div id="character_actions">
+				<a href="{{url_character_edit}}" class="modal">Edit</a>
+				<a href="{{url_character_remove}}">Delete</a>
+			</div>
 		</li>{{/character_list}}
 	</ul>
 

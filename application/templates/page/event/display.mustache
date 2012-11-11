@@ -10,7 +10,7 @@
 											<div class="player">
 												<img class="profession" src="/media/img/profession_icons/{{profession}}-small.png" />
 												<span class="name">{{name}}</span>
-												{{#comment}}<a><img src="/media/img/comment_icon.png" /></a>
+												{{#comment}}<a><img src="/media/img/comment_icon.png" class="event_comment" title="{{comment}}" /></a>
 												<ul><li><div class="comment">{{comment}}</div></li></ul>{{/comment}}
 											</div>
 										</li>
@@ -32,7 +32,7 @@
 											<div class="player">
 												<img class="profession" src="/media/img/profession_icons/{{profession}}-small.png" />
 												<span class="name">{{name}}</span>
-												{{#comment}}<a><img src="/media/img/comment_icon.png" /></a>
+												{{#comment}}<a><img src="/media/img/comment_icon.png" class="event_comment" title="{{comment}}" /></a>
 												<ul>
 													<li><div class="comment">{{comment}}</div></li>
 												</ul>{{/comment}}
@@ -49,10 +49,10 @@
 									{{#url_event_withdraw}}<a class="withdraw" href="{{url_event_withdraw}}">Withdraw from event</a>{{/url_event_withdraw}}
 								</div>
 							</div> <!-- end tabs -->
-							<div id="event_description">
+							<div id="event_description" class="clearfix">
 {{#event}}
 								<h6>{{title}}</h6>
-								<p>{{description}}</p>
+								<p class="clearfix">{{description}}</p>
 								<a href="{{event_url}}" class="event_permalink button">Permanant link to this event</a>
 {{/event}}
 								{{#url_event_edit}}<a class="modal button" href="{{url_event_edit}}">Edit event</a>{{/url_event_edit}}

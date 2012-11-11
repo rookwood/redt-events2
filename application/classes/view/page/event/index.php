@@ -2,6 +2,8 @@
 
 class View_Page_Event_Index extends Abstract_View_Page {
 
+	public $page_title = 'Event listing';
+	
 	/**
 	 * @var   object  All event data to be displayed on the page
 	 */

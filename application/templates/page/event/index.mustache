@@ -1,4 +1,5 @@
 			<section id="events">
+				<p id="filter_message">Filter events by:</p>
 				<select name="filter">
 					{{#filters.top}}<option value="{{text}}">{{text}}</option>{{/filters.top}}
 					{{#filters.bottom}}<option value="{{text}}">{{text}}</option>{{/filters.bottom}}
@@ -8,7 +9,7 @@
 				
 				<ul id="event_list">
 {{#events}}
-					<li class="event_collapsed clickable" data-url="{{details_link}}" id="{{id}}">
+					<li class="event_collapsed clickable clearfix" data-url="{{details_link}}" id="{{id}}">
 						<a name="{{id}}"></a>
 						<ul class="event_header">
 							<li class="event_title">

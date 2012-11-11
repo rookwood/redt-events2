@@ -134,9 +134,208 @@ textarea {
     resize: vertical;
 }
 
+table { border-collapse: collapse; border-spacing: 0; }
+
+td { vertical-align: top; }
+
 ul {
 	list-style-type: none;
 }
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+
+label {
+	display:block;
+	cursor: pointer;
+}
+
+button, input[type="button"], input[type="reset"], input[type="submit"] { cursor: pointer; -webkit-appearance: button; }
+fieldset {
+	border: none;
+	padding: 0;
+}
+
+input[type="text"], input[type="number"], input[type="date"], select {
+	width: 300px;
+}
+
+input[type="submit"] {
+	margin-top: 10px;
+	font-size: 1em;
+	font-weight: normal;
+}
+fieldset legend {
+	font: 1.4em 'Philosopher', sans-serif;
+	padding: 10px 0;
+}
+
+fieldset label, fieldset fieldset legend {
+	font-family: 'Philosopher', sans-serif;
+	font-size: 1.2em;
+}
+
+fieldset ul {
+	margin: 0; padding: 0;
+	list-style-type: none;
+}
+
+/* Indent form items */
+fieldset ul li {
+	padding: 10px 0 0 0;
+	width: 243px;
+}
+
+/* Unindent form submit buttons */
+fieldset ul li.button {
+	padding: 20px 0 40px 0;
+}
+
+/* Style input boxes on forms */
+fieldset input[type=text], fieldset input[type=password], 
+fieldset input[type=date], fieldset input[type=time] {
+	display: block;
+	margin: 2px 0;
+
+	width: 300px;			/* reduced width by 20px due to padding */
+	height: 32px;			/* reduced height by 2 px due to border */
+	padding: 0 10px;		/* indent text inside box */
+
+	background-image: url(../img/form_input_bg.png);
+	background-repeat: no-repeat;
+	border: solid 1px #b2b2b2;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;	
+}
+
+fieldset input[type=number] {
+	/*float: right;*/
+	padding: 1px 10px 0 10px;
+	width: 3em;
+	border-top-left-radius: 5px; border-bottom-left-radius: 5px;
+	border: solid 1px #b2b2b2;
+}
+
+/* ==========================================================================
+    CSS3 Gmail Buttons by Adam Whitcroft
+    https://github.com/AdamWhitcroft/CSS3.Gmail.Buttons
+   ========================================================================== */
+.bttn {
+text-decoration:none;
+cursor:pointer;
+font-size:0.75em;
+padding:0 8px;
+font-weight:bold;
+height:30px;
+line-height:30px;
+display:inline-block;
+outline:0;
+color:#444;
+background-color:#f5f5f5;
+background-image:-webkit-linear-gradient(top,#f5f5f5,#f1f1f1);
+background-image:-moz-linear-gradient(top,#f5f5f5,#f1f1f1);
+background-image:linear-gradient(top,#f5f5f5,#f1f1f1);
+border:1px solid #d9d9d9;
+border:1px solid rgba(0,0,0,0.1);
+-webkit-border-radius:2px;
+-moz-border-radius:2px;
+border-radius:2px;
+}
+
+.bttn:hover {
+border:1px solid #c6c6c6;
+border:1px solid rgba(0,0,0,0.2);
+-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+-moz-box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+position:relative;
+z-index:1;
+}
+
+.bttn:active {
+-webkit-box-shadow:inset 0 1px 2px rgba(0,0,0,0.1);
+-moz-box-shadow:inset 0 1px 2px rgba(0,0,0,0.1);
+box-shadow:inset 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.red {
+color:#fff;
+background-color:#d14836;
+border:1px solid transparent;
+background-image:-webkit-linear-gradient(top,#dd4b39,#d14836);
+background-image:-moz-linear-gradient(top,#dd4b39,#d14836);
+background-image:linear-gradient(top,#dd4b39,#d14836);
+}
+
+.red:hover {
+background-color:#c53727;
+border:1px solid #b0281a;
+background-image:-webkit-linear-gradient(top,#dd4b39,#c53727);
+background-image:-moz-linear-gradient(top,#dd4b39,#c53727);
+background-image:linear-gradient(top,#dd4b39,#c53727);
+-webkit-box-shadow:0 1px 2px rgba(0,0,0,0.2);
+-moz-box-shadow:0 1px 2px rgba(0,0,0,0.2);
+box-shadow:0 1px 2px rgba(0,0,0,0.2);
+}
+
+.red:active {
+-webkit-box-shadow:inset 0 1px 2px rgba(0,0,0,0.2);
+-moz-box-shadow:inset 0 1px 2px rgba(0,0,0,0.2);
+box-shadow:inset 0 1px 2px rgba(0,0,0,0.2);	
+}
+
+.blue {
+color:#fff;
+background-color:#4D90fe;
+border:1px solid #3079ed;
+background-image:-webkit-linear-gradient(top,#4d90fe,#4787ed);
+background-image:-moz-linear-gradient(top,#4d90fe,#4787ed);
+background-image:linear-gradient(top,#4d90fe,#4787ed);
+}
+
+.blue:hover {
+background-color:#357aeb;
+border:1px solid #2F5bb7;
+background-image:-webkit-linear-gradient(top,#4d90fe,#357ae8);
+background-image:-moz-linear-gradient(top,#4d90fe,#357ae8);
+background-image:linear-gradient(top,#4d90fe,#357ae8);
+-webkit-box-shadow:0 1px 2px rgba(0,0,0,0.2);
+-moz-box-shadow:0 1px 2px rgba(0,0,0,0.2);
+box-shadow:0 1px 2px rgba(0,0,0,0.2);	
+}
+
+.blue:active {
+-webkit-box-shadow:inset 0 1px 2px rgba(0,0,0,0.2);
+-moz-box-shadow:inset 0 1px 2px rgba(0,0,0,0.2);
+box-shadow:inset 0 1px 2px rgba(0,0,0,0.2);	
+}
+
+.yellow {
+color:#867343;
+background-color:#ffe07b;
+border:1px solid #fddb69;
+background-image:-webkit-linear-gradient(top,#ffe896,#ffe07b);
+background-image:-moz-linear-gradient(top,#ffe896,#ffe07b);
+background-image:linear-gradient(top,#ffe896,#ffe07b);
+}
+.yellow:hover {
+background-color:#ffda73;
+border:1px solid #deb74f;
+background-image:-webkit-linear-gradient(top,#ffe485,#ffda73);
+background-image:-moz-linear-gradient(top,#ffe485,#ffda73);
+background-image:linear-gradient(top,#ffe485,#ffda73);
+-webkit-box-shadow:0 1px 2px rgba(0,0,0,0.2);
+-moz-box-shadow:0 1px 2px rgba(0,0,0,0.2);
+box-shadow:0 1px 2px rgba(0,0,0,0.2);	
+}
+.yellow:active {
+-webkit-box-shadow:inset 0 1px 2px rgba(0,0,0,0.2);
+-moz-box-shadow:inset 0 1px 2px rgba(0,0,0,0.2);
+box-shadow:inset 0 1px 2px rgba(0,0,0,0.2);	
+}
+
 /* ==========================================================================
    Chrome Frame prompt
    ========================================================================== */
@@ -207,7 +406,7 @@ nav a {
 	width: 960px;
 	margin: 0.2em auto;
 	padding: 2em;
-	background: rgba(255, 255, 255, 0.5);
+	background: rgba(255, 255, 255, 0.6);
 -moz-box-shadow:    6px 3px 5px 0px #444;
   -webkit-box-shadow: 6px 3px 5px 0px #444;
   box-shadow:         6px 3px 5px 0px #444;}
@@ -216,6 +415,9 @@ nav a {
    Events list
    ========================================================================== */
 
+#filter_message {
+	display: inline;
+}
 #event_create {
 	float: right;
 }
@@ -301,6 +503,7 @@ li.event_time {
 	text-align: right;
 	font-size: 120%;
 	width:360px;
+	padding-right:10px;
 }
 
 li.event_time time {
@@ -316,6 +519,7 @@ span.player_count_full  { color: #e91212; }
 /* ==========================================================================
    Event Attendee Tab styles
    ========================================================================== */
+
 .tabs {
 	float: left;
 	padding: 10px;
@@ -406,7 +610,7 @@ span.player_count_full  { color: #e91212; }
 .tabs .ui-tabs-panel li div.player a {
 	position: absolute;
 	top: 50%; margin-top: -8px;
-	float: right; right: 10px;
+	float: right; right: 24px;
 	cursor: default;
 }
 
@@ -417,13 +621,13 @@ span.player_count_full  { color: #e91212; }
 	list-style: none;
 }
 
-.tabs .ui-tabs-panel li div:hover ul {
+div.comment:hover ul {
 	z-index: 5;		/* put the comment on top of the event description */
 	top: -4px;
 	left: 222px;
 }
 
-.tabs .ui-tabs-panel li div ul li {
+.comment {
 	position: absolute;
 	padding: 0;
 	width: 202px;
@@ -484,6 +688,57 @@ span.name {
 #event_description p {
 	padding: 0 1em 1em 1em;
 	margin: 0;
+}
+
+/* ==========================================================================
+   Character list
+   ========================================================================== */
+
+ul#character_list li {
+	margin: 0 0 8px;
+	height: 100px;	
+	border: 1px solid rgba(199,199,199,0.8);
+	background-image: linear-gradient(bottom, rgb(236,236,236) 0%, rgb(255,255,255) 100%);
+	background-image: -o-linear-gradient(bottom, rgb(236,236,236) 0%, rgb(255,255,255) 100%);
+	background-image: -moz-linear-gradient(bottom, rgb(236,236,236) 0%, rgb(255,255,255) 100%);
+	background-image: -webkit-linear-gradient(bottom, rgb(236,236,236) 0%, rgb(255,255,255) 100%);
+	background-image: -ms-linear-gradient(bottom, rgb(236,236,236) 0%, rgb(255,255,255) 100%);
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgb(236,236,236)), color-stop(1, rgb(255,255,255)));
+}
+
+ul#character_list li img {
+	position: relative;
+	top: 25%;
+	left: 1em;
+}
+span.character_name {
+	position: relative;
+	font-family: 'Philosopher', serif;
+	font-size: 1.6em;
+	top: 30%;
+	left: 1em;
+}
+
+#character_actions {
+	float: right;
+	font-family: 'Philosopher', serif;
+	font-size: 1.1em;
+	position: relative;
+	top: 35%;
+	right: 1.2em;
+}
+
+#character_actions a {
+	text-decoration: none;
+	margin-left: 1em;
+}
+
+#character_actions a:hover {
+	text-decoration: underline;
+}
+
+#character_add {
+	margin-top: 1.3em;
 }
 /* ==========================================================================
    Helper classes

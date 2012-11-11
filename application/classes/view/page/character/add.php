@@ -21,7 +21,7 @@ class View_Page_Character_Add extends Abstract_View_Page {
 		foreach (Model_Profession::$profession_list as $profession => $id)
 		{
 			$list[] = array(
-				'name'     => $profession,
+				'name'     => ucwords($profession),
 				'id'       => $id,
 				'selected' => $profession == $selected_profession,
 			);
@@ -44,7 +44,7 @@ class View_Page_Character_Add extends Abstract_View_Page {
 		foreach (Model_Race::$race_list as $race => $id)
 		{
 			$list[] = array(
-				'name'     => $race,
+				'name'     => ucwords($race),
 				'id'       => $id,
 				'selected' => $race == $selected_race,
 			);

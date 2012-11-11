@@ -3,18 +3,18 @@
 			<legend>Add new character</legend>
 			<ul>
 				<li>
-					<label for="character_name">Character name:</label>
+					<label for="character_name">Character name</label>
 					<input type="text" name="character[name]" id="character_name" value="{{character.name}}">
 				</li>
 				<li>
-					<label for="character_profession">
+					<label for="character_profession">Profession</label>
 					<select name="character[profession]" id="character_profession">
 {{#profession_list}}
 						<option value="{{name}}"{{#selected}} selected="selected"{{/selected}}>{{name}}</option>{{/profession_list}}
 					</select>
 				</li>
 				<li>
-					<label for="race">
+					<label for="race">Race</label>
 					<select name="character[race]" id="character_race">
 {{#race_list}}
 						<option value="{{name}}"{{#selected}} selected="selected"{{/selected}}>{{name}}</option>{{/race_list}}
@@ -23,5 +23,5 @@
 			</ul>
 		</fieldset>
 		{{{csrf}}}
-		<input type="submit" value="Create Character" />
+		<input type="submit" value="Create Character" class="button blue" />
 	</form>
