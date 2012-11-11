@@ -12,10 +12,12 @@
 
 		<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
+		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/overcast/jquery-ui.css">
 		<link rel="stylesheet" href="/media/css/normalize.css">
 		<link rel="stylesheet" href="/media/css/main.css">
 		<link rel="stylesheet" href="/media/css/facebox.css">
 		<link rel="stylesheet" href="/media/css/toastr.css">
+		<link href="http://fonts.googleapis.com/css?family=Philosopher:400,700" rel="stylesheet">
 		<script src="/media/js/vendor/modernizr-2.6.2.min.js"></script>
 	</head>
 	<body>
@@ -23,10 +25,11 @@
 			<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
 		<![endif]-->
 
-		<!-- Add your site or application content here -->
 {{>header}}
-
+		<div id="wrapper" class="clearfix">
 {{>content}}
+		</div> <!-- end #wrapper -->
+		
 		<script>
 			notice_data = {{{notices}}};
 		</script>
