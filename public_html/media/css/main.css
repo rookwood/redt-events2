@@ -37,6 +37,7 @@ body {
 h1, h2, h3 {
 	margin: 0;
 	padding: 0;
+	font-family: 'Philosopher', Arial, sans-serif;
 }
 
 a, a:visited {
@@ -739,6 +740,28 @@ span.character_name {
 
 #character_add {
 	margin-top: 1.3em;
+}
+
+/* ==========================================================================
+   Admin section
+   ========================================================================== */
+
+table {
+	background: #eee;
+	border: 1px solid #888;
+}
+thead > tr {
+	background: #eee;
+}
+tbody > tr:nth-child(2n-1) {
+	background: #ccc;
+}
+td {
+	padding: 0.2em 0.3em;
+}
+tr > td:last-child {
+	overflow: hidden;
+	width: 200px;
 }
 /* ==========================================================================
    Helper classes

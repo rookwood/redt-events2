@@ -17,10 +17,10 @@
 			<tbody>
 			{{#users}}
 				<tr class="{{user_stripe}}">
-					<td><a href="{{edit_route}}" class="modal" title="Edit user"><img src="/media/img/icons/user_edit.png" /></a></td>
+					<td><a href="{{edit_route}}" class="modal" title="Edit user"><img src="/media/img/icons/note.png" /></a></td>
 					<td>
-						{{#deactivate_route}}<a href="{{deactivate_route}}" title="Deactivate user account"><img src="/media/img/icons/user_delete.png" /></a>{{/deactivate_route}}
-						{{#activate_route}}<a href="{{activate_route}}" title="Activate user account"><img src="/media/img/icons/user_add.png" /></a>{{/activate_route}}
+						{{#deactivate_route}}<a href="{{deactivate_route}}" title="Deactivate user account"><img src="/media/img/icons/delete_item.png" /></a>{{/deactivate_route}}
+						{{#activate_route}}<a href="{{activate_route}}" title="Activate user account"><img src="/media/img/icons/accept_item.png" /></a>{{/activate_route}}
 					</td>
 					<td>{{id}}</td>
 					<td>{{username}}</td>
@@ -36,4 +36,4 @@
 		</table>
 	</figure>
 
-<a href="{{url_action_create_user}}" class="modal">Create new user</a>
+<a href="{{url_action_create_user}}" class="modal button">Create new user</a>

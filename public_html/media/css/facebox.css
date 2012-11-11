@@ -107,3 +107,14 @@
 	height: 200px;
 	padding: 0.5em;
 }
+
+#facebox table {
+	color: #313131;
+}
+#facebox fieldset table td {
+	color: black;
+}
+
+#facebox table input[type="checkbox"] {
+	width: 50px;
+}
