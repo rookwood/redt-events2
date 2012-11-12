@@ -10,14 +10,14 @@
 					<label for="character_profession">
 					<select name="character[profession]" id="character_profession">
 {{#profession_list}}
-						<option value="{{name}}"{{#selected}} selected="selected"{{/selected}}>{{name}}</option>{{/profession_list}}
+						<option value="{{value}}"{{#selected}} selected="selected"{{/selected}}>{{name}}</option>{{/profession_list}}
 					</select>
 				</li>
 				<li>
 					<label for="race">
 					<select name="character[race]" id="character_race">
 {{#race_list}}
-						<option value="{{name}}"{{#selected}} selected="selected"{{/selected}}>{{name}}</option>{{/race_list}}
+						<option value="{{value}}"{{#selected}} selected="selected"{{/selected}}>{{name}}</option>{{/race_list}}
 					</select>
 				</li>
 			</ul>

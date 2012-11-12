@@ -22,6 +22,7 @@ class View_Page_Character_Add extends Abstract_View_Page {
 		{
 			$list[] = array(
 				'name'     => ucwords($profession),
+				'value'    => $profession,
 				'id'       => $id,
 				'selected' => $profession == $selected_profession,
 			);
@@ -45,6 +46,7 @@ class View_Page_Character_Add extends Abstract_View_Page {
 		{
 			$list[] = array(
 				'name'     => ucwords($race),
+				'value'    => $race,
 				'id'       => $id,
 				'selected' => $race == $selected_race,
 			);
