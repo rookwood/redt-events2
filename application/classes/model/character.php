@@ -32,6 +32,13 @@ class Model_Character extends ORM {
 		);
 	}
 
+	public function filters()
+	{
+		return array(
+			'name' => array(array('trim')),
+		);
+	}
+	
 	/**
 	 * Create a new character
 	 *

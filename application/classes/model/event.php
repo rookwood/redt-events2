@@ -38,6 +38,13 @@ class Model_Event extends ORM {
 		);
 	}
 	
+	public function filters()
+	{
+		return array(
+			'title' => array(array('trim')),
+		);
+	}
+	
 	/**
 	 * Labels for fields in this model
 	 *

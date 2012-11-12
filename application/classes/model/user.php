@@ -50,6 +50,14 @@ class Model_User extends Model_Auth_User implements Model_ACL_User {
 		);
 	}
 
+	public function filters()
+	{
+		return array(
+			'username' => array(array('trim')),
+			'email'    => array(array('trim')),
+		);
+	}
+	
 	/**
 	 * Wrapper method to execute ACL policies. Only returns a boolean, if you
 	 * need a specific error code, look at Policy::$last_code

@@ -25,6 +25,14 @@ class Model_Profile extends ORM {
 		);
 	}
 	
+	public function filters()
+	{
+		return array(
+			'first_name' => array(array('trim')),
+			'last_name'    => array(array('trim')),
+		);
+	}
+	
 	/**
 	 * Creates a new profile associated with the specified user
 	 *
