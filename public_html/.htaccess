@@ -518,6 +518,9 @@ RewriteBase /
 	Deny From All
 </Files>
 
+# Kohana environment string
+# SetEnv KOHANA_ENV testing
+
 # Protect application and system files from being viewed
 RewriteRule ^(?:application|modules|system)\b.* index.php/$0 [L]
 
