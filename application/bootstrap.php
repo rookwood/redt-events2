@@ -107,7 +107,7 @@ Cookie::$salt = $cookie_config->get('salt');
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
 Kohana::modules(array(
-	'profiler'      => MODPATH.'profilertoolbar', // Alert's Profiler Toolbar
+	// 'profiler'   => MODPATH.'profilertoolbar', // Alert's Profiler Toolbar
 	'assets'        => MODPATH.'assets',          // Synapse Studio's asset manager
 	'auth'          => MODPATH.'auth',            // Basic authentication
 	// 'cache'      => MODPATH.'cache',           // Caching with multiple backends
@@ -130,7 +130,7 @@ Kohana::$config->attach(new Config_Database);
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
-Route::set('user', '<action>(/<name>)', array('action' => 'register|lostpw|email|check|login|logout'))
+Route::set('user', '<action>(/<name>)', array('action' => 'register|resetpw|email|check|login|logout'))
 	->defaults(array(
 		'controller' => 'user',
 		'action'     => 'profile',
