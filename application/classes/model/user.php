@@ -55,6 +55,7 @@ class Model_User extends Model_Auth_User implements Model_ACL_User {
 		return array(
 			'username' => array(array('trim')),
 			'email'    => array(array('trim')),
+			'password' => array(array(array(Auth::instance(), 'hash')))	,
 		);
 	}
 	
