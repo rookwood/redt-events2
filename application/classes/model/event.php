@@ -35,6 +35,10 @@ class Model_Event extends ORM {
 				array('digit'),
 				array('range', array(':value', 1, 255)),
 			),
+			'time' => array(
+				// Temp fix to validate time + date combo
+				array('range', array(':value', time(), 9999999999)),
+			),
 		);
 	}
 	
@@ -82,6 +86,8 @@ class Model_Event extends ORM {
 		$values['status_id']    = $status_id;
 		$values['time']         = Date::from_local_time($values['time'] ." ". $values['date'], $values['timezone']);
 		
+		ProfilerToolbar::addData($values['time'], 'time');
+		
 		// Sanitize user text
 		$values['description'] = HTML::chars($values['description']);
 		$values['title']       = HTML::chars($values['title']);
@@ -115,7 +121,15 @@ class Model_Event extends ORM {
 		$location_id = Model_Location::to_id($values['location']);
 		
 		// Get leading character's id
-		$character_id = ORM::factory('character', array('name' => $values['character']))->id;
+		if (isset($values['character']))
+		{
+			$character_id = ORM::factory('character', array('name' => $values['character']))->id;
+		}
+		// Use existing value if not provided (e.g. administrative edit)
+		else
+		{
+			$character_id = $this->character_id;
+		}
 		
 		// Set status to scheduled
 		$status_id = Model_Status::SCHEDULED;
