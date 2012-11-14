@@ -86,8 +86,6 @@ class Model_Event extends ORM {
 		$values['status_id']    = $status_id;
 		$values['time']         = Date::from_local_time($values['time'] ." ". $values['date'], $values['timezone']);
 		
-		ProfilerToolbar::addData($values['time'], 'time');
-		
 		// Sanitize user text
 		$values['description'] = HTML::chars($values['description']);
 		$values['title']       = HTML::chars($values['title']);
