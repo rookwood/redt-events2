@@ -23,7 +23,7 @@ class Policy_Event_Enroll extends Policy {
 			return self::START_TIME_PASSED;
 		}
 		
-		if ($user->characters->count_all() === 0)
+		if ($user->characters->count_all() == 0)
 		{
 			return self::HAVE_NO_CHARACTERS;
 		}
