@@ -81,26 +81,38 @@ class Model_Enrollment extends ORM {
 	 */
 	public static function is_enrolled(Model_ACL_User $user, Model_Event $event, $characters = NULL)
 	{
-		static $enrollment;
+		static $events = array();
 		
-		if (isset($enrollment))
-			return $enrollment;
+		// This function can be very expensive in terms of database usage, so check for cached results
+		if (array_key_exists($event->id, $events))
+		{
+			if (array_key_exists($user->id, $events[$event->id]))
+			{
+				return $events[$event->id][$user->id];
+			}
+		}
 		
+		// Get character list if not provided
 		if ( ! $characters)
 			$characters = $user->characters->find_all();
 		
+		// See if any character is enrolled
 		foreach ($characters as $character)
 		{
 			// If the character has 
 			if ($character->has('events', $event->id))
 			{
-				if ($character->enrollment->find()->status_id != Model_Status::CANCELLED)
-					return $enrollment = $character;
+				$enrollment = ORM::factory('enrollment', array('event_id' => $event->id, 'character_id' => $character->id));
+				if ($enrollment->status_id != Model_Status::CANCELLED)
+				{	
+					$events[$event->id][$user->id] = $character;
+					return $character;
+				}
 			}
 		}
 		
 		// Nothing found; no sign-up present
-		return $enrollment = FALSE;
+		return FALSE;
 	}	
 
 }
