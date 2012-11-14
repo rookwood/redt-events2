@@ -58,7 +58,7 @@ a.button {
 	border-radius:2px;
 	border:1px solid #dcdcdc;
 	display:inline-block;
-	color:#777777;
+	color:black;
 	font-family:arial;
 	font-size:16px;
 	font-weight:normal;
@@ -71,7 +71,6 @@ a.button:hover {
 	background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
 	background-color:#dfdfdf;
-	color:red;
 }
 
 a.button:active {
@@ -609,10 +608,7 @@ span.player_count_full  { color: #e91212; }
 
 /* Comment icon */
 .tabs .ui-tabs-panel li div.player a {
-	position: absolute;
-	top: 50%; margin-top: -8px;
-	float: right; right: 24px;
-	cursor: default;
+	float:right;
 }
 
 /* User comment styles */
@@ -650,22 +646,22 @@ div.comment:hover ul {
 .tabs .ui-tabs-panel > a:link, 
 .tabs .ui-tabs-panel > a:visited {
 	display: block;
-	margin-top: 5px;
-	padding: 5px 0;
+	margin-top: 10px;
+	padding: 0px 0;
 
 	text-decoration: none;
 	text-align: center;
 	font-size: 0.9em;
 	font-weight: bold;
 	
-	color: #555555;
+	color: #a49898;
 	background-color: #ececec;
 	border-radius: 5px;
 }
 
 .tabs .ui-tabs-panel > a:hover, 
 .tabs .ui-tabs-panel > a:active {
-	color: #a49898;
+	color: #555;
 }
 
 .tabs .ui-tabs-panel > a.withdraw:hover, 
