@@ -40,7 +40,7 @@ class View_Page_Event_Display extends Abstract_View_Page {
 			'time'         => date('g:i A ', $local_start_time).Date::timezone_abbr($this->user->timezone),
 			'time_full'    => date('c', $local_start_time),
 			'title'        => $event->title,
-			'description'  => $event->description,
+			'description'  => Markdown::instance()->transform($event->description),
 			'status'       => $event->status->name,
 			'event_url'    => Route::url('event').'#'.$event->id,
 		);
