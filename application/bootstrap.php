@@ -119,6 +119,7 @@ Kohana::modules(array(
 	'notices'       => MODPATH.'notices',         // Synapse Studios - user notification
 	'orm'           => MODPATH.'orm',             // Object Relationship Mapping
 	'vendo-acl'     => MODPATH.'acl',             // Vendo's policy-based authorization system
+	'purifier'      => MODPATH.'purifier',        // HTML Purifier
 ));
 
 /**

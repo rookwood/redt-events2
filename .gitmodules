@@ -37,3 +37,6 @@
 [submodule "modules/migrations"]
 	path = modules/migrations
 	url = git://github.com/Zeelot/minion-tasks-migrations
+[submodule "modules/purifier"]
+	path = modules/purifier
+	url = git://github.com/shadowhand/purifier.git
