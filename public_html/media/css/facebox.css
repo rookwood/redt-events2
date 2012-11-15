@@ -117,3 +117,11 @@
 #facebox table input[type="checkbox"] {
 	width: 50px;
 }
+#facebox p.markdown_instruction {
+	width:500px;
+	font-size: 0.8em
+}
+
+#facebox p.markdown_instruction > a {
+	color: white;
+}
