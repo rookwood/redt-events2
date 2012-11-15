@@ -120,6 +120,7 @@ Kohana::modules(array(
 	'orm'           => MODPATH.'orm',             // Object Relationship Mapping
 	'vendo-acl'     => MODPATH.'acl',             // Vendo's policy-based authorization system
 	'purifier'      => MODPATH.'purifier',        // HTML Purifier
+	'markdown'      => MODPATH.'markdown',        // Text -> HTML conversion
 ));
 
 /**

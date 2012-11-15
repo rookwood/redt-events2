@@ -40,3 +40,6 @@
 [submodule "modules/purifier"]
 	path = modules/purifier
 	url = git://github.com/shadowhand/purifier.git
+[submodule "modules/markdown"]
+	path = modules/markdown
+	url = git://github.com/aptgraph/kohana-markdown.git
