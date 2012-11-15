@@ -136,6 +136,17 @@ if (typeof jQuery != "undefined"){
 			e.preventDefault();
 		});
 
+		// Handling dropdown event filter list
+		$('#event_filters').change(function(e) {
+			window.open(this.value, '_self');
+		});
+
+		// Open event details when linked directly w/ named anchor
+		if (window.location.hash != '')
+		{
+			$(window.location.hash).find('.event_title').click();
+		}
+
 		/**
 		 * Toastr notifications
 		 */
@@ -151,6 +162,5 @@ if (typeof jQuery != "undefined"){
 				toastr.info(val.message);
 			}
 		});
-		
 	})})(jQuery); // Prevent conflicts with other js libraries
 }
