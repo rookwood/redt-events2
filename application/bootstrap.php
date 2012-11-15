@@ -107,7 +107,7 @@ Cookie::$salt = $cookie_config->get('salt');
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
 Kohana::modules(array(
-	// 'profiler'   => MODPATH.'profilertoolbar', // Alert's Profiler Toolbar
+	'profiler'   => MODPATH.'profilertoolbar', // Alert's Profiler Toolbar
 	'assets'        => MODPATH.'assets',          // Synapse Studio's asset manager
 	'auth'          => MODPATH.'auth',            // Basic authentication
 	// 'cache'      => MODPATH.'cache',           // Caching with multiple backends
