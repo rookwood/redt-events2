@@ -1,6 +1,25 @@
 <h3>ERMAGERD NERWS</h3>
 <p>Events site beta testing.  There are a couple of known bugs, but go on and report anything you find.</p>
 
+<p>Changelog 2012 Nov 15<p>
+<ul>
+	<li>Added more intelligent user input filtering (i.e. quotation marks will not be encoded as html entities now)</li>
+	<li>Added markdown support for event descriptions to give you more "rich text"-like formatting options</li>
+</ul>
+
+<p>Known bugs - these are on the slate to be fixed tomorrow</p>
+<ul>
+	<li>Event filter list does not work</li>
+	<li>Password reset is broken</li>
+</ul>
+
+<p>Planned features</p>
+<ul>
+	<li>Calendar view option for events</li>
+	<li>Guild tag support</li>
+	<li>Guild invite request</li>
+</ul>
+
 <p>Changelog 2012 Nov 14<p>
 <ul>
 	<li>Fixed css bugs with comment icon displays</li>
@@ -13,16 +32,11 @@
 	<li>Added filters to prevent extraneous spaces on some fields that prevented form validation.</li>
 </ul>
 
-<p>Known bugs</p>
+<p>Changelog 2012 Nov 12<p>
 <ul>
-	<li>Overly zealous XSS protectino is causing quote marks to be translated into html entaties which are being escaped by the templating system resulting in ugliness in your event descriptions.  This is going to require reworking user-input cleaning but should be fixed in a day or two.</li>
-	<li>Related to the bug above, there's no way to make proper paragraphs in your event descriptions.  I'm going to add a markdown parser (like what reddit uses for comments) to give you a little more formatting capacity</li>
-</ul>
-
-<p>Planned features</p>
-<ul>
-	<li>Calendar view option for events</li>
-	<li>Guild tag support</li>
-	<li>Guild invite request</li>
-	<li>Password reset via email</li>
+	<li>Fixed a bug that was intermittently preventing character creation / editing</li>
+	<li>Added filters to prevent extraneous spaces on some fields that prevented form validation.</li>
+	<li>Changed server environment var to testing, which disabled the debugger toolbar (RIP).</li>
+	<li>Numerous tiny CSS tweaks</li>
+	<li>Fixed a bug which prevented enrollment numbers from displaying properly in the event list</li>
 </ul>
