@@ -69,34 +69,30 @@ class View_Page_Event_Index extends Abstract_View_Page {
 			'url'  => Route::url('event').URL::query(array('filter' => 'time')),
 			'text' => 'Start time',
 			'key'  => 'time',
+			'selected' => ($this->filter == 'time'),
 		);
 				
 		$out['bottom'][] = array(
 			'url'  => Route::url('event').URL::query(array('filter' => 'mine')),
 			'text' => 'My events',
 			'key'  => 'mine',
+			'selected' => ($this->filter == 'mine')
 		);
 		
 		$out['bottom'][] = array(
 			'url'  => Route::url('event').URL::query(array('filter' => 'dungeon')),
 			'text' => 'Dungeon',
 			'key'  => 'dungeon',
+			'selected' => ($this->filter == 'dungeon')
 		);
 		
 		$out['bottom'][] = array(
 			'url'  => Route::url('event').URL::query(array('filter' => 'past')),
 			'text' => 'Past events',
 			'key'  => 'past',
+			'selected' => ($this->filter == 'past')
 		);
 		
-		foreach ($out['bottom'] as $filter)
-		{
-			if (array_search($filter_key, $filter) !== FALSE)
-			{
-				$out['top'] = $filter;
-			}
-		}
-
 		// Reindex for mustache... not sure why this is necessary
 		$out['bottom'] = array_values($out['bottom']);
 		

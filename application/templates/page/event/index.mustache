@@ -1,8 +1,7 @@
 			<section id="events">
-				<p id="filter_message">Filter events by:</p>
-				<select name="filter">
-					{{#filters.top}}<option value="{{text}}">{{text}}</option>{{/filters.top}}
-					{{#filters.bottom}}<option value="{{text}}">{{text}}</option>{{/filters.bottom}}
+				<p id="filter_message">Sort events by:</p>
+				<select name="filter" id="event_filters">
+					{{#filters.bottom}}<option value="{{url}}"{{#selected}} selected="selected"{{/selected}}>{{text}}</option>{{/filters.bottom}}
 				</select>
 				{{#url_event_add}}<a class="modal button" id="event_create" href="{{url_event_add}}">Create new event</a>{{/url_event_add}}
 				<p>Please be online 15 minutes prior to start time to allow for easy group formation and preparation.</p>
