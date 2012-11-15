@@ -45,7 +45,17 @@ class Model_Event extends ORM {
 	public function filters()
 	{
 		return array(
-			'title' => array(array('trim')),
+			'title' => array(
+				array('trim'),
+				array('Security::xss_clean'),
+			),
+			'description' => array(
+				array('trim'),
+				array('Security::xss_clean'),
+			),
+			'player_limit' => array(
+				array('trim'),
+			),
 		);
 	}
 	
@@ -76,19 +86,12 @@ class Model_Event extends ORM {
 		
 		// Get leading character's id
 		$character_id = ORM::factory('character', array('name' => $values['character']))->id;
-		
-		// Set status to scheduled
-		$status_id = Model_Status::SCHEDULED;
-		
+				
 		$values['location_id']  = $location_id;
 		$values['character_id'] = $character_id;
 		$values['user_id']      = $user->id;
-		$values['status_id']    = $status_id;
+		$values['status_id']    = Model_Status::SCHEDULED;
 		$values['time']         = Date::from_local_time($values['time'] ." ". $values['date'], $values['timezone']);
-		
-		// Sanitize user text
-		$values['description'] = HTML::chars($values['description']);
-		$values['title']       = HTML::chars($values['title']);
 		
 		// Fields expected for validation
 		$expected = array(
@@ -137,8 +140,8 @@ class Model_Event extends ORM {
 		$values['time']         = Date::from_local_time($values['time'] ." ". $values['date'], $values['timezone']);
 		
 		// Sanitize user text
-		$values['description'] = HTML::chars($values['description']);
-		$values['title']       = HTML::chars($values['title']);
+		$values['description'] = Security::xss_clean($values['description']);
+		$values['title']       = Security::xss_clean($values['title']);
 		
 		$expected = array(
 			'time',

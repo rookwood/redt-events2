@@ -53,9 +53,17 @@ class Model_User extends Model_Auth_User implements Model_ACL_User {
 	public function filters()
 	{
 		return array(
-			'username' => array(array('trim')),
-			'email'    => array(array('trim')),
-			'password' => array(array(array(Auth::instance(), 'hash')))	,
+			'username' => array(
+				array('trim'),
+				array('Security::xss_clean'),
+			),
+			'email'    => array(
+				array('trim'),
+				array('Security::xss_clean'),
+			),
+			'password' => array(
+				array(array(Auth::instance(), 'hash'))
+			),
 		);
 	}
 	

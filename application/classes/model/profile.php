@@ -28,8 +28,14 @@ class Model_Profile extends ORM {
 	public function filters()
 	{
 		return array(
-			'first_name' => array(array('trim')),
-			'last_name'    => array(array('trim')),
+			'first_name' => array(
+				array('trim'),
+				array('Security::xss_clean'),
+			),
+			'last_name'    => array(
+				array('trim'),
+				array('Security::xss_clean'),
+			),
 		);
 	}
 	

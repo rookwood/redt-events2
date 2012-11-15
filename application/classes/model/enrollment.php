@@ -11,6 +11,16 @@ class Model_Enrollment extends ORM {
 
 	protected $_table_name = 'enrollment';
 	
+	public function filters()
+	{
+		return array(
+			'description' => array(
+				array('trim'),
+				array('Security::xss_clean'),
+			),
+		);
+	}
+	
 	/**
 	 * Bumps the first person on forced stand-by to the active list
 	 *

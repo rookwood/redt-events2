@@ -35,7 +35,10 @@ class Model_Character extends ORM {
 	public function filters()
 	{
 		return array(
-			'name' => array(array('trim')),
+			'name' => array(
+				array('trim'),
+				array('Security::xss_clean'),
+			),
 		);
 	}
 	
