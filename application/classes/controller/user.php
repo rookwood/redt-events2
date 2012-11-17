@@ -321,7 +321,6 @@ class Controller_User extends Abstract_Controller_Website {
 			// Make sure user exists
 			if ( ! $user->loaded())
 			{
-				die('Email not found'.$this->request->post('email', 'None submitted'));
 				// Delay to prevent email harvesting via random guess
 				sleep(5);
 				Notices::error('user.password_email.not_found');
@@ -376,6 +375,7 @@ class Controller_User extends Abstract_Controller_Website {
 				$key = ORM::factory('key', array('key' => $key));
 				$user = $key->user;
 				$user->change_password($password);
+				$key->delete();
 				
 				Notices::success('user.registration.password_changed');
 				$this->request->redirect(Route::url('default'));
