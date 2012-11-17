@@ -159,7 +159,8 @@ class Minion_Task_Install extends Minion_Task {
 			(21, 'WvW Location TBD', 1),
 			(22, 'Heart of the Mists', 1),
 			(23, 'Misc World PvE Zone', 1),
-			(24, 'Shenanigans Night', 1);"
+			(24, 'Shenanigans Night', 1),
+			(25, 'Fractals of the Mists' 1);"
 		);
 
 		$db->query(NULL, 'CREATE TABLE IF NOT EXISTS `professions` (

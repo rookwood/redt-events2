@@ -89,6 +89,7 @@ INSERT INTO `locations` (`id`, `name`, `visibility`) VALUES
 (22, 'Heart of the Mists', 1),
 (23, 'Misc World PvE Zone', 1),
 (24, 'Shenanigans Night', 1);
+(25, 'Fractals of the Mists', 1);
 
 CREATE TABLE IF NOT EXISTS `professions` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,

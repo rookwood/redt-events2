@@ -28,6 +28,7 @@ class Model_Location extends ORM {
 		'Heart of the Mists'                   => 22,
 		'Misc World PvE Zone'                  => 23,
 		'Shenanigans Night'                    => 24,
+		'Fractals of the Mists'                => 25,
 	);
 	
 	// Relationships
