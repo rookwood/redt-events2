@@ -316,21 +316,64 @@ class Controller_User extends Abstract_Controller_Website {
 		// If submitted via form
 		if ($this->valid_post())
 		{
-			$check_key = Arr::get($this->request->post(), 'key', FALSE);
+			$user = ORM::factory('user', array('email' => $this->request->post('email')));
 			
-			$key = ORM::factory('key', array('key' => $check_key));
-			
-			if ( ! $key->loaded())
+			// Make sure user exists
+			if ( ! $user->loaded())
 			{
-				Notices::error('user.registration.bad_key');
-				$this->request->redirect(Route::url('default'));
+				die('Email not found'.$this->request->post('email', 'None submitted'));
+				// Delay to prevent email harvesting via random guess
+				sleep(5);
+				Notices::error('user.password_email.not_found');
+				$this->request->redirect(Route::url('static'));
 			}
+
+			// Send email	
+			$email = Email::factory(Kohana::message('events2', 'user.password_email.subject'), NULL)
+				->message
+				(
+					// Using Kostache view for our message body
+					Kostache::factory('email/resetpw')
+						->set('user', $user)
+						->set('key', $user->get_key('resetpw')),
+					// MIME type
+					'text/html'
+				)
+				->to($user->email)
+				->from(Kohana::message('events2', 'user.registration_email.sender'))
+				->send();
+
+			Notices::info('user.password_email.success');
+		}
+		// Otherwise check if key provided
+		else
+		{
+			$check_key = Arr::get($this->request->query(), 'key', FALSE);
 			
+			// Compare to stored key
+			if ($check_key)
+			{
+				// Show password reset form
+				$this->view = Kostache::factory('page/user/resetform')
+					->set('key', $check_key)
+					->assets(Assets::factory());
+			}
+			// Else, show email submission form
+		}
+	}
+	
+	public function action_password()
+	{
+		if ($this->valid_post())
+		{
+			// Reset password
 			$password   = Arr::get($this->request->post(), 'password', FALSE);
 			$pw_confirm = Arr::get($this->request->post(), 'password_confirm', FALSE);
+			$key        = Arr::get($this->request->post(), 'key', FALSE);
 			
 			if ($password === $pw_confirm AND $password !== FALSE)
 			{
+				$key = ORM::factory('key', array('key' => $key));
 				$user = $key->user;
 				$user->change_password($password);
 				
@@ -343,20 +386,9 @@ class Controller_User extends Abstract_Controller_Website {
 				$this->view->key = $key->key;
 			}
 		}
-		// If not submitted via form, user arrived via email link
 		else
 		{
-			$check_key = Arr::get($this->request->query(), 'key', FALSE);
-			
-			$key = ORM::factory('key', array('key' => $check_key));
-			
-			// Does the key match?
-			if ( ! $key->loaded())
-			{
-				throw new HTTP_Exception_404;
-			}
-			
-			$this->view->key = $key->key;
+			throw new HTTP_Exception_404;
 		}
 	}
 	
@@ -389,48 +421,5 @@ class Controller_User extends Abstract_Controller_Website {
 			Notices::error('user.registration_email.bad_key');
 			$this->request->redirect(Route::url('default'));
 		}
-	}
-
-	/**
-	 * Sends email for password reset
-	 */
-	public function action_lostpw()
-	{
-		if ( ! $this->user->can('user_reset_password'))
-		{
-			throw new HTTP_Exception_404('Policy failure');
-		}
-		
-		if ($this->valid_post())
-		{
-			$this->user = ORM::factory('user')->where('email', '=', $this->request->post('email'))->find();
-			
-			// If no user found for provided email address
-			if ( ! $this->user->loaded())
-			{
-				Notices::error('user.password_email.not_found');
-			}
-			else
-			{
-				// Build the email
-				$email = Email::factory(Kohana::message('events2', 'user.password_email.subject'), NULL)
-					->message
-					(
-						// Using Kostache view for our message body
-						Kostache::factory('email/password')
-							->set('user', $this->user),
-						// MIME type
-						'text/html'
-					)
-					->to($this->user->email)
-					->from(Kohana::message('events2', 'user.username_email.sender'))
-					->send();
-				
-				Notices::success('user.password_email.success');
-			}
-		}
-
-		// Pass user object to the view
-		$this->view->user = $this->user;
 	}
 }

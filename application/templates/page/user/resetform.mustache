@@ -1,0 +1,18 @@
+<form action="{{form_action_password_reset}}" method="post">
+	<fieldset>
+		<legend>Enter new password</legend>
+		<ul>
+			<li>
+				<label for="password">Password</label>
+				<input type="password" name="password" id="password" />
+			</li>
+			<li>
+				<label for="password_confirm">Confirm password</label>
+				<input type="password" name="password_confirm" id="password_confirm" autofocus="autofocus" />
+				{{{hidden_key}}}
+				{{{csrf}}}
+			</li>
+		</ul>
+	</fieldset>
+	<input type="submit" value="Change password" />
+</form>

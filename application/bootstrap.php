@@ -132,7 +132,7 @@ Kohana::$config->attach(new Config_Database);
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
-Route::set('user', '<action>(/<name>)', array('action' => 'register|resetpw|email|check|login|logout'))
+Route::set('user', '<action>(/<name>)', array('action' => 'register|resetpw|email|check|login|logout|password'))
 	->defaults(array(
 		'controller' => 'user',
 		'action'     => 'profile',
