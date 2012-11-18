@@ -100,6 +100,7 @@ return array(
 			'not_logged_in'     => 'You must be logged in to add new characters',
 			'not_allowed'       => 'You may not add new characters at this time',
 			'success'           => 'Character added successfully',
+			'already_exists'    => 'That character name is already in use.',
 		),
 		'edit'   => array(
 			'not_allowed'       => 'You may not edit your characters at this time',

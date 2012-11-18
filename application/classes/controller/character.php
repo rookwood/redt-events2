@@ -42,15 +42,25 @@ class Controller_Character extends Abstract_Controller_Website {
 			{
 				$character = ORM::factory('character', array('name' => $character_post['name']));
 				
-				if ($character->loaded())
+				// If trying to add a previously deleted character
+				if ($character->loaded() AND $character->visibility == 0)
 				{
-					// Character exists already
-					if ( $this->user->owns($character))
+					// If adding a character deleted by someone else
+					if (  ! $this->user->owns($character))
 					{
-						// Set character as visibile
-						$character->unhide();
-						$character->edit_character($character_post);
+						$character->user_id = $user->id;
 					}
+
+					// Set character as visibile
+					$character->unhide();
+					$character->edit_character($character_post);
+
+				}
+				// If trying to add character already in use
+				else if ($character->loaded())
+				{
+					Notices::error('character.add.already_exists');
+					$this->request->redirect(Route::url('profile edit'));
 				}
 				else
 				{
