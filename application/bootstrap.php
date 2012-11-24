@@ -186,3 +186,9 @@ Route::set('admin group', 'admin/<controller>(/<action>(/<id>(/<name>)))', array
 		'controller' => 'user',
 		'action'     => 'index',
 	));
+
+Route::set('error', 'error/<action>')
+	->defaults(array(
+		'controller' => 'error',
+		'action'     => '404',
+	));
