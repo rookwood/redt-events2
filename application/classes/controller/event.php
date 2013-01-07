@@ -17,6 +17,11 @@ class Controller_Event extends Abstract_Controller_Website {
 			$this->request->redirect(Route::url('user', array('action' => 'login')));
 		}
 		
+		if (Auth::instance()->logged_in() AND $this->user->characters->where('visibility', '=', 1)->count_all() == 0)
+		{
+			Notices::info('event.enroll.need_character');
+		}
+		
 		// Pass events to the view class
 		$this->view->event_data = Model_Event::filtered_list($filter, $this->user, $id);
 		$this->view->filter_message = Kohana::message('gw', 'filter.'.$filter);
