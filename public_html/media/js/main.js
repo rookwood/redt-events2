@@ -153,7 +153,7 @@ if (typeof jQuery != "undefined"){
 		$(notice_data).each(function(index, val) {
 			var notice_types = ['success', 'error', 'warning', 'info'];
 			
-			if ($.inArray(val.type, notice_types))
+			if ($.inArray(val.type, notice_types) !== -1)
 			{
 				toastr[val.type](val.message);
 			}
